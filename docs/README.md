@@ -1,0 +1,7 @@
+# Sobre o jogo
+
+...
+
+## Premissa
+
+...
