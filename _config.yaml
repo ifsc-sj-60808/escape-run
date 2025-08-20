@@ -1,0 +1,24 @@
+baseurl: /escape-run
+color-scheme: auto
+description: Escape Room com temática dos anos 1980
+jekyll-spaceship:
+  processors:
+    - mermaid-processor
+  mermaid-processor:
+    mode: default
+    css:
+      class: mermaid
+    syntax:
+      code: 'mermaid'
+      custom: ['@startmermaid', '@endmermaid']
+    config:
+      theme: default
+    src: https://mermaid.ink/svg/
+plugins:
+  - jekyll-remote-theme
+  - jekyll-spaceship
+remote_theme: BDHU/minimalist
+repository: ifsc-sj-60808/escape-run
+source: docs/
+title: Escape Run
+url: https://ifsc-sj-60808.github.io
