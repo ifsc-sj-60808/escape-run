@@ -3,8 +3,12 @@
 ...
 
 ## Premissa
+Uma velha discoteca chamada Mirage Club, abandonada desde os anos 80 após ocorrer uma tragédia acobertada pelo governo e abafada pela mídia, em que ninguém sabe o que aconteceu naquele dia que mudou a vida de muitas pessoas. As únicas pessoas que sabem o que realmente aconteceu, já não estão mais aqui para nos contar. Tornou-se assim uma lenda.
 
-...
+A lenda contada é que na virada de 1984 para 1985, durante a festa de Réveillon, luzes se apagaram e todos os presentes desapareceram virando espíritos presos. O DJ foi o responsável fazendo com que tudo acontecesse naquela noite, quando tocou uma música amaldiçoada. Mas o ‘’’DJ antes de tocar essa faixa deixou vários rastros que juntando se tem a resposta porém ninguém nunca saiu vivo para contar.
+
+Agora, 40 anos depois, um grupo de jovens decide invadir o local para descobrir o que aconteceu. Ao entrar, sons, batidas, vozes e luzes ganham vida, como se estivessem presos com os antepassados dentro de um pesadelo.
+A cada passo, eles afundam mais em um loop temporal, entre luzes e sons aterrorizantes, tentando escapar das armadilhas onde o tempo está parado... E os mortos dançam para sempre.
 
 ## História
 
