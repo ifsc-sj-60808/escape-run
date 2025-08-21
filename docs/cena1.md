@@ -20,6 +20,7 @@ K[Não]
 L[Perde]
 M[Abrem o cofre que tem a chave da sala 12 e uma peã de quebra cabeça]
 N[Dois botões em lados diferentes da sala]
+O[Próxima sala]
 
 A --> B
 A --> H
@@ -38,4 +39,5 @@ J --> |Assistem um video que tem um código|M
 M --> F
 A --> N
 N --> |Apertam ao mesmo tempo|F
+F --> O
 ```
