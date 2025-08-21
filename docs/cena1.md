@@ -2,7 +2,7 @@
 
 Os jogadores entram na sala 14 sendo perseguidos, eles resolvem os enigmas, ativam um som e conseguem abrir um baú e um cofre, pegar as chaves e uma peça. 
 
-## fluxograma
+## Fluxograma
 
 ```mermaid
 flowchart TD
