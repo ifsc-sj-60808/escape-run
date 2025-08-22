@@ -79,3 +79,35 @@ adiante.
 
 ## Referências 
 https://open.spotify.com/playlist/7Au2P8gX6VpQCTLPQcU3rz?si=XJv9-xb6SWSA7z9iboRXdg&pi=U-1eCs4gR_Syi&nd=1&dlsi=6368e4b86e2d44bb
+
+## Roteiro
+
+Antes dos 5 jogadores entrarem para o escape, serão recepcionados para receber as instruções, o celular e uma venda para a realização do Escape.
+Em seguida, serão conduzidos vendados por um instrutor até dentro da grade do térreo. Assim que todos estiverem nesse espaço, será dado o sinal para retirarem a venda e iniciarem o Escape.
+Ao retirarem a venda, os jogadores se deparam com o ator (a Morte, que conta com 2 atores para cobrir imprevistos e auxiliar no direcionamento). Quando saírem da grade, que estará trancada, a única porta aberta será a da Sala 14 (Administrativo).
+
+Sala 14 – Administrativo
+Ao entrar, os jogadores (5) encontram uma sala cheia de computadores. Apenas um deles está funcionando e pode ser ligado.
+Assim que verem o computador, surge uma tela pedindo uma senha para liberar um arquivo importante. O desafio é encontrar essa senha. As pistas estão espalhadas pela sala em Post-its colados em mesas, símbolos no quadro, números escondidos em cabos, detalhes que, quando observados com atenção, revelam a combinação correta.
+Ao digitar a senha no computador, o sistema libera um código numérico. Esse código não é a saída, mas sim a combinação para abrir um cofre que está na sala.
+O cofre pode ser físico (cadeado numérico) ou simulado (baú trancado). Dentro dele, os jogadores encontram a chave para avançar à próxima sala.
+
+Sala 12 – Arcade
+Ao saírem da Sala 14, o ator conduz os jogadores (5) até a Sala 12 (Arcade).
+Assim que entram na Sala 12: As luzes estão apagadas, mas um gerador brilhando chama a atenção. Os jogadores colocam uma alavanca e, em seguida, as luzes se acendem. Os 5 jogadores precisam então arrecadar tickets, a primeira forma de conseguir  os tickets é através de pistas sonoras. Cada ticket possui um código de barras, que fornece uma moeda virtual. Em um dos arcades, os jogadores precisam concluir um puzzle, que gera moedas adicionais.
+Essas moedas podem ser trocadas por um prêmio (uma peça do jogo). Assim que isso acontece, um sistema detecta a ação e a sala começa a se encher de fumaça.
+Nesse momento, surge o dilema: Se todos permanecerem juntos, ficarão presos ou para que os outros 4 possam sair, um jogador deve se “sacrificar”, apertando um botão para que os demais saiam
+
+Sala 10 – Bar
+Após concluírem a Sala 12, os jogadores (4) seguem para a Sala 10 (Bar).
+Lá, encontram uma mesa preparada para jogar cartas. O objetivo é descobrir a combinação de um cadeado, a senha está escondida em garrafas de bebida. Essas garrafas foram pintadas com caneta visível apenas com luz negra, com os números corretos, o cofre é aberto e revela um baralho.
+Ao pegá-lo, uma mensagem aparece no celular explicando que os jogadores devem formar duplas e decidir, de alguma forma, que apenas uma dupla poderá avançar.
+ Após o duelo, a dupla vencedora recebe a senha para a próxima sala.
+
+Sala de Cultura – Pista de Dança
+Da Sala de cultura, restam apenas 2 jogadores, que devem estar com as três peças do quebra-cabeça.
+Na Sala de Cultura, precisam digitar a senha para abrir a porta. Ao abrir, a porta faz barulho e se fecha rapidamente atrás deles.
+Dentro da sala, tem um quadro de luz numerado. Quando acionado a sequência correta, o globo gira e a música toca.
+No centro da pista de dança tem um cofre com a última peça do quebra-cabeça. Para abri-lo, os jogadores precisam pegar a lanterna de luz negra no armário e iluminar os pôsteres da parede, revelando a senha.
+Com o quebra cabeça (fitas cassete) organizadas na ordem correta, obtêm a senha que libera uma caixa que está dentro, um botão.
+A porta de saída é travada por um eletroímã, para escapar, um jogador deve pressionar o botão do outro lado da sala, enquanto o parceiro empurra a porta e sai, deixando o outro para trás.
