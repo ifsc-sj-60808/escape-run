@@ -76,3 +76,6 @@ adiante.
 
 - [Cena 1](./cena1.md)
 - [Cena 2](./cena2.md)
+
+## Referências 
+https://open.spotify.com/playlist/7Au2P8gX6VpQCTLPQcU3rz?si=XJv9-xb6SWSA7z9iboRXdg&pi=U-1eCs4gR_Syi&nd=1&dlsi=6368e4b86e2d44bb
