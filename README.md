@@ -11,3 +11,7 @@ Escolhas tecnológicas:
   - *Issues* e *pull requests*: GitHub Pull Requests
   - Visualização da árvore git: GitLens
   - Auto indentação: Prettier
+
+Boas práticas:
+
+- Usar *issues* e *pull requests* para criar ramos (*branches*) alternativos e, depois, mesclar (*merge*) no ramo principal.
