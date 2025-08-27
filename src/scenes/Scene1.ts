@@ -1,8 +1,8 @@
 import { Scene } from "phaser";
 
-export class Scene4 extends Scene {
+export class Scene1 extends Scene {
   constructor() {
-    super({ key: "Scene4" });
+    super({ key: "Scene1" });
   }
 
   preload() {}

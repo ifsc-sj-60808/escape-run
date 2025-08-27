@@ -1,21 +1,11 @@
 import { Scene } from "phaser";
 
-export class Boot extends Scene {
+export class Scene2 extends Scene {
   constructor() {
-    super({ key: "Boot" });
+    super({ key: "Scene2" });
   }
 
-  preload() {
-    this.load.image("capivara", "assets/capivara.png");
-  }
+  preload() {}
 
-  create() {
-    this.add
-      .image(400, 225, "capivara")
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.stop();
-        this.scene.start("Preloader");
-      });
-  }
+  create() {}
 }
