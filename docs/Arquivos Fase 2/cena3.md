@@ -1,4 +1,3 @@
-# Cena 3
 
 ...
 
@@ -10,8 +9,8 @@ flowchart TD
 A[Jogadores]
 B[Sala]
 C[Gerador]
-D[Cabo de MOP giratório]
-E{Jogador encontra MOP}
+D[Alavanca]
+E{Jogador encontra Alavanca}
 F{Escolha}
 G[Arcade]
 H[Bancada de Prêmios
@@ -20,21 +19,29 @@ I[Pulsos de Led's]
 J[Cortina]
 K[Cópia da sala no arcade]
 L[Moedas Brilhantes]
-
+P{Gerador Ligado}
+M[Segue cena 4]
+N[Maquina de ticket]
 
 
 
 A -->|entram na| B
-B --> |Sala escura e Brilho no gerador| E
+B --> |Sala escura e Brilho no | C
+C--> E
 --> |Desmontar| D
---> |Usam o MOP para levantar a catraca e ligar o | C
+--> |Ultilizar Alavanca no | C
+--> P
 --> F
 F --> G
 F --> H
-G --> |Jogadores Seguem um caminho até o canto da sala onde fica o Arcade| I 
- --> |Jogadores Fecham Circuito para ligar o arcade com a | J
-J --> |Ao fechamento da cortina o Arcade liga uma | K
+--> N
+G --> |Caminho de LED| I 
+ --> |Jogadores encontram | J
+J --> |Ao fechamento da cortina o Arcade liga  | K
 --> |Dentro do jogo encontram | L
+
+--> |moedas brilhantes transferidas para o celular| M
+
 
 
 
