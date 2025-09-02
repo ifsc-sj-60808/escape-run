@@ -5,7 +5,15 @@ export class Scene4 extends Scene {
     super({ key: "Scene4" });
   }
 
-  preload() {}
+  preload() { }
+  this.load.image("leitorbarras", "assets/scene4/leitorbarras.png");
 
-  create() {}
+create() { }
+  this.add
+      .image(400, 225, "leitorbarras")
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.scene.stop();
+        this.scene.start("Preloader");
+      });
 }
