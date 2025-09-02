@@ -20,7 +20,7 @@ export class Scene3 extends Scene {
     //this.load.image('player', 'static/assets/scene3/sprite-piloto-personagem-cena3.png');
 
     this.load.tilemapTiledJSON("scene3", 'static/assets/scene3/tilemap'); //JSON, arrangement of tiles
-    this.load.image('tiles', 'static/assets/scene3/tiles.png'); // loading the floor and wall tiles, first 32x32px are the floor tiles, second 32x32px are the wall tiles
+    this.load.image('tiles', 'static/assets/scene3/TileMapLayerPiloto.png'); // loading the floor and wall tiles, first 32x32px are the floor tiles, second 32x32px are the wall tiles
     this.load.image('player', 'static/assets/scene3/sprite-piloto-personagem-cena3.png'); // loading the player sprite
   }
 
