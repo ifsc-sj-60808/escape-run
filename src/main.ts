@@ -6,32 +6,38 @@ class MultiPlayerGame extends Game {
   mqttClient: mqtt.MqttClient;
   score: integer = 0;
 
+  timer: integer = 0;
+  minutes: integer = 0;
+  seconds: integer = 0;
+  clock: NodeJS.Timeout;
+
   constructor(config: Types.Core.GameConfig) {
     super(config);
 
-    this.mqttClient = mqtt.connect("wss://feira-de-jogos.dev.br/mqtt");
+    // MQTT
+    this.mqttClient = mqtt.connect("wss://mqtt.feira-de-jogos.dev.br/mqtt");
 
     this.mqttClient.on("connect", () => {
       console.log("Connected to MQTT broker");
     });
 
-    this.mqttClient.subscribe("escape-run/#", (err) => {
+    this.mqttClient.subscribe("escape-run/player/#", (err) => {
       if (!err) {
-        console.log("Subscribed to Escape Run subtopics");
+        console.log("Subscribed to Escape Run player subtopics");
       }
     });
 
     this.mqttClient.on("message", (topic, payload) => {
-      if (topic === "escape-run/scene") {
+      if (topic === "escape-run/player/scene") {
         const scene = payload.toString();
-        
+
         if (this.scene.keys[scene]) {
           console.log("Mudando para a cena:", scene);
           this.scene.start(scene);
         } else {
           console.warn(`Cena ${scene} não existe!`);
         }
-      } else if (topic === "escape-run/score") {
+      } else if (topic === "escape-run/player/score") {
         const score = parseInt(payload.toString(), 10);
 
         if (!isNaN(score)) {
@@ -42,6 +48,21 @@ class MultiPlayerGame extends Game {
         }
       }
     });
+
+    // Timer
+    this.timer = 100;
+    
+    this.clock = setInterval(() => {
+      this.timer--;
+      this.minutes = Math.floor(this.timer / 60);
+      this.seconds = Math.floor(this.timer % 60);
+
+      if (this.timer <= 0) {
+        clearInterval(this.clock);
+        this.mqttClient.publish("escape-run/player/scene", "sad-ending");
+        this.scene.start("sad-ending");
+      }
+    }, 1000);
   }
 }
 

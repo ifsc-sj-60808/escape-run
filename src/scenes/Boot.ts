@@ -1,18 +1,102 @@
 import { Scene } from "phaser";
 import MultiPlayerGame from "../main";
 
+interface Button {
+  x: number;
+  y: number;
+  number: string;
+  sprite?: Phaser.GameObjects.Sprite;
+}
+
 export class Boot extends Scene {
-  texto!: Phaser.GameObjects.Text;
+  // Score
+  score!: Phaser.GameObjects.Text;
+
+  // Timer
+  timer!: Phaser.GameObjects.Text;
+
+  // Numpad
+  password!: string;
+  display!: Phaser.GameObjects.Text;
+  vazio!: Phaser.GameObjects.Sprite;
+  buttons!: Button[];
+  clear!: Phaser.GameObjects.Sprite;
+  enter!: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({ key: "Boot" });
   }
 
+  preload() {
+    // Numpad
+    this.load.image("vazio", "assets/Boot/vazio.png");
+  }
+
   create() {
-    this.texto = this.add.text(100, 100, "Boot Scene\nScore: 0");
+    // Score
+    this.score = this.add.text(50, 50, "");
+
+    // Timer
+    this.timer = this.add.text(50, 100, "");
+
+    // Numpad
+    this.password = "";
+
+    this.display = this.add.text(50, 150, "");
+
+    this.buttons = [
+      { x: 75, y: 250, number: "7" },
+      { x: 225, y: 250, number: "8" },
+      { x: 375, y: 250, number: "9" },
+      { x: 75, y: 400, number: "4" },
+      { x: 225, y: 400, number: "5" },
+      { x: 375, y: 400, number: "6" },
+      { x: 75, y: 550, number: "1" },
+      { x: 225, y: 550, number: "2" },
+      { x: 375, y: 550, number: "3" },
+      { x: 225, y: 700, number: "0" },
+    ];
+
+    this.buttons.forEach((button) => {
+      button.sprite = this.physics.add
+        .sprite(button.x, button.y, "vazio")
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.password = this.password + button.number;
+        });
+    });
+
+    this.clear = this.physics.add
+      .sprite(75, 700, "vazio")
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.password = "";
+      });
+
+    this.enter = this.physics.add
+      .sprite(375, 700, "vazio")
+      .setInteractive()
+      .on("pointerdown", () => {
+        (this.game as typeof MultiPlayerGame).mqttClient.publish("escape-run/devices/vault", this.password);
+      });
   }
 
   update() {
-    this.texto.setText(`Boot Scene\nScore: ${(this.game as typeof MultiPlayerGame).score}`);
+    // Score
+    this.score.setText(`Score: ${(this.game as typeof MultiPlayerGame).score}`);
+
+    // Timer
+    this.timer.setText(
+      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
+        2,
+        "0"
+      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
+        2,
+        "0"
+      )}`
+    );
+
+    // Numpad
+    this.display.setText(this.password);
   }
 }
