@@ -13,7 +13,7 @@ const config: Types.Core.GameConfig = {
   width: 450,
   height: 800,
   parent: "game-container",
-  scene: [Boot, Scene1, Scene2, Scene3, Scene4, Scene5, Scene7, Scene8],
+  scene: [Scene4, Scene1, Scene2, Scene3, Boot, Scene5, Scene7, Scene8],
   physics: {
     default: "arcade",
     arcade: {
