@@ -1,0 +1,39 @@
+{
+"height":8,
+"width":11,
+"tilewidth":32,
+"tileheight":32,
+"orientation":"orthogonal",
+"renderorder": "right-down",
+"layers":[
+    {
+    "name": "Ground",
+    "type": "tilelayer",
+    "width": 11,
+    "heigth": 8,
+    "data":[
+        2,2,2,2,2,2,2,2,2,2,2,
+        2,1,1,1,1,1,1,1,1,1,2,
+        2,1,1,1,1,1,1,1,1,1,2,
+        2,1,1,1,1,1,1,1,1,1,2,
+        2,1,1,1,1,1,1,1,1,1,2,
+        2,1,1,1,1,1,1,1,1,1,2,
+        2,1,1,1,1,1,1,1,1,1,2,
+        2,2,2,2,2,2,2,2,2,2,2
+        ]
+    }
+],
+"tilesets":[
+    {
+        "firstgrid":1,
+        "name": "mapTemplate",
+        "tiledwidth": 32,
+        "tileheight": 32,
+        "tilecount": 2,
+        "columns":2,
+        "image": "sprite-piloto-personagem-cena3.png",
+        "imagewidth":64,
+        "imageheight":32
+    }
+]
+}

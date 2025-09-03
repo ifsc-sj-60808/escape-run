@@ -21,13 +21,13 @@ export class Scene3 extends Scene {
 
     this.load.tilemapTiledJSON("scene3", 'static/assets/scene3/tilemap'); //JSON, arrangement of tiles
     this.load.image('tiles', 'static/assets/scene3/TileMapLayerPiloto.png'); // loading the floor and wall tiles, first 32x32px are the floor tiles, second 32x32px are the wall tiles
-    this.load.image('player', 'static/assets/scene3/sprite-piloto-personagem-cena3.png'); // loading the player sprite
+    this.load.image('player', 'static/assets/scene3/c'); // loading the player sprite
   }
 
  create() {
     // --- MAP & LAYERS ---
     const map = this.make.tilemap({ key: "scene3" });
-    const tileset = map.addTilesetImage("MyTiles", "tiles"); // name must match JSON
+    const tileset = map.addTilesetImage("mapTemplate", "tiles"); // name must match JSON
     const allTiles = map.createLayer("Ground", tileset!, 0, 0);
 
     // Walls are tile index 2
@@ -35,7 +35,7 @@ export class Scene3 extends Scene {
 
     // codenames
     this.map = map;
-    this.allTiles = allTiles
+    this.allTiles = allTiles;
     this.tileSize = map.tileWidth;
 
 // iniciar mais ou menos centralizado
