@@ -11,6 +11,8 @@ class MultiPlayerGame extends Game {
   seconds: integer = 0;
   clock: NodeJS.Timeout;
 
+  currentScene: string = "Boot";
+
   constructor(config: Types.Core.GameConfig) {
     super(config);
 
@@ -32,8 +34,10 @@ class MultiPlayerGame extends Game {
         const scene = payload.toString();
 
         if (this.scene.keys[scene]) {
-          console.log("Mudando para a cena:", scene);
+          console.log(`Mudando de ${this.currentScene} para ${scene}`);
+          this.scene.stop(this.currentScene);
           this.scene.start(scene);
+          this.currentScene = scene;
         } else {
           console.warn(`Cena ${scene} não existe!`);
         }
@@ -50,7 +54,7 @@ class MultiPlayerGame extends Game {
     });
 
     // Timer
-    this.timer = 100;
+    this.timer = 2400;
     
     this.clock = setInterval(() => {
       this.timer--;

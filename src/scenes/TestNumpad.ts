@@ -8,7 +8,7 @@ interface Button {
   sprite?: Phaser.GameObjects.Sprite;
 }
 
-export class Boot extends Scene {
+export class TestNumpad extends Scene {
   // Score
   score!: Phaser.GameObjects.Text;
 
@@ -18,21 +18,27 @@ export class Boot extends Scene {
   // Numpad
   password!: string;
   display!: Phaser.GameObjects.Text;
-  vazio!: Phaser.GameObjects.Sprite;
+  void!: Phaser.GameObjects.Sprite;
   buttons!: Button[];
   clear!: Phaser.GameObjects.Sprite;
   enter!: Phaser.GameObjects.Sprite;
 
   constructor() {
-    super({ key: "Boot" });
+    super({ key: "TestNumpad" });
   }
 
   preload() {
+    // Background
+    this.load.image("TestNumpad-background", "assets/TestNumpad/background.png");
+
     // Numpad
-    this.load.image("vazio", "assets/Boot/vazio.png");
+    this.load.image("void", "assets/TestNumpad/void.png");
   }
 
   create() {
+    //Background
+    this.add.image(225, 400, "TestNumpad-background");
+
     // Score
     this.score = this.add.text(50, 50, "");
 
@@ -59,7 +65,7 @@ export class Boot extends Scene {
 
     this.buttons.forEach((button) => {
       button.sprite = this.physics.add
-        .sprite(button.x, button.y, "vazio")
+        .sprite(button.x, button.y, "void")
         .setInteractive()
         .on("pointerdown", () => {
           this.password = this.password + button.number;
@@ -67,17 +73,20 @@ export class Boot extends Scene {
     });
 
     this.clear = this.physics.add
-      .sprite(75, 700, "vazio")
+      .sprite(75, 700, "void")
       .setInteractive()
       .on("pointerdown", () => {
         this.password = "";
       });
 
     this.enter = this.physics.add
-      .sprite(375, 700, "vazio")
+      .sprite(375, 700, "void")
       .setInteractive()
       .on("pointerdown", () => {
-        (this.game as typeof MultiPlayerGame).mqttClient.publish("escape-run/devices/vault", this.password);
+        (this.game as typeof MultiPlayerGame).mqttClient.publish(
+          "escape-run/devices/vault",
+          this.password
+        );
       });
   }
 
