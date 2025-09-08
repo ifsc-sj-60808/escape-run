@@ -32,7 +32,7 @@ export class TestPiano extends Scene {
     // Piano
     this.load.image("keyBlack", "assets/TestPiano/keyBlack.png");
     this.load.image("keyWhite", "assets/TestPiano/keyWhite.png");
-    this.load.audio("C", "assets/TestPiano/C.mp3");
+    this.load.audio("C", "assets/TestPiano/c.mp3");
   }
 
   create() {
