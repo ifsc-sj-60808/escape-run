@@ -5,11 +5,9 @@ export class Scene4 extends Scene {
   // Timer
   timer!: Phaser.GameObjects.Text;
   videoElement?: HTMLVideoElement;
+  stream!: MediaStream | null;
+  track!: MediaStreamTrack | null;
 
-export class testTorch extends Scene {
-  let stream;
-  let track;
-  
   constructor() {
     super({ key: "Scene4" });
   }
@@ -38,34 +36,47 @@ export class testTorch extends Scene {
     // Solicitar acesso à câmera
     this.startCamera();
   }
-async function ligarLanterna() {
-  if (!(MediaDevices in navigator)) {
-    alert("API não suporta neste navegador. ");
-    return;
+
+  update() {
+    // Timer
+    this.timer.setText(
+      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
+        2,
+        "0"
+      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
+        2,
+        "0"
+      )}`
+    );
   }
-  stream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "environment" }
-  });
-  track = stream.getVideoTracks()[0];
-  await track.applyConstraints({
-    advanced: [{ torch: true }],
-  });
-}
-  function desligarLanterna() {
-    if (track) {
-      track.stop();
-      track = null;
+
+  async ligarLanterna() {
+    if (!navigator.mediaDevices) {
+      alert("API não suporta neste navegador. ");
+      return;
     }
-    if (stream) {
-      stream.getTracks().forEach((t) => t.stop());
-      stream = null;
+    this.stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment" },
+    });
+    this.track = this.stream.getVideoTracks()[0];
+    await this.track.applyConstraints({
+      advanced: [{ torch: true } as MediaTrackConstraintSet],
+    });
+  }
+  async desligarLanterna() {
+    if (this.track) {
+      this.track.stop();
+      this.track = null;
+    }
+    if (this.stream) {
+      this.stream.getTracks().forEach((t) => t.stop());
+      this.stream = null;
     }
   }
+
   async startCamera() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { exact: "environment" } }, // Solicita a câmera traseira
-      });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       this.videoElement = document.createElement("video");
       this.videoElement.autoplay = true;
       this.videoElement.playsInline = true;
@@ -81,18 +92,5 @@ async function ligarLanterna() {
     } catch (err) {
       console.error("Erro ao acessar a câmera:", err);
     }
-  }
-
-  update() {
-    // Timer
-    this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
-        2,
-        "0"
-      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
-        2,
-        "0"
-      )}`
-    );
   }
 }

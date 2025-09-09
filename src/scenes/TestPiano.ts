@@ -24,7 +24,6 @@ export class TestPiano extends Scene {
     super({ key: "TestPiano" });
   }
 
-
   preload() {
     // Background
     this.load.image("TestPiano-background", "assets/TestPiano/background.png");
@@ -80,12 +79,8 @@ export class TestPiano extends Scene {
 
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
-        2,
-        "0"
-      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
-        2,
-        "0"
+      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String(
+        (this.game as typeof MultiPlayerGame).seconds
       )}`
     );
   }

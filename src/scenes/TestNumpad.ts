@@ -29,7 +29,10 @@ export class TestNumpad extends Scene {
 
   preload() {
     // Background
-    this.load.image("TestNumpad-background", "assets/TestNumpad/background.png");
+    this.load.image(
+      "TestNumpad-background",
+      "assets/TestNumpad/background.png"
+    );
 
     // Numpad
     this.load.image("void", "assets/TestNumpad/void.png");
@@ -96,13 +99,7 @@ export class TestNumpad extends Scene {
 
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
-        2,
-        "0"
-      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
-        2,
-        "0"
-      )}`
+      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String((this.game as typeof MultiPlayerGame).seconds)}`
     );
 
     // Numpad
