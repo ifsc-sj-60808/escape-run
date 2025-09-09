@@ -48,7 +48,7 @@ export class Scene3 extends Scene {
 
     if (this.tileset)
       this.allTiles = this.map.createLayer(
-        "Camada de Blocos 1",
+        "BlockLayer1",
         this.tileset,
         0,
         0
@@ -80,6 +80,14 @@ export class Scene3 extends Scene {
       .image(startX, startY, "player")
       .setOrigin(0.5, 0.5);
 
+    
+    
+    
+    
+    
+    
+    
+    
     // sets drag and max velocity of player
     // testar valores depois
     this.player.setDrag(1000, 1000); // smooth stop
