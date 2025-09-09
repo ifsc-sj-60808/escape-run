@@ -38,7 +38,7 @@
       "encoding": "base64",
       "height": 32,
       "id": 1,
-      "name": "Camada de Blocos 1",
+      "name": "layer1",
       "offsetx": -227,
       "offsety": -204,
       "opacity": 1,
