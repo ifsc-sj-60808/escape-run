@@ -15,12 +15,12 @@ const config: Types.Core.GameConfig = {
   height: 800,
   parent: "game-container",
   scene: [
+    Scene7,
     Scene1,
     Scene2,
     Scene3,
     Scene4,
     Scene5,
-    Scene7,
     Scene8,
     TestNumpad,
     TestPiano,
