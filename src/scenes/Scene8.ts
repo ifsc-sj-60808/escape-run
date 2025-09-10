@@ -5,7 +5,12 @@ export class Scene8 extends Scene {
     super({ key: "Scene8" });
   }
 
-  preload() {}
+  preload() { 
+    this.load.image("scene8-1", "assets/scene8/4.png");
+    this.load.image("scene8-2", "assets/scene8/3.png");
+  }
 
-  create() {}
+  create() {
+    this.add.image(225, 400, "scene8-1");
+  }
 }
