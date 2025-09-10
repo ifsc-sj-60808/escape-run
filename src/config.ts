@@ -23,7 +23,6 @@ const config: Types.Core.GameConfig = {
     Scene3,
     Scene4, 
     Scene5,
-    Scene7,
     Scene8,
     TestNumpad,
     TestPiano,
