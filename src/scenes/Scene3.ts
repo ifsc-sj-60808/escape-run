@@ -22,5 +22,24 @@ export class Scene3 extends Scene {
     this.tileset = this.map.addTilesetImage("TileMapLayerPiloto");
     if (this.tileset)
       this.allTiles = this.map.createLayer("layer1", this.tileset, 0, 0);
+
+    this.input.gamepad.once("connected", (pad: Phaser.Input.Gamepad.Gamepad) => {
+      console.log("Gamepad connected!");
+      
+      pad.on("down", (button: Phaser.Input.Gamepad.Button, value: number) => {
+        console.log("Button down:", button, "Value:", value);
+      });
+    });
   }
+
+  update() {  
+    if (this.input.gamepad) {
+      if (this.input.gamepad.total > 0) {
+        const pad = this.input.gamepad.getPad(0);
+        const axisH = pad.axes[0].getValue();
+        const axisV = pad.axes[1].getValue();
+        console.log(axisH, axisV);
+      }
+    }
+   }
 }
