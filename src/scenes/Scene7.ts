@@ -1,6 +1,9 @@
 import { Scene } from "phaser";
+import MultiPlayerGame from "../main";
 
 export class Scene7 extends Scene {
+  tempoAcabando: boolean = false;
+
   constructor() {
     super({ key: "Scene7" });
   }
@@ -12,9 +15,12 @@ export class Scene7 extends Scene {
 
   create() {
     this.add.image(225, 400, "Scene7-1");
-    
-    setTimeout(() => {
-      this.add.image(225, 400, "Scene7-2");
-    }, 1000);
   }
+
+  update() {
+    if (!this.tempoAcabando && (this.game as typeof MultiPlayerGame).timer <= 300) {
+      this.tempoAcabando = true;
+      this.add.image(225, 400, "Scene7-2");
+    }
+  } 
 }
