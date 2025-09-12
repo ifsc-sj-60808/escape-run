@@ -57,32 +57,33 @@ export class Scene4 extends Scene {
   }
 
   async startCamera() {
-    try {
-      // Solicita a câmera traseira usando facingMode: "environment"
-      const stream = await navigator.mediaDevices.getUserMedia({
+    const stream = navigator.mediaDevices
+      .getUserMedia({
         video: { facingMode: { exact: "environment" } },
-      });
-      this.stream = stream;
-      this.track = stream.getVideoTracks()[0];
-      this.videoElement = document.createElement("video");
-      this.videoElement.autoplay = true;
-      this.videoElement.playsInline = true;
-      this.videoElement.style.position = "absolute";
-      this.videoElement.style.top = "52%";
-      this.videoElement.style.left = "50%";
-      this.videoElement.style.width = "90vw";
-      this.videoElement.style.height = "100vh";
-      this.videoElement.style.transform = "translate(-50%, -50%)";
-      this.videoElement.style.zIndex = "10";
-      this.videoElement.style.pointerEvents = "none"; // Não interfere nos cliques do Phaser
-      this.videoElement.srcObject = stream;
-      document.body.appendChild(this.videoElement);
+      })
+      .then((mediaStream) => {
+        this.stream = mediaStream;
+        this.track = mediaStream.getVideoTracks()[0];
+        this.videoElement = document.createElement("video");
+        this.videoElement.autoplay = true;
+        this.videoElement.playsInline = true;
+        this.videoElement.style.position = "absolute";
+        this.videoElement.style.top = "52%";
+        this.videoElement.style.left = "50%";
+        this.videoElement.style.width = "90vw";
+        this.videoElement.style.height = "100vh";
+        this.videoElement.style.transform = "translate(-50%, -50%)";
+        this.videoElement.style.zIndex = "10";
+        this.videoElement.style.pointerEvents = "none"; // Não interfere nos cliques do Phaser
+        this.videoElement.srcObject = mediaStream;
+        document.body.appendChild(this.videoElement);
 
-      // Adiciona botões após o vídeo ser adicionado
-      this.addControlButtons();
-    } catch (err) {
-      console.error("Erro ao acessar a câmera:", err);
-    }
+        // Adiciona botões após o vídeo ser adicionado
+        this.addControlButtons();
+      })
+      .catch((err) => {
+        console.error("Erro ao acessar a câmera: ", err);
+      });
   }
 
   addControlButtons() {
