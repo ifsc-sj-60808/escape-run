@@ -96,23 +96,23 @@ O cofre pode ser físico (cadeado numérico) ou simulado (baú trancado). Dentro
 
 ### Sala 12 – Arcade
 
-Ao saírem da Sala 14, o ator conduz os jogadores (5) até a Sala 12 (Arcade).
-Assim que entram na Sala 12: As luzes estão apagadas, mas um gerador brilhando chama a atenção. Os jogadores colocam uma alavanca e, em seguida, as luzes se acendem. Os 5 jogadores precisam então arrecadar tickets, a primeira forma de conseguir  os tickets é através de pistas sonoras. Cada ticket possui um código de barras, que fornece uma moeda virtual. Em um dos arcades, os jogadores precisam concluir um puzzle, que gera moedas adicionais.
-Essas moedas podem ser trocadas por um prêmio (uma peça do jogo). Assim que isso acontece, um sistema detecta a ação e a sala começa a se encher de fumaça.
-Nesse momento, surge o dilema: Se todos permanecerem juntos, ficarão presos ou para que os outros 4 possam sair, um jogador deve se “sacrificar”, apertando um botão para que os demais saiam
+1. Ao saírem da Sala 14, o ator conduz os jogadores (5) até a Sala 12 (Arcade).
+1. Assim que entram na Sala 12: As luzes estão apagadas, mas um gerador brilhando chama a atenção. Os jogadores colocam uma alavanca e, em seguida, as luzes se acendem. Os 5 jogadores precisam então arrecadar tickets, a primeira forma de conseguir  os tickets é através de pistas sonoras. Cada ticket possui um código de barras, que fornece uma moeda virtual. Em um dos arcades, os jogadores precisam concluir um puzzle, que gera moedas adicionais.
+1. Essas moedas podem ser trocadas por um prêmio (uma peça do jogo). Assim que isso acontece, um sistema detecta a ação e a sala começa a se encher de fumaça.
+1. Nesse momento, surge o dilema: Se todos permanecerem juntos, ficarão presos ou para que os outros 4 possam sair, um jogador deve se “sacrificar”, apertando um botão para que os demais saiam
 
 ### Sala 10 – Bar
 
-Após concluírem a Sala 12, os jogadores (4) seguem para a Sala 10 (Bar).
-Lá, encontram uma mesa preparada para jogar cartas. O objetivo é descobrir a combinação de um cadeado, a senha está escondida em garrafas de bebida. Essas garrafas foram pintadas com caneta visível apenas com luz negra, com os números corretos, o cofre é aberto e revela um baralho.
-Ao pegá-lo, uma mensagem aparece no celular explicando que os jogadores devem formar duplas e decidir, de alguma forma, que apenas uma dupla poderá avançar.
+1. Após concluírem a Sala 12, os jogadores (4) seguem para a Sala 10 (Bar).
+1. Lá, encontram uma mesa preparada para jogar cartas. O objetivo é descobrir a combinação de um cadeado, a senha está escondida em garrafas de bebida. Essas garrafas foram pintadas com caneta visível apenas com luz negra, com os números corretos, o cofre é aberto e revela um baralho.
+1. Ao pegá-lo, uma mensagem aparece no celular explicando que os jogadores devem formar duplas e decidir, de alguma forma, que apenas uma dupla poderá avançar.
  Após o duelo, a dupla vencedora recebe a senha para a próxima sala.
 
 ### Sala de Cultura – Pista de Dança
 
-Da Sala de cultura, restam apenas 2 jogadores, que devem estar com as três peças do quebra-cabeça.
-Na Sala de Cultura, precisam digitar a senha para abrir a porta. Ao abrir, a porta faz barulho e se fecha rapidamente atrás deles.
-Dentro da sala, tem um quadro de luz numerado. Quando acionado a sequência correta, o globo gira e a música toca.
-No centro da pista de dança tem um cofre com a última peça do quebra-cabeça. Para abri-lo, os jogadores precisam pegar a lanterna de luz negra no armário e iluminar os pôsteres da parede, revelando a senha.
-Com o quebra cabeça (fitas cassete) organizadas na ordem correta, obtêm a senha que libera uma caixa que está dentro, um botão.
-A porta de saída é travada por um eletroímã, para escapar, um jogador deve pressionar o botão do outro lado da sala, enquanto o parceiro empurra a porta e sai, deixando o outro para trás.
+1. Da Sala de cultura, restam apenas 2 jogadores, que devem estar com as três peças do quebra-cabeça.
+1. Na Sala de Cultura, precisam digitar a senha para abrir a porta. Ao abrir, a porta faz barulho e se fecha rapidamente atrás deles.
+1. Dentro da sala, tem um quadro de luz numerado. Quando acionado a sequência correta, o globo gira e a música toca.
+1. No centro da pista de dança tem um cofre com a última peça do quebra-cabeça. Para abri-lo, os jogadores precisam pegar a lanterna de luz negra no armário e iluminar os pôsteres da parede, revelando a senha.
+1. Com o quebra cabeça (fitas cassete) organizadas na ordem correta, obtêm a senha que libera uma caixa que está dentro, um botão.
+1. A porta de saída é travada por um eletroímã, para escapar, um jogador deve pressionar o botão do outro lado da sala, enquanto o parceiro empurra a porta e sai, deixando o outro para trás.
