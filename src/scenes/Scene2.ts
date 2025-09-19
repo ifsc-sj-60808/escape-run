@@ -83,19 +83,19 @@ export class Scene2 extends Scene {
     this.password = "";
 
     this.keys = [
-      { x: 32, y: 300, image: "keyWhite", text: "do", sound : this.do },
-      { x: 96, y: 300, image: "keyWhite", text: "re", sound : this.re },
-      { x: 160, y: 300, image: "keyWhite", text: "mi", sound : this.mi },
-      { x: 224, y: 300, image: "keyWhite", text: "fa", sound : this.fa },
-      { x: 288, y: 300, image: "keyWhite", text: "sol", sound : this.sol },
-      { x: 352, y: 300, image: "keyWhite", text: "la",  sound : this.la },
-      { x: 416, y: 300, image: "keyWhite", text: "si", sound : this.si },
+      { x: 32, y: 320, image: "keyWhite", text: "do", sound : this.do },
+      { x: 96, y: 320, image: "keyWhite", text: "re", sound : this.re },
+      { x: 160, y: 320, image: "keyWhite", text: "mi", sound : this.mi },
+      { x: 224, y: 320, image: "keyWhite", text: "fa", sound : this.fa },
+      { x: 288, y: 320, image: "keyWhite", text: "sol", sound : this.sol },
+      { x: 352, y: 320, image: "keyWhite", text: "la",  sound : this.la },
+      { x: 416, y: 320, image: "keyWhite", text: "si", sound : this.si },
 
-      { x: 64, y: 268, image: "keyBlack", text: "do#", sound : this.dos },
-      { x: 128, y: 268, image: "keyBlack", text: "re#", sound : this.res },
-      { x: 256, y: 268, image: "keyBlack", text: "fa#", sound : this.fas },
-      { x: 320, y: 268, image: "keyBlack", text: "sol#", sound : this.sols },
-      { x: 384, y: 268, image: "keyBlack", text: "la#", sound : this.las },
+      { x: 64, y: 285, image: "keyBlack", text: "do#", sound : this.dos },
+      { x: 128, y: 285, image: "keyBlack", text: "re#", sound : this.res },
+      { x: 256, y: 285, image: "keyBlack", text: "fa#", sound : this.fas },
+      { x: 320, y: 285, image: "keyBlack", text: "sol#", sound : this.sols },
+      { x: 384, y: 285, image: "keyBlack", text: "la#", sound : this.las },
     ];
 
     // Botão clear
@@ -126,7 +126,7 @@ export class Scene2 extends Scene {
           if (this.password.length < 10) this.password += key.text;
         });
 
-      this.add.text(key.x - 10, key.y + 40, key.text, {
+      this.add.text(key.x - 10, key.y + 60, key.text, {
         fontSize: "12px",
         color: "#881753",
         fontStyle: "bold",
