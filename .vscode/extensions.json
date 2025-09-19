@@ -6,6 +6,8 @@
     "github.copilot-chat",
     "github.vscode-pull-request-github",
     "eamodio.gitlens",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "ms-python.black-formatter",
+    "ms-python.python"
   ]
 }

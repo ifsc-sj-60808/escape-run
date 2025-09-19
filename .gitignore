@@ -1,3 +1,9 @@
+# JS
 node_modules/
+
+# Python
+venv/
+
+# Parcel
 .parcel-cache/
 dist/
