@@ -20,7 +20,9 @@
     "build": "parcel build src/index.html --public-url ./"
   },
   "dependencies": {
+    "@types/webfontloader": "^1.6.38",
     "mqtt": "^5.14.0",
-    "phaser": "^4.0.0-rc.4"
+    "phaser": "^4.0.0-rc.4",
+    "webfontloader": "^1.6.28"
   }
 }

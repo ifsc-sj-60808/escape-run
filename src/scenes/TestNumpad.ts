@@ -1,5 +1,6 @@
 import { Scene } from "phaser";
 import MultiPlayerGame from "../main";
+import WebFont from "webfontloader";
 
 interface Button {
   x: number;
@@ -27,6 +28,14 @@ export class TestNumpad extends Scene {
     super({ key: "TestNumpad" });
   }
 
+  init() {
+    WebFont.load({
+      google: {
+        families: ['Tiny5', "Sixtyfour"]
+      }
+    });
+  }
+
   preload() {
     // Background
     this.load.image(
@@ -46,7 +55,11 @@ export class TestNumpad extends Scene {
     this.score = this.add.text(50, 50, "");
 
     // Timer
-    this.timer = this.add.text(50, 100, "");
+    this.timer = this.add.text(50, 100, "", {
+      fontFamily: "Sixtyfour",
+      fontSize: "64px",
+      color: "#ff00ff",
+    });
 
     // Numpad
     this.password = "";
@@ -99,7 +112,9 @@ export class TestNumpad extends Scene {
 
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String((this.game as typeof MultiPlayerGame).seconds)}`
+      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String(
+        (this.game as typeof MultiPlayerGame).seconds
+      )}`
     );
 
     // Numpad
