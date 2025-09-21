@@ -30,20 +30,11 @@ música os puxa de volta para a pista de dança — onde os mortos continuam a c
 sempre.
 No fim, eles percebem: ninguém sai do Mirage Club. Quem entra, dança até o tempo parar.
 
-### O Fliperama e o Armazém
+### O Fliperama
 
-Guiados por um corredor estreito, eles chegam ao antigo salão de jogos. Máquinas de
-fliperama enferrujadas piscam em neon verde, rodando partidas sozinhas, sem ninguém
-jogar. Cada tela exibe frases diferentes, como instruções de um jogo macabro: “Você não
-pode sair”, “O tempo parou aqui”, “Encontre a chave antes que a música volte”.
-Um som metálico ecoa do armazém ao lado. Lá dentro, pilhas de caixas cobertas de poeira
-guardam mais do que lembranças: roupas de festa ensanguentadas, máscaras e taças
-quebradas, como se a celebração tivesse terminado em um massacre silencioso.
-Um dos jovens encontra uma anotação em um caderno mofado: “O DJ não escolheu a
-música… a música o escolheu”. De repente, as portas do armazém se fecham e as
-máquinas do fliperama começam a gritar em uníssono, emitindo um som estridente. As
-caixas se movem sozinhas, bloqueando a saída. O grupo só consegue escapar quando
-uma das máquinas explode, revelando uma passagem oculta para o bar.
+Seguindo um corredor estreito, o grupo chega ao antigo fliperama. Lá eles se deparam somente com escuridão, porém após perceberem que se trata de uma falta de energia, são capazes de consertar o velho gerador. Com as luzes acesas, é possível perceber arcades enferrujados e em ruína que piscam em neon verde, rodando partidas sozinhos, sem ninguém jogar. Um jogador é atraído à máquina no canto mais escuro da sala e, antes que perceba, já está preso dentro da sua cortina, onde é forçado a jogar um jogo que estranhamente, parece uma réplica da sala real.
+Os demais se dirigem à bancada de prêmios, onde um dos jovens encontra uma anotação em um caderno mofado que diz: “O DJ não escolheu a música… a música o escolheu”, assim como um ticket misterioso que, quando visto pela tela das suas câmeras, revela um símbolo. Com esta pista, eles começam a encontrar diversos símbolos misteriosos pelo ambiente, que quando inseridos no jogo do arcade liberam um prêmio na bancada: Mais uma fita cassete.
+De repente, todos escutam um chiado e percebem um vazamento de gás tóxico na sala. É como se o próprio prédio reconhecesse que o grupo se aproxima da liberdade e tenta os impedir...
 
 ### O Bar
 
