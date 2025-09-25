@@ -17,7 +17,7 @@ class MultiPlayerGame extends Game {
     super(config);
 
     // MQTT
-    this.mqttClient = mqtt.connect("wss://mqtt.feira-de-jogos.dev.br/mqtt");
+    this.mqttClient = mqtt.connect("wss://escape-run.sj.ifsc.edu.br/mqtt");
 
     this.mqttClient.on("connect", () => {
       console.log("Connected to MQTT broker");
