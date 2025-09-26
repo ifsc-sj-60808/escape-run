@@ -50,12 +50,20 @@ class MultiPlayerGame extends Game {
         } else {
           console.warn(`Pontuação inválida recebida: ${payload.toString()}`);
         }
+      } else if (topic === "escape-run/player/error") {
+        try {
+          navigator.vibrate(1000);
+        } catch {
+          console.error("Sem suporte a Vibration API.");
+        }
+
+        window.alert(`Erro: ${payload.toString()}`);
       }
     });
 
     // Timer
     this.timer = 310;
-    
+
     this.clock = setInterval(() => {
       this.timer--;
       this.minutes = Math.floor(this.timer / 60);
