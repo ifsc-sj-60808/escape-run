@@ -9,8 +9,6 @@ export class Scene3 extends Scene {
   keyboard!: Phaser.Types.Input.Keyboard.CursorKeys;
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys | any;
 
-
-
   constructor() {
     super({ key: "Scene3" });
   }
@@ -20,7 +18,6 @@ export class Scene3 extends Scene {
     this.load.image(
       "TileMapLayerPiloto",
       "assets/scene3/TileMapLayerPiloto.png"
-    
     );
     this.load.spritesheet("alien", "assets/scene3/alien.png", {
       frameWidth: 64,
@@ -88,13 +85,10 @@ export class Scene3 extends Scene {
     });
     this.alien.play("left");
     this.alien.play("right");
-      
+
     this.player = this.physics.add.sprite(100, 100, "player");
-  
-  
-  this.cursors = this.input.keyboard.createCursorKeys();
-  
-  
+
+    this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   update() {
@@ -107,43 +101,25 @@ export class Scene3 extends Scene {
         console.log(axisH, axisV);
         this.alien.setVelocity(axisH * 200, axisV * 200);
       } else {
-        this.alien.setVelocity(1,0);
+        this.alien.setVelocity(1, 0);
       }
     }
-  
-    
-   if (this.cursors.left.isDown) {
-     console.log("esquerda");
-     this.alien.setVelocityX(-100);
-   } else if (this.cursors.right.isDown) {
-     console.log("direita");
-     this.alien.setVelocityX(100);
-   } else if (this.cursors.up.isDown) {
-     console.log("subir");
-     this.alien.setVelocityY(-100);
-   } else if (this.cursors.down.isDown) {
-     console.log("descer");
-     this.alien.setVelocityY(100);
-   } else {
-     this.alien.setVelocityX(0);
-     this.alien.setVelocityY(0);
-   }
-  
 
-  
+    if (this.cursors.left.isDown) {
+      console.log("esquerda");
+      this.alien.setVelocityX(-100);
+    } else if (this.cursors.right.isDown) {
+      console.log("direita");
+      this.alien.setVelocityX(100);
+    } else if (this.cursors.up.isDown) {
+      console.log("subir");
+      this.alien.setVelocityY(-100);
+    } else if (this.cursors.down.isDown) {
+      console.log("descer");
+      this.alien.setVelocityY(100);
+    } else {
+      this.alien.setVelocityX(0);
+      this.alien.setVelocityY(0);
+    }
   }
-  
-  
 }
-  
-  
-  
-  
-  
-  
-
-
-
-
-
-

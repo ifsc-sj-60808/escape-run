@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
       align-items: center;
       height: 100vh;
       text-align: center;
-    }
+    } 
     .container {
       max-width: 400px;
       width: 100%;

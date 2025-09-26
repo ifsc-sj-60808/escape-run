@@ -31,8 +31,8 @@ export class TestNumpad extends Scene {
   init() {
     WebFont.load({
       google: {
-        families: ['Tiny5', "Sixtyfour"]
-      }
+        families: ["Tiny5", "Sixtyfour"],
+      },
     });
   }
 

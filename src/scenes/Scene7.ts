@@ -18,9 +18,12 @@ export class Scene7 extends Scene {
   }
 
   update() {
-    if (!this.tempoAcabando && (this.game as typeof MultiPlayerGame).timer <= 300) {
+    if (
+      !this.tempoAcabando &&
+      (this.game as typeof MultiPlayerGame).timer <= 300
+    ) {
       this.tempoAcabando = true;
       this.add.image(225, 400, "Scene7-2");
     }
-  } 
+  }
 }

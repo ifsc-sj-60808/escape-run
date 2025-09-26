@@ -7,6 +7,7 @@ interface Key {
   image: string;
   sprite?: Phaser.GameObjects.Sprite;
 }
+
 export class Scene1 extends Scene {
   password!: string;
   enter!: Phaser.GameObjects.Sprite;
@@ -32,8 +33,8 @@ export class Scene1 extends Scene {
           "escape-run/devices/scene2/chest",
           this.password
         );
-  
+
         this.password = "";
-      })
-  };
+      });
   }
+}

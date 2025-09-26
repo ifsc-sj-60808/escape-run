@@ -16,13 +16,13 @@ const config: Types.Core.GameConfig = {
   parent: "game-container",
   input: {
     gamepad: true,
-  },  
+  },
   scene: [
     Scene7,
     Scene1,
     Scene2,
     Scene3,
-    Scene4, 
+    Scene4,
     Scene5,
     Scene8,
     TestNumpad,
