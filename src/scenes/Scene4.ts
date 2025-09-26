@@ -3,6 +3,10 @@ import MultiPlayerGame from "../main";
 var CamHeight = 600;
 var CamWidth = CamHeight * (9 / 16);
 export class Scene4 extends Scene {
+  canvasElement?: HTMLCanvasElement;
+  canvasCtx?: CanvasRenderingContext2D;
+  animationFrameId?: number;
+  redRevealOverlay?: HTMLDivElement;
   // Timer
   timer!: Phaser.GameObjects.Text;
   videoElement?: HTMLVideoElement;
@@ -76,6 +80,22 @@ export class Scene4 extends Scene {
         this.videoElement.srcObject = mediaStream;
         document.body.appendChild(this.videoElement);
 
+        // Cria canvas para efeito red reveal (esteganografia)
+        this.canvasElement = document.createElement("canvas");
+        this.canvasElement.width = CamWidth;
+        this.canvasElement.height = Math.floor(CamHeight * 0.75);
+        this.canvasElement.style.position = "absolute";
+        this.canvasElement.style.top = this.videoElement.style.top;
+        this.canvasElement.style.left = this.videoElement.style.left;
+        this.canvasElement.style.width = this.videoElement.style.width;
+        this.canvasElement.style.height = Math.floor(CamHeight * 0.75) + "px";
+        this.canvasElement.style.transform = this.videoElement.style.transform;
+        this.canvasElement.style.zIndex = "11";
+        this.canvasElement.style.pointerEvents = "none";
+        this.canvasElement.style.display = "none";
+        document.body.appendChild(this.canvasElement);
+        this.canvasCtx = this.canvasElement.getContext("2d")!;
+
         // Adiciona botões após o vídeo ser adicionado
         this.addControlButtons();
       })
@@ -145,28 +165,53 @@ export class Scene4 extends Scene {
   }
 
   toggleFiltro() {
-    if (!this.videoElement) return;
+    if (!this.videoElement || !this.canvasElement || !this.canvasCtx) return;
     this.filtroAtivo = !this.filtroAtivo;
     if (this.filtroAtivo) {
-      this.videoElement.style.filter =
-        "brightness(0.7) sepia(1) hue-rotate(-50deg) saturate(6)";
-      // Ajusta a sombra para o tamanho do vídeo
-      const w = this.videoElement.offsetWidth;
-      const h = this.videoElement.offsetHeight;
-      this.videoElement.style.boxShadow = `${Math.max(
-        CamWidth,
-        CamHeight
-      )}px rgba(255,0,0,0.2) inset`;
+      this.canvasElement.style.display = "block";
+      this.videoElement.style.visibility = "hidden";
       this.filtroButton!.innerText = "Desativar Filtro";
       this.filtroButton!.style.width = "10em";
       this.flashButton!.style.left = "25%";
-
+      this.startRedReveal();
     } else {
-      this.videoElement.style.filter = "";
-      this.videoElement.style.boxShadow = "";
+      this.canvasElement.style.display = "none";
+      this.videoElement.style.visibility = "visible";
       this.filtroButton!.innerText = "Ativar Filtro";
       this.filtroButton!.style.width = "8em";
       this.flashButton!.style.left = "30%";
+      if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
     }
+  }
+
+  startRedReveal() {
+    if (!this.videoElement || !this.canvasCtx || !this.canvasElement) return;
+    const canvasHeight = Math.floor(CamHeight * 0.75);
+    const draw = () => {
+      this.canvasCtx.drawImage(
+        this.videoElement!,
+        0,
+        0,
+        CamWidth,
+        canvasHeight
+      );
+      const frame = this.canvasCtx.getImageData(0, 0, CamWidth, canvasHeight);
+      const l = frame.data.length;
+      for (let i = 0; i < l; i += 4) {
+        // Intensifica o vermelho
+        frame.data[i] = Math.min(255, frame.data[i] * 1.5); // R
+        frame.data[i + 1] = 0; // G
+        frame.data[i + 2] = 0; // B
+        // Aumenta opacidade se vermelho for forte
+        if (frame.data[i] > 100) {
+          frame.data[i + 3] = 255;
+        } else {
+          frame.data[i + 3] = 80;
+        }
+      }
+      this.canvasCtx.putImageData(frame, 0, 0);
+      this.animationFrameId = requestAnimationFrame(draw);
+    };
+    draw();
   }
 }
