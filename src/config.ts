@@ -18,11 +18,11 @@ const config: Types.Core.GameConfig = {
     gamepad: true,
   },
   scene: [
-    Scene7,
+    Scene4,
     Scene1,
     Scene2,
     Scene3,
-    Scene4,
+    Scene7,
     Scene5,
     Scene8,
     TestNumpad,
