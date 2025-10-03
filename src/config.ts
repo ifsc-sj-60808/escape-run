@@ -6,7 +6,6 @@ import { Scene4 } from "./scenes/Scene4";
 import { Scene5 } from "./scenes/Scene5";
 import { Scene7 } from "./scenes/Scene7";
 import { Scene8 } from "./scenes/Scene8";
-import { TestNumpad } from "./scenes/TestNumpad";
 import { TestPiano } from "./scenes/TestPiano";
 
 const config: Types.Core.GameConfig = {
@@ -17,17 +16,7 @@ const config: Types.Core.GameConfig = {
   input: {
     gamepad: true,
   },
-  scene: [
-    Scene4,
-    Scene1,
-    Scene2,
-    Scene3,
-    Scene7,
-    Scene5,
-    Scene8,
-    TestNumpad,
-    TestPiano,
-  ],
+  scene: [Scene8],
   physics: {
     default: "arcade",
     arcade: {
