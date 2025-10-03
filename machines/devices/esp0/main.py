@@ -11,8 +11,8 @@ wifi_password = 'escape-run'
 mqtt_client_id = 'room-14-0'
 #mqtt_broker = 'escape-run.sj.ifsc.edu.br'
 mqtt_broker = 'test.mosquitto.org'
-mqtt_topic_subscribe = b'escape-run/room/14/0'
-mqtt_topic_publish = b'escape-run/player/msg'
+mqtt_topic_subscribe = 'escape-run/room/14/0'
+mqtt_topic_publish = 'escape-run/player/msg'
 
 
 def setup():
@@ -67,7 +67,7 @@ def callback(topic, payload):
 
 def subscribe(client):
     client.subscribe(mqtt_topic_subscribe)
-    print('Subscribed to device topic:', mqtt_topic_subscribe.decode())
+    print('Subscribed to device topic:', mqtt_topic_subscribe)
     
     
 if __name__ == '__main__':
