@@ -79,9 +79,9 @@ export class TestPiano extends Scene {
 
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String(
+      `${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
-      )}`
+      }`
     );
   }
 }

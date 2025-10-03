@@ -227,9 +227,9 @@ export class Scene2 extends Scene {
   update() {
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String(
+      `${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
-      )}`
+      }`
     );
   }
 }
