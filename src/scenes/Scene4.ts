@@ -48,13 +48,9 @@ export class Scene4 extends Scene {
   update() {
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
-        2,
-        "0"
-      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
-        2,
-        "0"
-      )}`
+      `${(this.game as typeof MultiPlayerGame).minutes}:${
+        (this.game as typeof MultiPlayerGame).seconds
+      }`
     );
   }
 

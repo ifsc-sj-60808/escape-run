@@ -7,8 +7,8 @@ class MultiPlayerGame extends Game {
   score: integer = 0;
 
   timer: integer = 0;
-  minutes: integer = 0;
-  seconds: integer = 0;
+  minutes: string = "00";
+  seconds: string = "00";
   clock: NodeJS.Timeout;
 
   currentScene: string = "Boot";
@@ -66,8 +66,9 @@ class MultiPlayerGame extends Game {
 
     this.clock = setInterval(() => {
       this.timer--;
-      this.minutes = Math.floor(this.timer / 60);
-      this.seconds = Math.floor(this.timer % 60);
+      this.minutes = String(Math.floor(this.timer / 60)).padStart(2, "0");
+      this.seconds = String(Math.floor(this.timer % 60)).padStart(2, "0");
+
 
       if (this.timer <= 0) {
         clearInterval(this.clock);

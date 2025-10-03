@@ -100,7 +100,7 @@ export class TestNumpad extends Scene {
       .setInteractive()
       .on("pointerdown", () => {
         (this.game as typeof MultiPlayerGame).mqttClient.publish(
-          "escape-run/devices/vault",
+          "escape-run/room/cultura/0",
           this.password
         );
       });
@@ -112,9 +112,9 @@ export class TestNumpad extends Scene {
 
     // Timer
     this.timer.setText(
-      `${String((this.game as typeof MultiPlayerGame).minutes)}:${String(
+      `${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
-      )}`
+      }`
     );
 
     // Numpad
