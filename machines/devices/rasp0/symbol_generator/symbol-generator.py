@@ -3,11 +3,11 @@ import numpy as np
 import random
 
 # Input symbol files
-MAIN_SYMBOL = "squid-symbol.png"  # true (red)
-CYAN_DECOY = "symbol-decoy1.png"  # cyan decoy
-BLUE_DECOY = "symbol-decoy2.png"  # blue decoy
-GREEN_DECOY = "symbol-decoy3.png"  # green decoy
-OUTPUT_IMAGE = "symbols_with_decoys.png"
+MAIN_SYMBOL = "symbols/nwithhat.png"  # true (red)
+CYAN_DECOY = "symbols/filledstar.png"  # cyan decoy
+BLUE_DECOY = "symbols/cursive.png"  # blue decoy
+GREEN_DECOY = "symbols/omega.png"  # green decoy
+OUTPUT_IMAGE = "stego-images/nwithhat-stego.png"
 
 IMG_SIZE = (512, 512)
 
@@ -33,21 +33,21 @@ def generate_dithered_multi(main_mask, cyan_mask, blue_mask, green_mask, img_siz
             pixel = [0, 0, 0]
             pixel[base_choice] = base_intensity
 
+            # Green decoy
+            if green_mask[y, x] and random.random() < 0.6:
+                pixel = [0, 255, 128]
+
             # Main RED symbol
             if main_mask[y, x] and random.random() < 0.6:
                 pixel = [random.randint(120, 255), 0, 0]
-
-            # Cyan decoy
-            if cyan_mask[y, x] and random.random() < 0.6:
-                pixel = [0, random.randint(120, 255), random.randint(120, 255)]
 
             # Blue decoy
             if blue_mask[y, x] and random.random() < 0.6:
                 pixel = [0, 0, random.randint(120, 255)]
 
-            # Green decoy
-            if green_mask[y, x] and random.random() < 0.6:
-                pixel = [0, random.randint(120, 255), 0]
+            # Cyan decoy (Capri)
+            if cyan_mask[y, x] and random.random() < 0.6:
+                pixel = [0, 128, 255]
 
             img[y, x] = pixel
     return img
@@ -55,9 +55,9 @@ def generate_dithered_multi(main_mask, cyan_mask, blue_mask, green_mask, img_siz
 
 def main():
     # Load symbol masks
-    main_mask = load_symbol_mask(MAIN_SYMBOL, IMG_SIZE)
     cyan_mask = load_symbol_mask(CYAN_DECOY, IMG_SIZE)
     blue_mask = load_symbol_mask(BLUE_DECOY, IMG_SIZE)
+    main_mask = load_symbol_mask(MAIN_SYMBOL, IMG_SIZE)
     green_mask = load_symbol_mask(GREEN_DECOY, IMG_SIZE)
 
     # Generate dithered camouflage
@@ -66,7 +66,7 @@ def main():
     # Save result
     Image.fromarray(img).save(OUTPUT_IMAGE)
     print(
-        "✅ Dithered image with red main + cyan/blue/green decoys saved:", OUTPUT_IMAGE
+        "✅ Image saved:", OUTPUT_IMAGE
     )
 
 
