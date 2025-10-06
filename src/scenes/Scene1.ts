@@ -17,8 +17,8 @@ export class Scene1 extends Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/scene2/background.png");
-    this.load.image("enter", "assets/scene2/enter.png");
+    this.load.image("background", "assets/Scene2/background.png");
+    this.load.image("enter", "assets/Scene2/enter.png");
   }
 
   create() {
