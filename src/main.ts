@@ -62,7 +62,7 @@ class MultiPlayerGame extends Game {
     });
 
     // Timer
-    this.timer = 310;
+    this.timer = 1200;
 
     this.clock = setInterval(() => {
       this.timer--;

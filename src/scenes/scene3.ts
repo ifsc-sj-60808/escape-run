@@ -57,15 +57,20 @@ export class Scene3 extends Scene {
     cam.setBackgroundColor("#000"); // black bars outside viewport
 
     // --- GAMEPAD ---
-    this.input.gamepad.once(
-      "connected",
-      (pad: Phaser.Input.Gamepad.Gamepad) => {
-        console.log("Gamepad connected!");
-        pad.on("down", (button: Phaser.Input.Gamepad.Button, value: number) => {
-          console.log("Button down:", button, "Value:", value);
-        });
-      }
-    );
+    if (this.input.gamepad) {
+      this.input.gamepad.once(
+        "connected",
+        (pad: Phaser.Input.Gamepad.Gamepad) => {
+          console.log("Gamepad connected!");
+          pad.on(
+            "down",
+            (button: Phaser.Input.Gamepad.Button, value: number) => {
+              console.log("Button down:", button, "Value:", value);
+            }
+          );
+        }
+      );
+    }
 
     this.map = this.make.tilemap({ key: "scene3" });
     this.tileset = this.map.addTilesetImage("TileMapLayerPiloto");
@@ -87,8 +92,6 @@ export class Scene3 extends Scene {
     this.alien.play("right");
 
     this.player = this.physics.add.sprite(100, 100, "player");
-
-    this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   update() {
@@ -103,23 +106,6 @@ export class Scene3 extends Scene {
       } else {
         this.alien.setVelocity(1, 0);
       }
-    }
-
-    if (this.cursors.left.isDown) {
-      console.log("esquerda");
-      this.alien.setVelocityX(-100);
-    } else if (this.cursors.right.isDown) {
-      console.log("direita");
-      this.alien.setVelocityX(100);
-    } else if (this.cursors.up.isDown) {
-      console.log("subir");
-      this.alien.setVelocityY(-100);
-    } else if (this.cursors.down.isDown) {
-      console.log("descer");
-      this.alien.setVelocityY(100);
-    } else {
-      this.alien.setVelocityX(0);
-      this.alien.setVelocityY(0);
     }
   }
 }
