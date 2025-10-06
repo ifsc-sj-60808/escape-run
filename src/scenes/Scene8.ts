@@ -35,11 +35,11 @@ export class Scene8 extends Scene {
 
   preload() {
     // Background
-    this.load.image("scene8-background", "assets/Scene8/numpad.png");
+    this.load.image("scene8-background", "assets/scene8/numpad.png");
 
     // Numpad
-    this.load.image("void", "assets/Scene8/void.png");
-    this.load.image("void-3x", "assets/Scene8/void-3x.png");
+    this.load.image("void", "assets/scene8/void.png");
+    this.load.image("void-3x", "assets/scene8/void-3x.png");
   }
 
   create() {

@@ -9,8 +9,8 @@ export class Scene7 extends Scene {
   }
 
   preload() {
-    this.load.image("Scene7-1", "assets/Scene7/1.png");
-    this.load.image("Scene7-2", "assets/Scene7/2.png");
+    this.load.image("Scene7-1", "assets/scene7/1.png");
+    this.load.image("Scene7-2", "assets/scene7/2.png");
   }
 
   create() {

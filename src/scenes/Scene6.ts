@@ -6,7 +6,7 @@ export class Scene6 extends Scene {
   }
 
   preload() {
-    this.load.image("boi", "assets/Scene6/medo.jpg");
+    this.load.image("boi", "assets/scene6/medo.jpg");
   }
 
   create() {

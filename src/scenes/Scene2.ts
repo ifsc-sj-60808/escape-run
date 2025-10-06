@@ -39,25 +39,25 @@ export class Scene2 extends Scene {
 
   preload() {
     // Background
-    this.load.image("background", "assets/Scene2/background.png");
+    this.load.image("background", "assets/scene2/background.png");
 
     // Piano
-    this.load.image("keyBlack", "assets/Scene2/keyBlack.png"); // imagem das teclas pretas
-    this.load.image("keyWhite", "assets/Scene2/keyWhite.png"); // imagem das teclas brancas
-    this.load.image("enter", "assets/Scene2/enter.png"); // imagem do botão enter
-    this.load.image("clear", "assets/Scene2/clear.png"); // imagem do botão clear
-    this.load.audio("do", "assets/Scene2/do.mp3"); // som da tecla dó
-    this.load.audio("dos", "assets/Scene2/dos.mp3"); // som da tecla dó sustenido
-    this.load.audio("re", "assets/Scene2/re.mp3"); // som da tecla ré
-    this.load.audio("res", "assets/Scene2/res.mp3"); // som da tecla ré sustenido
-    this.load.audio("mi", "assets/Scene2/mi.mp3"); // som da tecla mi
-    this.load.audio("fa", "assets/Scene2/fa.mp3"); // som da tecla fá
-    this.load.audio("fas", "assets/Scene2/fas.mp3"); // som da tecla fá sustenido
-    this.load.audio("sol", "assets/Scene2/sol.mp3"); // som da tecla sol
-    this.load.audio("sols", "assets/Scene2/sols.mp3"); // som da tecla sol sustenido
-    this.load.audio("la", "assets/Scene2/la.mp3"); // som da tecla lá
-    this.load.audio("las", "assets/Scene2/las.mp3"); // som da tecla lá sustenido
-    this.load.audio("si", "assets/Scene2/si.mp3"); // som da tecla si
+    this.load.image("keyBlack", "assets/scene2/keyBlack.png"); // imagem das teclas pretas
+    this.load.image("keyWhite", "assets/scene2/keyWhite.png"); // imagem das teclas brancas
+    this.load.image("enter", "assets/scene2/enter.png"); // imagem do botão enter
+    this.load.image("clear", "assets/scene2/clear.png"); // imagem do botão clear
+    this.load.audio("do", "assets/scene2/do.mp3"); // som da tecla dó
+    this.load.audio("dos", "assets/scene2/dos.mp3"); // som da tecla dó sustenido
+    this.load.audio("re", "assets/scene2/re.mp3"); // som da tecla ré
+    this.load.audio("res", "assets/scene2/res.mp3"); // som da tecla ré sustenido
+    this.load.audio("mi", "assets/scene2/mi.mp3"); // som da tecla mi
+    this.load.audio("fa", "assets/scene2/fa.mp3"); // som da tecla fá
+    this.load.audio("fas", "assets/scene2/fas.mp3"); // som da tecla fá sustenido
+    this.load.audio("sol", "assets/scene2/sol.mp3"); // som da tecla sol
+    this.load.audio("sols", "assets/scene2/sols.mp3"); // som da tecla sol sustenido
+    this.load.audio("la", "assets/scene2/la.mp3"); // som da tecla lá
+    this.load.audio("las", "assets/scene2/las.mp3"); // som da tecla lá sustenido
+    this.load.audio("si", "assets/scene2/si.mp3"); // som da tecla si
   }
 
   create() {
