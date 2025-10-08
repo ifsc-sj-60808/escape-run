@@ -3,11 +3,11 @@ import numpy as np
 import random
 
 # Input symbol files
-MAIN_SYMBOL = "symbols/nwithhat.png"  # true (red)
-CYAN_DECOY = "symbols/filledstar.png"  # cyan decoy
-BLUE_DECOY = "symbols/cursive.png"  # blue decoy
-GREEN_DECOY = "symbols/omega.png"  # green decoy
-OUTPUT_IMAGE = "stego-images/nwithhat-stego.png"
+MAIN_SYMBOL = "symbols/upsidedowny.png"  # true (red)
+CYAN_DECOY = "symbols/meltedthree.png"  # cyan decoy
+BLUE_DECOY = "symbols/tripod.png"  # blue decoy
+GREEN_DECOY = "symbols/cursive.png"  # green decoy
+OUTPUT_IMAGE = "stego-images/upsidedowny-stego.png"
 
 IMG_SIZE = (512, 512)
 
