@@ -22,8 +22,8 @@ export class Scene4 extends Scene {
   }
 
   preload() {
-    this.load.image("Background", "assets/scene4/Background.png");
-    this.load.image("Visor", "assets/scene4/Visor.png");
+    this.load.image("Background", "assets/Scene4/fundo-camera.png");
+  //  this.load.image("Visor", "assets/scene4/Visor.png");
   }
 
   create() {
