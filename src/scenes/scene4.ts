@@ -16,27 +16,50 @@ export class Scene4 extends Scene {
   track?: MediaStreamTrack;
   filtroAtivo: boolean = false;
   flashAtivo: boolean = false;
+  cameraStarted: boolean = false;
 
   constructor() {
     super({ key: "Scene4" });
   }
 
   preload() {
-    this.load.image("Background", "assets/Scene4/fundo-camera.png");
-  //  this.load.image("Visor", "assets/scene4/Visor.png");
+    this.load.image("Background", "assets/Scene4/fundo-camera.jpg");
+    this.load.image("Visor", "assets/Scene4/visor-camera.jpg");
   }
 
   create() {
-    this.add.image(220, 400, "Background");
+    this.add
+      .image(220, 400, "Background")
+      .setInteractive()
+      .on("pointerdown", () => {
+        // Se a câmera já foi iniciada e o visor está sendo mostrado, fecha/limpa tudo
+        if (this.cameraStarted && this.videoElement) {
+          this.add.image(220, 400, "Visor");
 
-    if (this.videoElement) {
-      this.videoElement.pause();
-      this.videoElement.srcObject = null;
-      this.videoElement.remove();
-    }
-    if (this.flashButton) this.flashButton.remove();
-    if (this.filtroButton) this.filtroButton.remove();
-    if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
+          this.videoElement.pause();
+          this.videoElement.srcObject = null;
+          this.videoElement.remove();
+          this.videoElement = undefined;
+
+          if (this.flashButton) {
+            this.flashButton.remove();
+            this.flashButton = undefined;
+          }
+          if (this.filtroButton) {
+            this.filtroButton.remove();
+            this.filtroButton = undefined;
+          }
+          if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
+          this.stream = undefined;
+          this.track = undefined;
+          this.cameraStarted = false;
+        } else if (!this.cameraStarted) {
+          // Primeiro toque: inicia a câmera
+          this.cameraStarted = true;
+          this.startCamera();
+        }
+      });
+
     // });
     // Timer
     this.timer = this.add.text(60, 130, "");
@@ -143,15 +166,16 @@ export class Scene4 extends Scene {
   async toggleFlash() {
     if (!this.track) return;
     const capabilities = this.track.getCapabilities();
-    if (!("torch" in capabilities)) {
+    if (!((capabilities as any) && "torch" in (capabilities as any))) {
       alert("Seu dispositivo não suporta flash via navegador.");
       return;
     }
     try {
       this.flashAtivo = !this.flashAtivo;
+      // torch pode não estar tipado nas defs TS; usar cast any para aplicar
       await this.track.applyConstraints({
         advanced: [{ torch: this.flashAtivo }],
-      });
+      } as any);
       this.flashButton!.innerText = this.flashAtivo
         ? "Desligar Flash"
         : "Ligar Flash";
@@ -184,28 +208,31 @@ export class Scene4 extends Scene {
     if (!this.videoElement || !this.canvasCtx || !this.canvasElement) return;
     const canvasHeight = Math.floor(CamHeight * 0.75);
     const draw = () => {
-      this.canvasCtx.drawImage(
-        this.videoElement!,
-        0,
-        0,
-        CamWidth,
-        canvasHeight
-      );
-      const frame = this.canvasCtx.getImageData(0, 0, CamWidth, canvasHeight);
-      const l = frame.data.length;
-      for (let i = 0; i < l; i += 4) {
-        // Intensifica o vermelho
-        frame.data[i] = Math.min(255, frame.data[i] * 1.5); // R
-        frame.data[i + 1] = 0; // G
-        frame.data[i + 2] = 0; // B
-        // Aumenta opacidade se vermelho for forte
-        if (frame.data[i] > 100) {
-          frame.data[i + 3] = 255;
-        } else {
-          frame.data[i + 3] = 80;
+      const ctx = this.canvasCtx!;
+      const vid = this.videoElement!;
+      // drawImage e ImageData podem lançar se o contexto ou vídeo mudarem; envolver em try
+      try {
+        ctx.drawImage(vid, 0, 0, CamWidth, canvasHeight);
+        const frame = ctx.getImageData(0, 0, CamWidth, canvasHeight);
+        const l = frame.data.length;
+        for (let i = 0; i < l; i += 4) {
+          // Intensifica o vermelho
+          frame.data[i] = Math.min(255, frame.data[i] * 1.5); // R
+          frame.data[i + 1] = 0; // G
+          frame.data[i + 2] = 0; // B
+          // Aumenta opacidade se vermelho for forte
+          if (frame.data[i] > 100) {
+            frame.data[i + 3] = 255;
+          } else {
+            frame.data[i + 3] = 80;
+          }
         }
+        ctx.putImageData(frame, 0, 0);
+      } catch (err) {
+        // se ocorrer algum erro (ex: vídeo removido), cancelamos a animação
+        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+        return;
       }
-      this.canvasCtx.putImageData(frame, 0, 0);
       this.animationFrameId = requestAnimationFrame(draw);
     };
     draw();
