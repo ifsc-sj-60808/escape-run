@@ -135,7 +135,7 @@ export class Scene4 extends Scene {
     try {
       this.flashAtivo = !this.flashAtivo;
       await this.track.applyConstraints({
-        advanced: [{ torch: this.flashAtivo }],
+        advanced: [{ torch: this.flashAtivo } as any],
       });
       this.flashButton!.innerText = this.flashAtivo
         ? "Desligar Flash"

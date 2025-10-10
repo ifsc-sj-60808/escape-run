@@ -1,4 +1,5 @@
 import { Types } from "phaser";
+import { Scene0 } from "./scenes/scene0";
 import { Scene1 } from "./scenes/scene1";
 import { Scene2 } from "./scenes/scene2";
 import { Scene3 } from "./scenes/scene3";
@@ -16,7 +17,17 @@ const config: Types.Core.GameConfig = {
   input: {
     gamepad: true,
   },
-  scene: [Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene7, Scene8],
+  scene: [
+    Scene0,
+    Scene1,
+    Scene2,
+    Scene3,
+    Scene4,
+    Scene5,
+    Scene6,
+    Scene7,
+    Scene8,
+  ],
   physics: {
     default: "arcade",
     arcade: {
