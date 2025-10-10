@@ -1,12 +1,9 @@
 import { Scene } from "phaser";
 import MultiPlayerGame from "../main";
+
 var CamHeight = 600;
 var CamWidth = CamHeight * (9 / 16);
 export class Scene4 extends Scene {
-  canvasElement?: HTMLCanvasElement;
-  canvasCtx?: CanvasRenderingContext2D;
-  animationFrameId?: number;
-  redRevealOverlay?: HTMLDivElement;
   // Timer
   timer!: Phaser.GameObjects.Text;
   videoElement?: HTMLVideoElement;
@@ -16,50 +13,27 @@ export class Scene4 extends Scene {
   track?: MediaStreamTrack;
   filtroAtivo: boolean = false;
   flashAtivo: boolean = false;
-  cameraStarted: boolean = false;
 
   constructor() {
     super({ key: "Scene4" });
   }
 
   preload() {
-    this.load.image("Background", "assets/Scene4/fundo-camera.jpg");
-    this.load.image("Visor", "assets/Scene4/visor-camera.jpg");
+    this.load.image("Background", "assets/Scene4/Background.png");
+    //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add
-      .image(220, 400, "Background")
-      .setInteractive()
-      .on("pointerdown", () => {
-        // Se a câmera já foi iniciada e o visor está sendo mostrado, fecha/limpa tudo
-        if (this.cameraStarted && this.videoElement) {
-          this.add.image(220, 400, "Visor");
+    this.add.image(220, 400, "Background");
 
-          this.videoElement.pause();
-          this.videoElement.srcObject = null;
-          this.videoElement.remove();
-          this.videoElement = undefined;
-
-          if (this.flashButton) {
-            this.flashButton.remove();
-            this.flashButton = undefined;
-          }
-          if (this.filtroButton) {
-            this.filtroButton.remove();
-            this.filtroButton = undefined;
-          }
-          if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
-          this.stream = undefined;
-          this.track = undefined;
-          this.cameraStarted = false;
-        } else if (!this.cameraStarted) {
-          // Primeiro toque: inicia a câmera
-          this.cameraStarted = true;
-          this.startCamera();
-        }
-      });
-
+    if (this.videoElement) {
+      this.videoElement.pause();
+      this.videoElement.srcObject = null;
+      this.videoElement.remove();
+    }
+    if (this.flashButton) this.flashButton.remove();
+    if (this.filtroButton) this.filtroButton.remove();
+    if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
     // });
     // Timer
     this.timer = this.add.text(60, 130, "");
@@ -71,9 +45,13 @@ export class Scene4 extends Scene {
   update() {
     // Timer
     this.timer.setText(
-      `${(this.game as typeof MultiPlayerGame).minutes}:${
-        (this.game as typeof MultiPlayerGame).seconds
-      }`
+      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
+        2,
+        "0"
+      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
+        2,
+        "0"
+      )}`
     );
   }
 
@@ -98,22 +76,6 @@ export class Scene4 extends Scene {
         this.videoElement.style.pointerEvents = "none"; // Não interfere nos cliques do Phaser
         this.videoElement.srcObject = mediaStream;
         document.body.appendChild(this.videoElement);
-
-        // Cria canvas para efeito red reveal (esteganografia)
-        this.canvasElement = document.createElement("canvas");
-        this.canvasElement.width = CamWidth;
-        this.canvasElement.height = Math.floor(CamHeight * 0.75);
-        this.canvasElement.style.position = "absolute";
-        this.canvasElement.style.top = this.videoElement.style.top;
-        this.canvasElement.style.left = this.videoElement.style.left;
-        this.canvasElement.style.width = this.videoElement.style.width;
-        this.canvasElement.style.height = Math.floor(CamHeight * 0.75) + "px";
-        this.canvasElement.style.transform = this.videoElement.style.transform;
-        this.canvasElement.style.zIndex = "11";
-        this.canvasElement.style.pointerEvents = "none";
-        this.canvasElement.style.display = "none";
-        document.body.appendChild(this.canvasElement);
-        this.canvasCtx = this.canvasElement.getContext("2d")!;
 
         // Adiciona botões após o vídeo ser adicionado
         this.addControlButtons();
@@ -166,16 +128,15 @@ export class Scene4 extends Scene {
   async toggleFlash() {
     if (!this.track) return;
     const capabilities = this.track.getCapabilities();
-    if (!((capabilities as any) && "torch" in (capabilities as any))) {
+    if (!("torch" in capabilities)) {
       alert("Seu dispositivo não suporta flash via navegador.");
       return;
     }
     try {
       this.flashAtivo = !this.flashAtivo;
-      // torch pode não estar tipado nas defs TS; usar cast any para aplicar
       await this.track.applyConstraints({
         advanced: [{ torch: this.flashAtivo }],
-      } as any);
+      });
       this.flashButton!.innerText = this.flashAtivo
         ? "Desligar Flash"
         : "Ligar Flash";
@@ -185,56 +146,27 @@ export class Scene4 extends Scene {
   }
 
   toggleFiltro() {
-    if (!this.videoElement || !this.canvasElement || !this.canvasCtx) return;
+    if (!this.videoElement) return;
     this.filtroAtivo = !this.filtroAtivo;
     if (this.filtroAtivo) {
-      this.canvasElement.style.display = "block";
-      this.videoElement.style.visibility = "hidden";
+      this.videoElement.style.filter =
+        "brightness(0.7) sepia(1) hue-rotate(-50deg) saturate(6)";
+      // Ajusta a sombra para o tamanho do vídeo
+      const w = this.videoElement.offsetWidth;
+      const h = this.videoElement.offsetHeight;
+      this.videoElement.style.boxShadow = `${Math.max(
+        CamWidth,
+        CamHeight
+      )}px rgba(255,0,0,0.2) inset`;
       this.filtroButton!.innerText = "Desativar Filtro";
       this.filtroButton!.style.width = "10em";
       this.flashButton!.style.left = "25%";
-      this.startRedReveal();
     } else {
-      this.canvasElement.style.display = "none";
-      this.videoElement.style.visibility = "visible";
+      this.videoElement.style.filter = "";
+      this.videoElement.style.boxShadow = "";
       this.filtroButton!.innerText = "Ativar Filtro";
       this.filtroButton!.style.width = "8em";
       this.flashButton!.style.left = "30%";
-      if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
     }
-  }
-
-  startRedReveal() {
-    if (!this.videoElement || !this.canvasCtx || !this.canvasElement) return;
-    const canvasHeight = Math.floor(CamHeight * 0.75);
-    const draw = () => {
-      const ctx = this.canvasCtx!;
-      const vid = this.videoElement!;
-      // drawImage e ImageData podem lançar se o contexto ou vídeo mudarem; envolver em try
-      try {
-        ctx.drawImage(vid, 0, 0, CamWidth, canvasHeight);
-        const frame = ctx.getImageData(0, 0, CamWidth, canvasHeight);
-        const l = frame.data.length;
-        for (let i = 0; i < l; i += 4) {
-          // Intensifica o vermelho
-          frame.data[i] = Math.min(255, frame.data[i] * 1.5); // R
-          frame.data[i + 1] = 0; // G
-          frame.data[i + 2] = 0; // B
-          // Aumenta opacidade se vermelho for forte
-          if (frame.data[i] > 100) {
-            frame.data[i + 3] = 255;
-          } else {
-            frame.data[i + 3] = 80;
-          }
-        }
-        ctx.putImageData(frame, 0, 0);
-      } catch (err) {
-        // se ocorrer algum erro (ex: vídeo removido), cancelamos a animação
-        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
-        return;
-      }
-      this.animationFrameId = requestAnimationFrame(draw);
-    };
-    draw();
   }
 }
