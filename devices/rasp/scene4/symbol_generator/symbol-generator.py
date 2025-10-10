@@ -3,11 +3,11 @@ import numpy as np
 import random
 
 # Input symbol files
-MAIN_SYMBOL = "symbols/upsidedowny.png"  # true (red)
-CYAN_DECOY = "symbols/meltedthree.png"  # cyan decoy
-BLUE_DECOY = "symbols/tripod.png"  # blue decoy
-GREEN_DECOY = "symbols/cursive.png"  # green decoy
-OUTPUT_IMAGE = "stego-images/upsidedowny-stego.png"
+MAIN_SYMBOL = "P8CII/cat.png"  # true (red)
+CYAN_DECOY = "P8CII/dots.png"  # cyan decoy
+BLUE_DECOY = "P8CII/music.png"  # blue decoy
+GREEN_DECOY = "P8CII/house.png"  # green decoy
+OUTPUT_IMAGE = "P8CII-stego/cat-stego.png"
 
 IMG_SIZE = (512, 512)
 
@@ -37,13 +37,13 @@ def generate_dithered_multi(main_mask, cyan_mask, blue_mask, green_mask, img_siz
             if green_mask[y, x] and random.random() < 0.6:
                 pixel = [0, 255, 128]
 
-            # Main RED symbol
-            if main_mask[y, x] and random.random() < 0.6:
-                pixel = [random.randint(120, 255), 0, 0]
-
             # Blue decoy
             if blue_mask[y, x] and random.random() < 0.6:
                 pixel = [0, 0, random.randint(120, 255)]
+
+            # Main RED symbol
+            if main_mask[y, x] and random.random() < 0.6:
+                pixel = [random.randint(120, 255), 0, 0]
 
             # Cyan decoy (Capri)
             if cyan_mask[y, x] and random.random() < 0.6:
