@@ -23,10 +23,23 @@ export class Scene0 extends Scene {
   }
 
   create() {
-    this.add.image(225, 400, "scene0-background");
+    this.add
+      .image(225, 400, "scene0-background")
+      .setInteractive()
+      .on("pointerdown", () => {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then(() => {
+            if (this.scale.isFullscreen) {
+              this.scale.stopFullscreen();
+            } else {
+              this.scale.startFullscreen();
+            }
+          });
+      });
 
     this.rules =
-      "Regras do jogo:\n\n- Duração de 30 minutos.\n- Sem interação\n  com os atores.";
+      "Regras do jogo:\n- Duração de 30 minutos.\n- Sem interação com os\n  atores.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.";
 
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
