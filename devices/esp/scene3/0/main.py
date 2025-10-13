@@ -10,6 +10,7 @@ led = Pin(2, Pin.OUT)
 led2 = Pin(23, Pin.OUT)
 game_started = Pin(12, Pin.OUT)
 gerador = Pin(14, Pin.OUT)
+talk_esp01 = Pin(27, Pin.OUT)
 
 
 wifi_ssid = 'escape-run'
@@ -28,6 +29,7 @@ def setup():
     gerador.on()
     gerador.off()
     led2.on()
+    talk_esp01.on()
 
 
 def blink():
@@ -36,6 +38,10 @@ def blink():
         led.off()
         sleep(0.1)
         led.on()
+
+def talk_esp01_on():
+   #se comunica com a esp01
+    pass
 
 
 def panic():
