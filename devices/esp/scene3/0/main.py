@@ -1,4 +1,4 @@
-##Codigo MQTT RaspBerryPI.py teste1
+##Codigo MQTT Esp0 
 
 
 from machine import Pin, reset
@@ -9,7 +9,7 @@ from time import sleep
 led = Pin(2, Pin.OUT)
 led2 = Pin(23, Pin.OUT)
 game_started = Pin(12, Pin.OUT)
-
+gerador = Pin(14, Pin.OUT)
 
 wifi_ssid = 'escape-run'
 wifi_password = 'escape-run'
@@ -24,8 +24,10 @@ mqtt_topic_publish = 'escape-run/player/msg'
 def setup():
     led.off()
     game_start()
+    gerador.on()
+    gerador.off()
+    led2.on()
     
-
 
     
 
@@ -46,7 +48,11 @@ def game_start():
     # Iniciar o jogo
     pass
 
+    def gerador_on():
+        gerador.value(1)
 
+    def gerador_off():
+        gerador.value(0)
 
     
 def connect_wifi():
@@ -80,6 +86,10 @@ def callback(topic, payload):
         blink()
     elif msg == 'panic':
         panic()
+    elif msg == 'gerador_on':
+        gerador.on()
+    elif msg == 'gerador_off':
+        gerador.off()
     elif msg == 'start':
         game_start()
    
