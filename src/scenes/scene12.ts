@@ -2,11 +2,11 @@ import { Scene } from "phaser";
 import MultiPlayerGame from "../main";
 import WebFont from "webfontloader";
 
-export class Scene1 extends Scene {
+export class Scene12 extends Scene {
   display!: Phaser.GameObjects.Text;
 
   constructor() {
-    super({ key: "Scene1" });
+    super({ key: "Scene12" });
   }
 
   init() {
@@ -17,19 +17,7 @@ export class Scene1 extends Scene {
     });
   }
 
-  preload() {
-    this.load.image("scene1-background", "assets/scene1/background.png");
-
-    this.display = this.add.text(25, 25, "", {
-      fontFamily: "Sixtyfour",
-      fontSize: "16px",
-      color: "#ff00ff",
-    });
-  }
-
   create() {
-    this.add.image(225, 400, "scene1-background");
-
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
