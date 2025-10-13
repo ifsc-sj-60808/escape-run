@@ -3,7 +3,7 @@ import MultiPlayerGame from "../main";
 import WebFont from "webfontloader";
 
 export class Scene1 extends Scene {
-  scene1Display!: Phaser.GameObjects.Text;
+  display!: Phaser.GameObjects.Text;
 
   constructor() {
     super({ key: "Scene1" });
@@ -24,7 +24,7 @@ export class Scene1 extends Scene {
   create() {
     this.add.image(225, 400, "scene1-background");
 
-    this.scene1Display = this.add.text(25, 25, "", {
+    this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
       color: "#ff00ff",
@@ -32,7 +32,7 @@ export class Scene1 extends Scene {
   }
 
   update() {
-    this.scene1Display.setText(
+    this.display.setText(
       `[${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
       }]`
