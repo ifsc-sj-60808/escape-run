@@ -4,7 +4,7 @@ sync:
 	sudo git pull
 
 clean:
-	npm run clean
+	sudo npm run clean
 
 build:
-	npm run build
+	sudo npm run build
