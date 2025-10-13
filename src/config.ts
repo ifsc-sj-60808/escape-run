@@ -7,7 +7,7 @@ import { Scene4 } from "./scenes/scene4";
 import { Scene5 } from "./scenes/scene5";
 import { Scene6 } from "./scenes/scene6";
 import { Scene7 } from "./scenes/scene7";
-import { Scene8 } from "./scenes/scene8";
+import { Scene8 } from "./scenes/scene11";
 
 const config: Types.Core.GameConfig = {
   type: Phaser.AUTO,

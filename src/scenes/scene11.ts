@@ -9,7 +9,7 @@ interface Button {
   sprite?: Phaser.GameObjects.Sprite;
 }
 
-export class Scene8 extends Scene {
+export class Scene11 extends Scene {
   // Timer
   timer!: Phaser.GameObjects.Text;
 
@@ -22,7 +22,7 @@ export class Scene8 extends Scene {
   enter!: Phaser.GameObjects.Sprite;
 
   constructor() {
-    super({ key: "Scene8" });
+    super({ key: "Scene11" });
   }
 
   init() {
@@ -35,16 +35,16 @@ export class Scene8 extends Scene {
 
   preload() {
     // Background
-    this.load.image("scene8-background", "assets/scene8/numpad.png");
+    this.load.image("scene8-background", "assets/scene11/numpad.png");
 
     // Numpad
-    this.load.image("void", "assets/scene8/void.png");
-    this.load.image("void-3x", "assets/scene8/void-3x.png");
+    this.load.image("void", "assets/scene11/void.png");
+    this.load.image("void-3x", "assets/scene11/void-3x.png");
   }
 
   create() {
     //Background
-    this.add.image(225, 400, "scene8-background");
+    this.add.image(225, 400, "scene11-background");
 
     // Timer
     this.timer = this.add.text(50, 700, "", {
