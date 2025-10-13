@@ -9,6 +9,7 @@ from time import sleep
 led = Pin(2, Pin.OUT)
 led2 = Pin(23, Pin.OUT)
 game_started = Pin(12, Pin.OUT)
+gerador = Pin(14, Pin.OUT)
 
 
 wifi_ssid = 'escape-run'
@@ -24,10 +25,10 @@ mqtt_topic_publish = 'escape-run/player/msg'
 def setup():
     led.off()
     game_start()
-    
+    gerador.on()
+    gerador.off()
+    led2.on()
 
-
-    
 
 def blink():
     for _ in range(3):
@@ -46,6 +47,10 @@ def game_start():
     # Iniciar o jogo
     pass
 
+def gerador_on():
+    gerador.value(1)
+def gerador_off():
+    gerador.value(0)
 
 
     
@@ -80,6 +85,10 @@ def callback(topic, payload):
         blink()
     elif msg == 'panic':
         panic()
+    elif msg == 'gerador_on':
+        gerador_on()
+    elif msg == 'gerador_off':
+        gerador_off()
     elif msg == 'start':
         game_start()
    
