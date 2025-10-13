@@ -3,8 +3,8 @@ import MultiPlayerGame from "../main";
 import WebFont from "webfontloader";
 
 export class Scene0 extends Scene {
-  rules!: string;
-  display!: Phaser.GameObjects.Text;
+  scene0Rules!: string;
+  scene0Display!: Phaser.GameObjects.Text;
 
   constructor() {
     super({ key: "Scene0" });
@@ -38,10 +38,10 @@ export class Scene0 extends Scene {
           });
       });
 
-    this.rules =
+    this.scene0Rules =
       "Regras do jogo:\n- Duração de 30 minutos.\n- Sem interação com os\n  atores.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.";
 
-    this.display = this.add.text(25, 25, "", {
+    this.scene0Display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
       color: "#ff00ff",
@@ -49,10 +49,10 @@ export class Scene0 extends Scene {
   }
 
   update() {
-    this.display.setText(
+    this.scene0Display.setText(
       `[${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
-      }]\n\n${this.rules}`
+      }]\n\n${this.scene0Rules}`
     );
   }
 }
