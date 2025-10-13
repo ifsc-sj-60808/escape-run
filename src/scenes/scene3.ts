@@ -1,111 +1,235 @@
 import { Scene } from "phaser";
+import MultiPlayerGame from "../main";
 
+interface Key {
+  x: number;
+  y: number;
+  image: string;
+  text: string;
+  code: string;
+  sound?: Phaser.Sound.BaseSound;
+  sprite?: Phaser.GameObjects.Sprite;
+}
 export class Scene3 extends Scene {
-  map!: Phaser.Tilemaps.Tilemap;
-  allTiles: Phaser.Tilemaps.TilemapLayer | any;
-  tileset: Phaser.Tilemaps.Tileset | any;
-  player: Phaser.Physics.Arcade.Sprite | any;
-  alien!: Phaser.Physics.Arcade.Sprite;
-  keyboard!: Phaser.Types.Input.Keyboard.CursorKeys;
-  cursors!: Phaser.Types.Input.Keyboard.CursorKeys | any;
+  // Timer
+  timer!: Phaser.GameObjects.Text;
+
+  // Piano
+  keys!: Key[];
+  do!: Phaser.Sound.BaseSound;
+  dos!: Phaser.Sound.BaseSound;
+  re!: Phaser.Sound.BaseSound;
+  res!: Phaser.Sound.BaseSound;
+  mi!: Phaser.Sound.BaseSound;
+  fa!: Phaser.Sound.BaseSound;
+  fas!: Phaser.Sound.BaseSound;
+  sol!: Phaser.Sound.BaseSound;
+  sols!: Phaser.Sound.BaseSound;
+  la!: Phaser.Sound.BaseSound;
+  las!: Phaser.Sound.BaseSound;
+  si!: Phaser.Sound.BaseSound;
+  password!: string;
+  enter!: Phaser.GameObjects.Sprite;
+  display!: Phaser.GameObjects.Text;
+  clear!: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({ key: "Scene3" });
   }
 
   preload() {
-    this.load.tilemapTiledJSON("scene3", "assets/scene3/tilemap.json");
-    this.load.image(
-      "TileMapLayerPiloto",
-      "assets/scene3/TileMapLayerPiloto.png"
-    );
-    this.load.spritesheet("alien", "assets/scene3/alien.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
+    // Background
+    this.load.image("background", "assets/scene3/background.png");
+
+    // Piano
+    this.load.image("keyBlack", "assets/scene3/keyBlack.png"); // imagem das teclas pretas
+    this.load.image("keyWhite", "assets/scene3/keyWhite.png"); // imagem das teclas brancas
+    this.load.image("enter", "assets/scene3/enter.png"); // imagem do botão enter
+    this.load.image("clear", "assets/scene3/clear.png"); // imagem do botão clear
+    this.load.audio("do", "assets/scene3/do.mp3"); // som da tecla dó
+    this.load.audio("dos", "assets/scene3/dos.mp3"); // som da tecla dó sustenido
+    this.load.audio("re", "assets/scene3/re.mp3"); // som da tecla ré
+    this.load.audio("res", "assets/scene3/res.mp3"); // som da tecla ré sustenido
+    this.load.audio("mi", "assets/scene3/mi.mp3"); // som da tecla mi
+    this.load.audio("fa", "assets/scene3/fa.mp3"); // som da tecla fá
+    this.load.audio("fas", "assets/scene3/fas.mp3"); // som da tecla fá sustenido
+    this.load.audio("sol", "assets/scene3/sol.mp3"); // som da tecla sol
+    this.load.audio("sols", "assets/scene3/sols.mp3"); // som da tecla sol sustenido
+    this.load.audio("la", "assets/scene3/la.mp3"); // som da tecla lá
+    this.load.audio("las", "assets/scene3/las.mp3"); // som da tecla lá sustenido
+    this.load.audio("si", "assets/scene3/si.mp3"); // som da tecla si
   }
 
   create() {
-    // --- MAP ---
-    this.map = this.make.tilemap({ key: "scene3" });
-    this.tileset = this.map.addTilesetImage("TileMapLayerPiloto");
+    // Background
+    this.add.image(225, 400, "background");
 
-    if (this.tileset)
-      this.allTiles = this.map.createLayer("layer1", this.tileset, 0, 0);
+    // Timer
+    this.timer = this.add.text(50, 100, "");
 
-    // --- PLAYER ---
-    this.player = this.physics.add.sprite(400, 450, "persona");
-    this.player.setCollideWorldBounds(true);
+    // Piano
+    this.display = this.add.text(50, 150, "");
+    this.do = this.sound.add("do");
+    this.dos = this.sound.add("dos");
+    this.re = this.sound.add("re");
+    this.res = this.sound.add("res");
+    this.mi = this.sound.add("mi");
+    this.fa = this.sound.add("fa");
+    this.fas = this.sound.add("fas");
+    this.sol = this.sound.add("sol");
+    this.sols = this.sound.add("sols");
+    this.la = this.sound.add("la");
+    this.las = this.sound.add("las");
+    this.si = this.sound.add("si");
 
-    // --- WORLD SIZE (tilemap dimensions) ---
-    const worldW = this.map.widthInPixels;
-    const worldH = this.map.heightInPixels;
-    this.physics.world.setBounds(0, 0, worldW, worldH);
+    this.password = "";
 
-    // --- CAMERA ---
-    const cam = this.cameras.main;
+    this.keys = [
+      {
+        x: 32,
+        y: 320,
+        image: "keyWhite",
+        text: "Dó",
+        code: "c",
+        sound: this.do,
+      },
+      {
+        x: 96,
+        y: 320,
+        image: "keyWhite",
+        text: "Ré",
+        code: "d",
+        sound: this.re,
+      },
+      {
+        x: 160,
+        y: 320,
+        image: "keyWhite",
+        text: "Mi",
+        code: "e",
+        sound: this.mi,
+      },
+      {
+        x: 224,
+        y: 320,
+        image: "keyWhite",
+        text: "Fá",
+        code: "f",
+        sound: this.fa,
+      },
+      {
+        x: 288,
+        y: 320,
+        image: "keyWhite",
+        text: "Sol",
+        code: "g",
+        sound: this.sol,
+      },
+      {
+        x: 352,
+        y: 320,
+        image: "keyWhite",
+        text: "Lá",
+        code: "a",
+        sound: this.la,
+      },
+      {
+        x: 416,
+        y: 320,
+        image: "keyWhite",
+        text: "Si",
+        code: "b",
+        sound: this.si,
+      },
+      {
+        x: 64,
+        y: 285,
+        image: "keyBlack",
+        text: "Do#",
+        code: "C",
+        sound: this.dos,
+      },
+      {
+        x: 128,
+        y: 285,
+        image: "keyBlack",
+        text: "Ré#",
+        code: "D",
+        sound: this.res,
+      },
+      {
+        x: 256,
+        y: 285,
+        image: "keyBlack",
+        text: "Fá#",
+        code: "F",
+        sound: this.fas,
+      },
+      {
+        x: 320,
+        y: 285,
+        image: "keyBlack",
+        text: "Sol#",
+        code: "G",
+        sound: this.sols,
+      },
+      {
+        x: 384,
+        y: 285,
+        image: "keyBlack",
+        text: "Lá#",
+        code: "A",
+        sound: this.las,
+      },
+    ];
 
-    // crop viewport: 450×600, centered inside 450×800 canvas
-    const VIEW_W = 450;
-    const VIEW_H = 600;
-    const offsetX = 0;
-    const offsetY = (800 - VIEW_H) / 2; // = 100
-    cam.setViewport(offsetX, offsetY, VIEW_W, VIEW_H);
+    // Botão clear
+    this.clear = this.physics.add
+      .sprite(75, 700, "clear")
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.password = "";
+        this.display.setText("");
+      });
 
-    //cam.setBounds(0, 0, worldW, worldH);
-    cam.startFollow(this.player, true, 0.1, 0.1); // smooth follow
-    cam.setBackgroundColor("#000"); // black bars outside viewport
+    // Botão enter
+    this.enter = this.physics.add
+      .sprite(375, 700, "enter")
+      .setInteractive()
+      .on("pointerdown", () => {
+        (this.game as typeof MultiPlayerGame).mqttClient.publish(
+          "escape-run/devices/scene2/chest",
+          this.password
+        );
 
-    // --- GAMEPAD ---
-    if (this.input.gamepad) {
-      this.input.gamepad.once(
-        "connected",
-        (pad: Phaser.Input.Gamepad.Gamepad) => {
-          console.log("Gamepad connected!");
-          pad.on(
-            "down",
-            (button: Phaser.Input.Gamepad.Button, value: number) => {
-              console.log("Button down:", button, "Value:", value);
-            }
-          );
-        }
-      );
-    }
+        this.password = "";
+        this.display.setText("");
+      });
 
-    this.map = this.make.tilemap({ key: "scene3" });
-    this.tileset = this.map.addTilesetImage("TileMapLayerPiloto");
-    if (this.tileset)
-      this.allTiles = this.map.createLayer("layer1", this.tileset, 0, 0);
+    this.keys.forEach((key) => {
+      key.sprite = this.physics.add
+        .sprite(key.x, key.y, key.image)
+        .setInteractive()
+        .on("pointerdown", () => {
+          if (key.sound) key.sound.play();
+          if (this.password.length < 5) this.password += key.code;
+          this.display.setText(this.display.text + key.text + " ");
+        });
 
-    //alien
-    this.alien = this.physics.add.sprite(225, 400, "alien", 30);
-    this.anims.create({
-      key: "left",
-      frames: this.anims.generateFrameNumbers("alien", {
-        start: 9,
-        end: 17,
-      }),
-      frameRate: 10,
-      repeat: -1,
+      this.add.text(key.x - 10, key.y + 60, key.text, {
+        fontSize: "12px",
+        color: "#881753",
+        fontStyle: "bold",
+      });
     });
-    this.alien.play("left");
-    this.alien.play("right");
-
-    this.player = this.physics.add.sprite(100, 100, "player");
   }
 
   update() {
-    //Gamepad
-    if (this.input.gamepad) {
-      if (this.input.gamepad.total > 0) {
-        const pad = this.input.gamepad.getPad(0);
-        const axisH = pad.axes[0].getValue();
-        const axisV = pad.axes[1].getValue();
-        console.log(axisH, axisV);
-        this.alien.setVelocity(axisH * 200, axisV * 200);
-      } else {
-        this.alien.setVelocity(1, 0);
-      }
-    }
+    // Timer
+    this.timer.setText(
+      `${(this.game as typeof MultiPlayerGame).minutes}:${
+        (this.game as typeof MultiPlayerGame).seconds
+      }`
+    );
   }
 }
