@@ -1,21 +1,55 @@
 import { Scene } from "phaser";
+import MultiPlayerGame from "../main";
 
+var CamHeight = 600;
+var CamWidth = CamHeight * (9 / 16);
 export class Scene6 extends Scene {
+  // Timer
+  timer!: Phaser.GameObjects.Text;
+  videoElement?: HTMLVideoElement;
+  flashButton?: HTMLButtonElement;
+  filtroButton?: HTMLButtonElement;
+  stream?: MediaStream;
+  track?: MediaStreamTrack;
+  filtroAtivo: boolean = false;
+  flashAtivo: boolean = false;
+
   constructor() {
     super({ key: "Scene6" });
   }
 
   preload() {
-    this.load.image("boi", "assets/scene6/medo.jpg");
+    this.load.image("Background", "assets/Scene5/Background.png");
+    //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add
-      .image(400, 225, "medo")
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.stop();
-        this.scene.start("Preloader");
-      });
+    this.add.image(220, 400, "Background");
+
+    if (this.videoElement) {
+      this.videoElement.pause();
+      this.videoElement.srcObject = null;
+      this.videoElement.remove();
+    }
+    if (this.flashButton) this.flashButton.remove();
+    if (this.filtroButton) this.filtroButton.remove();
+    if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
+    // });
+    // Timer
+    this.timer = this.add.text(60, 130, "");
+
+  }
+
+  update() {
+    // Timer
+    this.timer.setText(
+      `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
+        2,
+        "0"
+      )}:${String((this.game as typeof MultiPlayerGame).seconds).padStart(
+        2,
+        "0"
+      )}`
+    );
   }
 }

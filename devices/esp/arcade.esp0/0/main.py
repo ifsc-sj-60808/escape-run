@@ -29,8 +29,6 @@ def setup():
     led2.on()
     
 
-    
-
 def blink():
     for _ in range(3):
         sleep(0.1)
