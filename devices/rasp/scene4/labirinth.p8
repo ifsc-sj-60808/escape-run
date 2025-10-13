@@ -10,7 +10,20 @@ function _init()
  _p_mov=nil
  t=0
  
- msg=""
+ 	msg=''
+ -- wiringpi pin numbers:
+ clk=0   -- bcm17  (phys 11)
+ dat=1   -- bcm18  (phys 12)
+ stb=2   -- bcm27  (phys 13)
+
+ -- helper: drive a gpio pin to 0 or 1 with serial() for precise timing
+ -- (channel 0..254 maps to a gpio; 0xff is a delay channel)
+ -- manual: serial pin channels & microsecond delays. :contentreference[oaicite:3]{index=3}
+ one  = 0x4301  poke(one, 0xff)
+ zero = 0x4300  poke(zero,0x00)
+
+
+ 
  
  dirx={-1,1,0,0}
  diry={0,0,-1,1}
@@ -34,6 +47,8 @@ function _init()
 	wind={}
 	unfog()
  addwind(32,48,64,24,{"hello world","トロッタハニ"})
+	gpio(1,1)
+	
 end
 
 function _update()
@@ -155,6 +170,9 @@ function get_frame(ani)
 
 end
 
+function gpio(pin, val)
+	serial(pin, val and one or zero, 1)
+end
 
 function rectfill2(_x,_y,_w,_h,_c)
  rectfill(_x,_y,_x+_w-1,_y+_h-1,_c)
