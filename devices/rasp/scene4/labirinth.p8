@@ -10,7 +10,11 @@ function _init()
  _p_mov=nil
  t=0
  
- msg=""
+ 	msg=''
+ -- wiringpi pin numbers:
+ clk=0   -- bcm17  (phys 11)
+ dat=1   -- bcm18  (phys 12)
+ stb=2   -- bcm27  (phys 13)
  
  dirx={-1,1,0,0}
  diry={0,0,-1,1}
@@ -160,7 +164,9 @@ function rectfill2(_x,_y,_w,_h,_c)
  rectfill(_x,_y,_x+_w-1,_y+_h-1,_c)
 end
 
-
+function gpio(pin, val)
+	serial(pin, val and one or zero, 1)
+end
 
 function blankmap(_default)
 	local ret={}
