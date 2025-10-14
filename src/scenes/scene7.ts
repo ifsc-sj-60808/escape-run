@@ -2,113 +2,145 @@ import Phaser from "phaser";
 
 export class Scene7 extends Phaser.Scene {
   private password: string = "";
-  private correctPassword: string = "6666";
   private displayText!: Phaser.GameObjects.Text;
+  private correctPassword: string = "6666";
   private timerText!: Phaser.GameObjects.Text;
-  private timeLeft: number = 600; // 10 minutos
+  private timeLeft: number = parseInt(
+    localStorage.getItem("timer-seconds") || "600"
+  );
 
   constructor() {
     super({ key: "Scene7" });
   }
 
   create() {
-    // Fundo neon
-    this.cameras.main.setBackgroundColor("#0a0014");
+    // Fundo gradiente estilo hacker
+    const bg = this.add.graphics();
+    const gradient = bg.createGradient(0, 0, 0, 800, [
+      { offset: 0, color: 0x000010 },
+      { offset: 1, color: 0x0a0030 },
+    ]);
+    bg.fillGradientStyle(gradient);
+    bg.fillRect(0, 0, 450, 800);
+
+    // Partículas leves de “energia”
+    const particles = this.add.particles(0, 0, "spark", {
+      x: { min: 0, max: 450 },
+      y: { min: 0, max: 800 },
+      lifespan: 4000,
+      speed: 10,
+      scale: { start: 0.02, end: 0 },
+      tint: 0x00ffff,
+      alpha: { start: 0.4, end: 0 },
+      quantity: 1,
+    });
 
     // Título
     this.add
-      .text(this.scale.width / 2, 100, "DIGITE A SENHA PARA\nLIBERAR O COFRE", {
-        fontFamily: "Big Shoulders Display",
+      .text(225, 100, "🔐 ACESSO RESTRITO 🔐", {
+        fontFamily: "monospace",
+        fontSize: "20px",
+        color: "#00ffff",
+      })
+      .setOrigin(0.5);
+
+    // Display da senha
+    this.displayText = this.add
+      .text(225, 180, "----", {
+        fontFamily: "monospace",
         fontSize: "32px",
-        color: "#ff00cc",
-        align: "center",
+        color: "#39ff14",
       })
       .setOrigin(0.5);
 
     // Timer
     this.timerText = this.add
-      .text(this.scale.width / 2, 50, "10:00", {
-        fontFamily: "Big Shoulders Display",
-        fontSize: "40px",
-        color: "#00ccff",
+      .text(225, 50, this.formatTime(this.timeLeft), {
+        fontFamily: "monospace",
+        fontSize: "18px",
+        color: "#00ffff",
       })
       .setOrigin(0.5);
 
-    // Display da senha digitada
-    this.displayText = this.add
-      .text(this.scale.width / 2, 250, "", {
-        fontFamily: "Big Shoulders Display",
-        fontSize: "40px",
-        color: "#ff00cc",
-      })
-      .setOrigin(0.5);
-
-    // Teclado numérico
-    const numbers = [
-      "7",
-      "8",
-      "9",
-      "4",
-      "5",
-      "6",
-      "1",
-      "2",
-      "3",
-      "X",
-      "0",
-      "ENTRAR",
-    ];
-    const startY = 400;
-    const buttonSize = 80;
-    const spacing = 20;
-
-    numbers.forEach((num, i) => {
-      const x = this.scale.width / 2 + ((i % 3) - 1) * (buttonSize + spacing);
-      const y = startY + Math.floor(i / 3) * (buttonSize + spacing);
-
-      const btn = this.add
-        .text(x, y, num, {
-          fontFamily: "Big Shoulders Display",
-          fontSize: "36px",
-          color:
-            num === "ENTRAR" ? "#00ccff" : num === "X" ? "#ff3366" : "#ff00cc",
-        })
-        .setOrigin(0.5)
-        .setPadding(16)
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => this.handleInput(num));
-    });
-
-    // Timer
+    // Inicia contagem regressiva
     this.time.addEvent({
       delay: 1000,
       loop: true,
       callback: () => {
         if (this.timeLeft > 0) {
           this.timeLeft--;
-          const min = Math.floor(this.timeLeft / 60);
-          const sec = this.timeLeft % 60;
-          this.timerText.setText(
-            `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
-          );
+          localStorage.setItem("timer-seconds", this.timeLeft.toString());
+          this.timerText.setText(this.formatTime(this.timeLeft));
         }
       },
     });
+
+    // Criação dos botões numéricos
+    const buttonValues = [
+      ["1", "2", "3"],
+      ["4", "5", "6"],
+      ["7", "8", "9"],
+      ["X", "0", "OK"],
+    ];
+
+    buttonValues.forEach((row, rowIndex) => {
+      row.forEach((value, colIndex) => {
+        const x = 140 + colIndex * 60;
+        const y = 300 + rowIndex * 70;
+
+        const button = this.add
+          .rectangle(x, y, 50, 50, 0x002244)
+          .setStrokeStyle(2, 0x00ffff)
+          .setInteractive({ useHandCursor: true });
+
+        const label = this.add
+          .text(x, y, value, {
+            fontFamily: "monospace",
+            fontSize: "22px",
+            color: "#00ffff",
+          })
+          .setOrigin(0.5);
+
+        // Efeitos de hover
+        button.on("pointerover", () => {
+          button.setFillStyle(0x004488);
+          this.tweens.add({
+            targets: label,
+            scale: 1.2,
+            duration: 150,
+            yoyo: true,
+          });
+        });
+        button.on("pointerout", () => button.setFillStyle(0x002244));
+
+        // Clique do botão
+        button.on("pointerdown", () => this.handleInput(value));
+      });
+    });
   }
 
-  handleInput(value: string) {
+  private handleInput(value: string) {
     if (value === "X") {
       this.password = "";
-    } else if (value === "ENTRAR") {
+      this.displayText.setText("----");
+    } else if (value === "OK") {
       if (this.password === this.correctPassword) {
         this.scene.start("Scene8");
       } else {
-        alert("Senha incorreta. Tente novamente.");
+        this.cameras.main.shake(200, 0.02);
+        this.displayText.setText("ERRO");
+        this.time.delayedCall(1000, () => this.displayText.setText("----"));
         this.password = "";
       }
     } else {
-      this.password += value;
+      if (this.password.length < 4) this.password += value;
+      this.displayText.setText(this.password.padEnd(4, "-"));
     }
-    this.displayText.setText(this.password);
+  }
+
+  private formatTime(sec: number): string {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   }
 }
