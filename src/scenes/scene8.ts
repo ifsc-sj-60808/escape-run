@@ -2,71 +2,76 @@ import Phaser from "phaser";
 
 export class Scene8 extends Phaser.Scene {
   private timerText!: Phaser.GameObjects.Text;
-  private timeLeft: number = parseInt(
-    localStorage.getItem("timer-seconds") || "600"
-  );
+  private timeLeft: number = 600;
 
   constructor() {
-    super({ key: "Scene8" });
+    super("Scene8");
   }
 
   create() {
-    // Fundo futurista com roxo neon
-    const bg = this.add.graphics();
-    const gradient = bg.createGradient(0, 0, 0, 800, [
-      { offset: 0, color: 0x080022 },
-      { offset: 1, color: 0x1a0044 },
-    ]);
-    bg.fillGradientStyle(gradient);
-    bg.fillRect(0, 0, 450, 800);
+    // Fundo gradiente roxo → azul
+    const graphics = this.add.graphics();
+    const gradient = graphics.createLinearGradient(0, 0, 0, 800);
+    gradient.addColorStop(0, "#1a0033");
+    gradient.addColorStop(1, "#000022");
+    graphics.fillGradientStyle(0, 0, 0, 1);
+    graphics.fillRect(0, 0, 450, 800);
 
-    // Texto de status
+    // Título
     this.add
-      .text(225, 100, "✅ ACESSO CONCEDIDO ✅", {
+      .text(225, 100, "JOGO INICIADO", {
         fontFamily: "monospace",
-        fontSize: "20px",
-        color: "#00ffff",
+        fontSize: "38px",
+        color: "#b84cff",
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setShadow(0, 0, "#b84cff", 20, true, true);
 
+    // Texto central
     this.add
-      .text(225, 160, "O cofre foi aberto.\nContinue a missão.", {
-        fontFamily: "monospace",
-        fontSize: "16px",
-        color: "#39ff14",
-        align: "center",
-      })
-      .setOrigin(0.5);
+      .text(
+        225,
+        250,
+        "APÓS COLETAR O BARALHO\nDENTRO DO COFRE,\nSENTEM-SE E AGUARDEM.\n\nAPENAS DOIS SOBREVIVERÃO.",
+        {
+          fontFamily: "monospace",
+          fontSize: "20px",
+          color: "#4dcaff",
+          align: "center",
+          wordWrap: { width: 400 },
+        }
+      )
+      .setOrigin(0.5)
+      .setShadow(0, 0, "#4dcaff", 10, true, true);
 
-    // Timer persistente
+    // Timer
     this.timerText = this.add
-      .text(225, 50, this.formatTime(this.timeLeft), {
+      .text(225, 720, "10:00", {
         fontFamily: "monospace",
-        fontSize: "18px",
-        color: "#00ffff",
+        fontSize: "48px",
+        color: "#ff33cc",
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setShadow(0, 0, "#ff33cc", 15, true, true);
 
-    // Atualiza o timer
+    // Timer loop
     this.time.addEvent({
       delay: 1000,
       loop: true,
       callback: () => {
         if (this.timeLeft > 0) {
           this.timeLeft--;
-          localStorage.setItem("timer-seconds", this.timeLeft.toString());
-          this.timerText.setText(this.formatTime(this.timeLeft));
+          this.updateTimer();
         }
       },
     });
-
-    // Animação suave de transição
-    this.cameras.main.fadeIn(800, 0, 0, 0);
   }
 
-  private formatTime(sec: number): string {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  updateTimer() {
+    const min = Math.floor(this.timeLeft / 60);
+    const sec = this.timeLeft % 60;
+    this.timerText.setText(
+      `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
+    );
   }
 }

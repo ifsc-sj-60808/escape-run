@@ -2,145 +2,136 @@ import Phaser from "phaser";
 
 export class Scene7 extends Phaser.Scene {
   private password: string = "";
-  private displayText!: Phaser.GameObjects.Text;
   private correctPassword: string = "6666";
+  private displayText!: Phaser.GameObjects.Text;
   private timerText!: Phaser.GameObjects.Text;
-  private timeLeft: number = parseInt(
-    localStorage.getItem("timer-seconds") || "600"
-  );
+  private timeLeft: number = 600;
 
   constructor() {
-    super({ key: "Scene7" });
+    super("Scene7");
   }
 
   create() {
-    // Fundo gradiente estilo hacker
-    const bg = this.add.graphics();
-    const gradient = bg.createGradient(0, 0, 0, 800, [
-      { offset: 0, color: 0x000010 },
-      { offset: 1, color: 0x0a0030 },
-    ]);
-    bg.fillGradientStyle(gradient);
-    bg.fillRect(0, 0, 450, 800);
-
-    // Partículas leves de “energia”
-    const particles = this.add.particles(0, 0, "spark", {
-      x: { min: 0, max: 450 },
-      y: { min: 0, max: 800 },
-      lifespan: 4000,
-      speed: 10,
-      scale: { start: 0.02, end: 0 },
-      tint: 0x00ffff,
-      alpha: { start: 0.4, end: 0 },
-      quantity: 1,
-    });
+    // Fundo com gradiente roxo → azul
+    const graphics = this.add.graphics();
+    const gradient = graphics.createLinearGradient(0, 0, 0, 800);
+    gradient.addColorStop(0, "#1a0033");
+    gradient.addColorStop(1, "#000022");
+    graphics.fillGradientStyle(0, 0, 0, 1);
+    graphics.fillRect(0, 0, 450, 800);
 
     // Título
     this.add
-      .text(225, 100, "🔐 ACESSO RESTRITO 🔐", {
-        fontFamily: "monospace",
-        fontSize: "20px",
-        color: "#00ffff",
-      })
-      .setOrigin(0.5);
-
-    // Display da senha
-    this.displayText = this.add
-      .text(225, 180, "----", {
+      .text(225, 80, "ACESSO RESTRITO", {
         fontFamily: "monospace",
         fontSize: "32px",
-        color: "#39ff14",
+        color: "#b84cff",
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setShadow(0, 0, "#b84cff", 12, true, true);
 
     // Timer
     this.timerText = this.add
-      .text(225, 50, this.formatTime(this.timeLeft), {
+      .text(225, 140, "10:00", {
         fontFamily: "monospace",
-        fontSize: "18px",
-        color: "#00ffff",
+        fontSize: "36px",
+        color: "#4dcaff",
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setShadow(0, 0, "#4dcaff", 12, true, true);
 
-    // Inicia contagem regressiva
+    // Display da senha
+    this.displayText = this.add
+      .text(225, 220, "", {
+        fontFamily: "monospace",
+        fontSize: "40px",
+        color: "#ff33cc",
+      })
+      .setOrigin(0.5)
+      .setShadow(0, 0, "#ff33cc", 8, true, true);
+
+    // Numpad
+    const numbers = [
+      "7",
+      "8",
+      "9",
+      "4",
+      "5",
+      "6",
+      "1",
+      "2",
+      "3",
+      "X",
+      "0",
+      "✔",
+    ];
+    let startX = 120;
+    let startY = 300;
+    let index = 0;
+
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col < 3; col++) {
+        const value = numbers[index++];
+        const btn = this.add
+          .text(startX + col * 70, startY + row * 70, value, {
+            fontFamily: "monospace",
+            fontSize: "36px",
+            color: value === "X" ? "#ff3366" : "#4dcaff",
+          })
+          .setOrigin(0.5)
+          .setInteractive()
+          .setShadow(
+            0,
+            0,
+            value === "X" ? "#ff3366" : "#4dcaff",
+            12,
+            true,
+            true
+          );
+
+        btn.on("pointerover", () => {
+          btn.setScale(1.2);
+        });
+        btn.on("pointerout", () => {
+          btn.setScale(1);
+        });
+        btn.on("pointerdown", () => this.handleInput(value));
+      }
+    }
+
+    // Timer conta
     this.time.addEvent({
       delay: 1000,
       loop: true,
       callback: () => {
         if (this.timeLeft > 0) {
           this.timeLeft--;
-          localStorage.setItem("timer-seconds", this.timeLeft.toString());
-          this.timerText.setText(this.formatTime(this.timeLeft));
+          this.updateTimer();
         }
       },
     });
-
-    // Criação dos botões numéricos
-    const buttonValues = [
-      ["1", "2", "3"],
-      ["4", "5", "6"],
-      ["7", "8", "9"],
-      ["X", "0", "OK"],
-    ];
-
-    buttonValues.forEach((row, rowIndex) => {
-      row.forEach((value, colIndex) => {
-        const x = 140 + colIndex * 60;
-        const y = 300 + rowIndex * 70;
-
-        const button = this.add
-          .rectangle(x, y, 50, 50, 0x002244)
-          .setStrokeStyle(2, 0x00ffff)
-          .setInteractive({ useHandCursor: true });
-
-        const label = this.add
-          .text(x, y, value, {
-            fontFamily: "monospace",
-            fontSize: "22px",
-            color: "#00ffff",
-          })
-          .setOrigin(0.5);
-
-        // Efeitos de hover
-        button.on("pointerover", () => {
-          button.setFillStyle(0x004488);
-          this.tweens.add({
-            targets: label,
-            scale: 1.2,
-            duration: 150,
-            yoyo: true,
-          });
-        });
-        button.on("pointerout", () => button.setFillStyle(0x002244));
-
-        // Clique do botão
-        button.on("pointerdown", () => this.handleInput(value));
-      });
-    });
   }
 
-  private handleInput(value: string) {
+  handleInput(value: string) {
     if (value === "X") {
       this.password = "";
-      this.displayText.setText("----");
-    } else if (value === "OK") {
+    } else if (value === "✔") {
       if (this.password === this.correctPassword) {
         this.scene.start("Scene8");
       } else {
-        this.cameras.main.shake(200, 0.02);
-        this.displayText.setText("ERRO");
-        this.time.delayedCall(1000, () => this.displayText.setText("----"));
         this.password = "";
       }
     } else {
-      if (this.password.length < 4) this.password += value;
-      this.displayText.setText(this.password.padEnd(4, "-"));
+      this.password += value;
     }
+    this.displayText.setText(this.password);
   }
 
-  private formatTime(sec: number): string {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  updateTimer() {
+    const min = Math.floor(this.timeLeft / 60);
+    const sec = this.timeLeft % 60;
+    this.timerText.setText(
+      `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
+    );
   }
 }
