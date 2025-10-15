@@ -19,12 +19,12 @@ export class Scene4 extends Scene {
   }
 
   preload() {
-    this.load.image("BateriaBaixa", "assets/Scene4/BateriaBaixa.png");
+    this.load.image("bateriabaixa", "assets/Scene4/bateriabaixa.png");
     //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "BateriaBaixa");
+    this.add.image(220, 400, "bateriabaixa");
 
     if (this.videoElement) {
       this.videoElement.pause();

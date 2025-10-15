@@ -19,12 +19,12 @@ export class Scene6 extends Scene {
   }
 
   preload() {
-    this.load.image("DetectorCO", "assets/Scene6/DetectorCO.png");
+    this.load.image("detectorco", "assets/Scene6/detectorco.png");
     //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "DetectorCO");
+    this.add.image(220, 400, "detectorco");
 
     if (this.videoElement) {
       this.videoElement.pause();
