@@ -17,7 +17,13 @@ export class Scene12 extends Scene {
     });
   }
 
+  preload() {
+    this.load.image("cena12-fantasma", "assets/scene12/fantasma.png");
+  }
+
   create() {
+    this.add.image(225, 400, "cena12-fantasma");
+
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
