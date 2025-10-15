@@ -1,7 +1,7 @@
 import { Scene } from "phaser";
 import MultiPlayerGame from "../main";
 
-var CamHeight = 600;
+var CamHeight = 510;
 var CamWidth = CamHeight * (9 / 16);
 export class Scene5 extends Scene {
   // Timer
@@ -19,12 +19,12 @@ export class Scene5 extends Scene {
   }
 
   preload() {
-    this.load.image("Background", "assets/Scene5/Background.png");
+    this.load.image("background", "assets/Scene5/background.png");
     //this.load.image("Visor", "assets/Scene5/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "Background");
+    this.add.image(220, 400, "background");
 
     if (this.videoElement) {
       this.videoElement.pause();
@@ -36,8 +36,11 @@ export class Scene5 extends Scene {
     if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
     // });
     // Timer
-    this.timer = this.add.text(25, 25, "");
-
+    this.timer = this.add.text(25, 25, "", {
+          fontFamily: "Sixtyfour",
+          fontSize: "16px",
+          color: "#ff00ff",
+    });
     // Solicitar acesso à câmerahttps://effective-potato-69wp6rjj64jr24rg4-1234.app.github.dev/
     this.startCamera();
   }
