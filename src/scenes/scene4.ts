@@ -19,12 +19,12 @@ export class Scene4 extends Scene {
   }
 
   preload() {
-    this.load.image("Background", "assets/Scene5/Background.png");
+    this.load.image("BateriaBaixa", "assets/Scene4/BateriaBaixa.png");
     //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "Background");
+    this.add.image(220, 400, "BateriaBaixa");
 
     if (this.videoElement) {
       this.videoElement.pause();
@@ -36,7 +36,7 @@ export class Scene4 extends Scene {
     if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
     // });
     // Timer
-    this.timer = this.add.text(60, 130, "");
+    this.timer = this.add.text(25, 25, "");
 
   }
 

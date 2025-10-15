@@ -36,7 +36,7 @@ export class Scene5 extends Scene {
     if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
     // });
     // Timer
-    this.timer = this.add.text(60, 130, "");
+    this.timer = this.add.text(25, 25, "");
 
     // Solicitar acesso à câmerahttps://effective-potato-69wp6rjj64jr24rg4-1234.app.github.dev/
     this.startCamera();
