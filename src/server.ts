@@ -62,6 +62,7 @@ class MultiPlayerGameServer {
   private stopGame() {
     console.log("Jogo parado!");
 
+    if (this.timer) clearInterval(this.timer);
     this.mqttClient.publish("escape-run/player/scene", "Scene15");
   }
 }
