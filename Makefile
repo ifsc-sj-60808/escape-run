@@ -1,4 +1,4 @@
-all: sync clean restart
+all: sync clean build restart
 
 sync:
 	sudo git pull
