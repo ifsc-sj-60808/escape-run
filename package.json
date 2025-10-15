@@ -17,7 +17,8 @@
   "scripts": {
     "clean": "rm -rf dist .parcel-cache",
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url ./"
+    "build": "parcel build src/index.html --public-url ./",
+    "serve": "node --experimental-strip-types src/server.ts"
   },
   "dependencies": {
     "@types/webfontloader": "^1.6.38",

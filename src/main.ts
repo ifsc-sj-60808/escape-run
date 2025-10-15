@@ -4,12 +4,8 @@ import config from "./config";
 
 class MultiPlayerGame extends Game {
   mqttClient: mqtt.MqttClient;
-  score: integer = 0;
-
-  timer: integer = 0;
   minutes: string = "00";
   seconds: string = "00";
-  clock: NodeJS.Timeout;
 
   currentScene: string = "Boot";
 
@@ -41,14 +37,15 @@ class MultiPlayerGame extends Game {
         } else {
           console.warn(`Cena ${scene} não existe!`);
         }
-      } else if (topic === "escape-run/player/score") {
-        const score = parseInt(payload.toString(), 10);
+      } else if (topic === "escape-run/player/timer") {
+        const counter = JSON.parse(payload.toString());
 
-        if (!isNaN(score)) {
-          this.score += score;
-          console.log("Pontuação atualizada:", this.score);
+        if (!isNaN(counter)) {
+          this.minutes = String(Math.floor(counter / 60)).padStart(2, "0");
+          this.seconds = String(Math.floor(counter % 60)).padStart(2, "0");
+          console.log("Tempo atualizado:", this.minutes, ":", this.seconds);
         } else {
-          console.warn(`Pontuação inválida recebida: ${payload.toString()}`);
+          console.warn(`Contador de tempo inválido: ${payload.toString()}`);
         }
       } else if (topic === "escape-run/player/error") {
         try {
@@ -60,22 +57,6 @@ class MultiPlayerGame extends Game {
         window.alert(`Erro: ${payload.toString()}`);
       }
     });
-
-    // Timer
-    this.timer = 1800;
-
-    this.clock = setInterval(() => {
-      this.timer--;
-      this.minutes = String(Math.floor(this.timer / 60)).padStart(2, "0");
-      this.seconds = String(Math.floor(this.timer % 60)).padStart(2, "0");
-
-
-      if (this.timer <= 0) {
-        clearInterval(this.clock);
-        this.mqttClient.publish("escape-run/player/scene", "sad-ending");
-        this.scene.start("sad-ending");
-      }
-    }, 1000);
   }
 }
 

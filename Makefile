@@ -1,4 +1,4 @@
-all: sync clean build
+all: sync clean build restart
 
 sync:
 	sudo git pull
@@ -8,3 +8,6 @@ clean:
 
 build:
 	sudo npm run build
+
+restart:
+	sudo systemctl restart escape-run.service
