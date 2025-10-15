@@ -3,6 +3,7 @@ import mqtt from "mqtt";
 class MultiPlayerGameServer {
   private mqttClient!: mqtt.MqttClient;
   private timer!: NodeJS.Timeout;
+  private password: string = process.env.PASSWORD || "escape-run";
 
   constructor() {
     const MQTT_BROKER_URL =
@@ -21,17 +22,25 @@ class MultiPlayerGameServer {
       });
 
       this.mqttClient.on("message", (topic, payload) => {
-        if (topic === "escape-run/server/start") {
-          let counter: number = 1800;
-          try {
-            counter = parseInt(payload.toString(), 10);
-          } catch {
-            console.error("Formato de mensagem inválido:", payload.toString());
-          }
+        console.log(payload.toString());
+        const password = JSON.parse(payload.toString()).password;
 
-          this.startGame(counter);
-        } else if (topic === "escape-run/server/stop") {
-          this.stopGame();
+        if (password === this.password) {
+          if (topic === "escape-run/server/start") {
+            let counter: number = 1800;
+            try {
+              counter = parseInt(JSON.parse(payload.toString()).time, 10);
+            } catch {
+              console.error(
+                "Formato de mensagem inválido:",
+                payload.toString()
+              );
+            }
+
+            this.startGame(counter);
+          } else if (topic === "escape-run/server/stop") {
+            this.stopGame();
+          }
         }
       });
     });

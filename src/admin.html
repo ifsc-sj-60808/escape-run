@@ -2,6 +2,15 @@
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.14.1/mqtt.min.js"></script>
 
+    <input
+      type="text"
+      id="password"
+      placeholder="Senha do servidor"
+      value="***"
+    />
+    <input type="text" id="time" placeholder="Tempo em segundos" value="1800" />
+    <button onclick="start()">Iniciar partida</button>
+    <button onclick="stop()">Encerrar partida</button>
     <div class="center" id="mqtt-logger"></div>
     <script>
       const mqttBrokerUrl = "wss://escape-run.sj.ifsc.edu.br/mqtt";
@@ -23,6 +32,26 @@
           });
         });
       });
+
+      function start() {
+        const password = document.getElementById("password").value;
+        let time = parseInt(document.getElementById("time").value);
+        if (isNaN(time) || time <= 0) time = 1800;
+
+        client.publish(
+          "escape-run/server/start",
+          JSON.stringify({ password: password, time: time })
+        );
+      }
+
+      function stop() {
+        const password = document.getElementById("password").value;
+        
+        client.publish(
+          "escape-run/server/stop",
+          JSON.stringify({ password: password, time: 0 })
+        );
+      }
     </script>
   </body>
 </html>
