@@ -20,11 +20,16 @@ export class Scene5 extends Scene {
 
   preload() {
     this.load.image("background", "assets/Scene5/background.png");
+    this.load.audio("gerador", "assets/Scene5/Sound-effects/gerador.mp3");
     //this.load.image("Visor", "assets/Scene5/Visor.png");
   }
 
   create() {
     this.add.image(220, 400, "background");
+
+    // Reproduzir som gerador.mp3 automaticamente
+    const geradorSom = this.sound.add("gerador");
+    geradorSom.play({ loop: false, volume: 1.5 });
 
     if (this.videoElement) {
       this.videoElement.pause();
@@ -37,9 +42,9 @@ export class Scene5 extends Scene {
     // });
     // Timer
     this.timer = this.add.text(25, 25, "", {
-          fontFamily: "Sixtyfour",
-          fontSize: "16px",
-          color: "#ff00ff",
+      fontFamily: "Sixtyfour",
+      fontSize: "16px",
+      color: "#ff00ff",
     });
     // Solicitar acesso à câmerahttps://effective-potato-69wp6rjj64jr24rg4-1234.app.github.dev/
     this.startCamera();
