@@ -4,6 +4,8 @@ import WebFont from "webfontloader";
 
 export class Scene0 extends Scene {
   rules!: string;
+  dots: string[] = ["|", "/", "-", "\\"];
+  progress: string = "";
   display!: Phaser.GameObjects.Text;
 
   constructor() {
@@ -41,6 +43,13 @@ export class Scene0 extends Scene {
     this.rules =
       "Regras do jogo:\n- Duração de 30 minutos.\n- Sem interação com os\n  atores.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.";
 
+    let index = 0;
+    setInterval(() => {
+      if (index >= this.dots.length) index = 0;
+      this.progress = this.dots[index];
+      index++;
+    }, 250);
+
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
@@ -49,10 +58,6 @@ export class Scene0 extends Scene {
   }
 
   update() {
-    this.display.setText(
-      `[${(this.game as typeof MultiPlayerGame).minutes}:${
-        (this.game as typeof MultiPlayerGame).seconds
-      }]\n\n${this.rules}`
-    );
+    this.display.setText(`${this.rules}\n\nCarregando...${this.progress}`);
   }
 }
