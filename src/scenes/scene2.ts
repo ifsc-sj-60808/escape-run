@@ -39,7 +39,7 @@ export class Scene2 extends Scene {
 
   preload() {
     // Background
-    this.load.image("background", "assets/scene2/background.png");
+    this.load.image("scene2-background", "assets/scene2/background.png");
 
     // Piano
     this.load.image("keyBlack", "assets/scene2/keyBlack.png"); // imagem das teclas pretas
@@ -62,7 +62,7 @@ export class Scene2 extends Scene {
 
   create() {
     // Background
-    this.add.image(225, 400, "background");
+    this.add.image(225, 400, "scene2-background");
 
     // Timer
     this.timer = this.add.text(50, 100, "");
