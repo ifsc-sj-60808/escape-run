@@ -11,10 +11,8 @@ export class Scene8 extends Phaser.Scene {
   create() {
     // Fundo gradiente roxo → azul
     const graphics = this.add.graphics()
-    const gradient = graphics.createLinearGradient(0, 0, 0, 800)
-    gradient.addColorStop(0, "#1a0033")
-    gradient.addColorStop(1, "#000022")
-    graphics.fillGradientStyle(0, 0, 0, 1)
+    graphics.fillStyle(0x1a0033)
+    graphics.fillGradientStyle(0x1a0033, 0x1a0033, 0x000022, 0x000022, 1)
     graphics.fillRect(0, 0, 450, 800)
 
     // Título
