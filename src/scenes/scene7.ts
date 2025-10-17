@@ -48,11 +48,7 @@ export class Scene7 extends Scene {
       })
       .setOrigin(0.5)
 
-    // 🔢 Botões (posicionados sobre o teclado no asset)
     this.buttons = [
-      { x: 100, y: 250, number: "1" },
-      { x: 225, y: 250, number: "2" },
-      { x: 350, y: 250, number: "3" },
       { x: 100, y: 370, number: "4" },
       { x: 225, y: 370, number: "5" },
       { x: 350, y: 370, number: "6" },
