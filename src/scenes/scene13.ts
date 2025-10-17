@@ -1,7 +1,7 @@
-import { Scene } from "phaser";
+import { Scene } from "phaser"
 
 export class Scene13 extends Scene {
   constructor() {
-    super({ key: "Scene13" });
+    super({ key: "Scene13" })
   }
 }

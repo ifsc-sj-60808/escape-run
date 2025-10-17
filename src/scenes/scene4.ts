@@ -1,43 +1,42 @@
-import { Scene } from "phaser";
-import MultiPlayerGame from "../main";
+import { Scene } from "phaser"
+import MultiPlayerGame from "../main"
 
-var CamHeight = 600;
-var CamWidth = CamHeight * (9 / 16);
+var CamHeight = 600
+var CamWidth = CamHeight * (9 / 16)
 export class Scene4 extends Scene {
   // Timer
-  timer!: Phaser.GameObjects.Text;
-  videoElement?: HTMLVideoElement;
-  flashButton?: HTMLButtonElement;
-  filtroButton?: HTMLButtonElement;
-  stream?: MediaStream;
-  track?: MediaStreamTrack;
-  filtroAtivo: boolean = false;
-  flashAtivo: boolean = false;
+  timer!: Phaser.GameObjects.Text
+  videoElement?: HTMLVideoElement
+  flashButton?: HTMLButtonElement
+  filtroButton?: HTMLButtonElement
+  stream?: MediaStream
+  track?: MediaStreamTrack
+  filtroAtivo: boolean = false
+  flashAtivo: boolean = false
 
   constructor() {
-    super({ key: "Scene4" });
+    super({ key: "Scene4" })
   }
 
   preload() {
-    this.load.image("bateriabaixa", "assets/Scene4/bateriabaixa.png");
+    this.load.image("bateriabaixa", "assets/Scene4/bateriabaixa.png")
     //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "bateriabaixa");
+    this.add.image(220, 400, "bateriabaixa")
 
     if (this.videoElement) {
-      this.videoElement.pause();
-      this.videoElement.srcObject = null;
-      this.videoElement.remove();
+      this.videoElement.pause()
+      this.videoElement.srcObject = null
+      this.videoElement.remove()
     }
-    if (this.flashButton) this.flashButton.remove();
-    if (this.filtroButton) this.filtroButton.remove();
-    if (this.stream) this.stream.getTracks().forEach((t) => t.stop());
+    if (this.flashButton) this.flashButton.remove()
+    if (this.filtroButton) this.filtroButton.remove()
+    if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
     // });
     // Timer
-    this.timer = this.add.text(25, 25, "");
-
+    this.timer = this.add.text(25, 25, "")
   }
 
   update() {
@@ -50,6 +49,6 @@ export class Scene4 extends Scene {
         2,
         "0"
       )}`
-    );
+    )
   }
 }

@@ -1,28 +1,28 @@
-import { Scene } from "phaser";
-import MultiPlayerGame from "../main";
-import WebFont from "webfontloader";
+import { Scene } from "phaser"
+import MultiPlayerGame from "../main"
+import WebFont from "webfontloader"
 
 export class Scene10 extends Scene {
-  display!: Phaser.GameObjects.Text;
+  display!: Phaser.GameObjects.Text
 
   constructor() {
-    super({ key: "Scene10" });
+    super({ key: "Scene10" })
   }
 
   init() {
     WebFont.load({
       google: {
-        families: ["Sixtyfour"],
-      },
-    });
+        families: ["Sixtyfour"]
+      }
+    })
   }
 
   create() {
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
-      color: "#ff00ff",
-    });
+      color: "#ff00ff"
+    })
   }
 
   update() {
@@ -30,6 +30,6 @@ export class Scene10 extends Scene {
       `[${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
       }]`
-    );
+    )
   }
 }

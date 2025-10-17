@@ -9,8 +9,8 @@ jekyll-spaceship:
     css:
       class: mermaid
     syntax:
-      code: 'mermaid'
-      custom: ['@startmermaid', '@endmermaid']
+      code: "mermaid"
+      custom: ["@startmermaid", "@endmermaid"]
     config:
       theme: default
     src: https://mermaid.ink/svg/

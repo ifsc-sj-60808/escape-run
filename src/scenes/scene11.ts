@@ -1,66 +1,66 @@
-import { Scene } from "phaser";
-import MultiPlayerGame from "../main";
-import WebFont from "webfontloader";
+import { Scene } from "phaser"
+import MultiPlayerGame from "../main"
+import WebFont from "webfontloader"
 
 interface Button {
-  x: number;
-  y: number;
-  number: string;
-  sprite?: Phaser.GameObjects.Sprite;
+  x: number
+  y: number
+  number: string
+  sprite?: Phaser.GameObjects.Sprite
 }
 
 export class Scene11 extends Scene {
   // Timer
-  timer!: Phaser.GameObjects.Text;
+  timer!: Phaser.GameObjects.Text
 
   // Numpad
-  password!: string;
-  display!: Phaser.GameObjects.Text;
-  void!: Phaser.GameObjects.Sprite;
-  buttons!: Button[];
-  clear!: Phaser.GameObjects.Sprite;
-  enter!: Phaser.GameObjects.Sprite;
+  password!: string
+  display!: Phaser.GameObjects.Text
+  void!: Phaser.GameObjects.Sprite
+  buttons!: Button[]
+  clear!: Phaser.GameObjects.Sprite
+  enter!: Phaser.GameObjects.Sprite
 
   constructor() {
-    super({ key: "Scene11" });
+    super({ key: "Scene11" })
   }
 
   init() {
     WebFont.load({
       google: {
-        families: ["Tiny5", "Sixtyfour"],
-      },
-    });
+        families: ["Tiny5", "Sixtyfour"]
+      }
+    })
   }
 
   preload() {
     // Background
-    this.load.image("scene11-background", "assets/scene11/numpad.png");
+    this.load.image("scene11-background", "assets/scene11/numpad.png")
 
     // Numpad
-    this.load.image("void", "assets/scene11/void.png");
-    this.load.image("void-3x", "assets/scene11/void-3x.png");
+    this.load.image("void", "assets/scene11/void.png")
+    this.load.image("void-3x", "assets/scene11/void-3x.png")
   }
 
   create() {
     //Background
-    this.add.image(225, 400, "scene11-background");
+    this.add.image(225, 400, "scene11-background")
 
     // Timer
     this.timer = this.add.text(50, 700, "", {
       fontFamily: "Sixtyfour",
       fontSize: "32px",
-      color: "#ff00ff",
-    });
+      color: "#ff00ff"
+    })
 
     // Numpad
-    this.password = "";
+    this.password = ""
 
     this.display = this.add.text(125, 75, "", {
       fontFamily: "Sixtyfour",
       fontSize: "64px",
-      color: "#ff00ff",
-    });
+      color: "#ff00ff"
+    })
 
     this.buttons = [
       { x: 100, y: 225, number: "1" },
@@ -72,8 +72,8 @@ export class Scene11 extends Scene {
       { x: 100, y: 465, number: "7" },
       { x: 225, y: 465, number: "8" },
       { x: 350, y: 465, number: "9" },
-      { x: 100, y: 585, number: "0" },
-    ];
+      { x: 100, y: 585, number: "0" }
+    ]
 
     this.buttons.forEach((button) => {
       button.sprite = this.physics.add
@@ -81,22 +81,22 @@ export class Scene11 extends Scene {
         .setInteractive()
         .on("pointerdown", () => {
           if (this.password.length < 3) {
-            this.password = this.password + button.number;
+            this.password = this.password + button.number
           }
-        });
-    });
+        })
+    })
 
     this.enter = this.physics.add
       .sprite(290, 585, "void-3x")
       .setInteractive()
       .on("pointerdown", () => {
-        (this.game as typeof MultiPlayerGame).mqttClient.publish(
+        ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
           "escape-run/room/cultura/0",
           this.password
-        );
+        )
 
-        this.password = "";
-      });
+        this.password = ""
+      })
   }
 
   update() {
@@ -105,9 +105,9 @@ export class Scene11 extends Scene {
       `${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
       }`
-    );
+    )
 
     // Numpad
-    this.display.setText(this.password);
+    this.display.setText(this.password)
   }
 }
