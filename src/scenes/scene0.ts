@@ -92,7 +92,7 @@ export class Scene0 extends Scene {
     })
 
     this.rules =
-      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 30 minutos.\n- Sem interação com os\n  atores.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.\n\n> "
+      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 40 minutos.\n- Sem interação com os\n atores.\n- Caso o dispositivo\n descarregue ou sair da\n tela o jogador será\n desclassificado.\n- Placas escritas para\n não encostar e fitas\n que impeçam do jogador\n avançar devem ser\n respeitadas.\n- Proibido mais de um\n celular por usuário.\n- Brigas entre jogadores\n causará desclassificação\n imediata da equipe.\n- Pode-se ser anunciado\n dicas pelo alto falantes.\n- Caso de emergência, a\n dona morte irá buscar\n o jogar e segue os\n demais.\n- Cada ação no jogo terá\n uma reação, os fracos\n juntam-se a festa.\n- Aproveitar as cenas e a\n ambientação.\n\n Sigam o fluxograma, caso\n não seja respeitado, você\n será mais um perdedor.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.\n\n> "
 
     this.add
       .image(225, 400, "scene0-background")
