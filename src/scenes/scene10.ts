@@ -17,7 +17,13 @@ export class Scene10 extends Scene {
     })
   }
 
+  preload() {
+    this.load.image("cena10-2.png", "assets/scene10/2.png")
+  }
+
   create() {
+    this.add.image(225, 400, "cena10-2.png")
+
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
