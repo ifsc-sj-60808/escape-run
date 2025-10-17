@@ -13,28 +13,45 @@ export class Scene4 extends Scene {
   track?: MediaStreamTrack
   filtroAtivo: boolean = false
   flashAtivo: boolean = false
+  batteryIcon1?: Phaser.GameObjects.Image
+  batteryIcon2?: Phaser.GameObjects.Image
+  batteryToggle: boolean = false
 
   constructor() {
     super({ key: "Scene4" })
   }
 
   preload() {
-    this.load.image("bateriabaixa", "assets/Scene4/bateriabaixa.png")
+    this.load.image(
+      "battery-background",
+      "assets/Scene4/battery-background.png"
+    )
+    this.load.image("batteryicon1", "assets/Scene4/battery-icon1.png")
+    this.load.image("batteryicon2", "assets/Scene4/battery-icon2.png")
     //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "bateriabaixa")
+    this.add.image(220, 400, "battery-background")
 
-    if (this.videoElement) {
-      this.videoElement.pause()
-      this.videoElement.srcObject = null
-      this.videoElement.remove()
-    }
-    if (this.flashButton) this.flashButton.remove()
-    if (this.filtroButton) this.filtroButton.remove()
-    if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
-    // });
+    // criar as duas imagens uma vez e alternar visibilidade a cada segundo
+    this.batteryIcon1 = this.add.image(220, 400, "batteryicon1")
+    this.batteryIcon2 = this.add.image(220, 400, "batteryicon2")
+    // começar com a primeira visível e a segunda oculta
+    this.batteryIcon1.setVisible(true)
+    this.batteryIcon2.setVisible(false)
+
+    this.time.addEvent({
+      delay: 400,
+      loop: true,
+      callback: () => {
+        this.batteryToggle = !this.batteryToggle
+        if (this.batteryIcon1 && this.batteryIcon2) {
+          this.batteryIcon1.setVisible(this.batteryToggle)
+          this.batteryIcon2.setVisible(!this.batteryToggle)
+        }
+      }
+    })
     // Timer
     this.timer = this.add.text(25, 25, "")
   }
