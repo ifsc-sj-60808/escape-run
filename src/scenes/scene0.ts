@@ -4,7 +4,6 @@ import WebFont from "webfontloader";
 
 export class Scene0 extends Scene {
   cursor: string = "_";
-  cursorTimer!: Phaser.Time.TimerEvent;
 
   rules!: string;
   loadingDisplay!: Phaser.GameObjects.Text;
@@ -83,7 +82,7 @@ export class Scene0 extends Scene {
 
   create() {
     let cursorBlinking = true;
-    this.cursorTimer = this.time.addEvent({
+    this.time.addEvent({
       delay: 500,
       loop: true,
       callback: () => {
@@ -92,12 +91,14 @@ export class Scene0 extends Scene {
       },
     });
 
+    this.rules =
+      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 30 minutos.\n- Sem interação com os\n  atores.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.\n\n> ";
+
     this.add
       .image(225, 400, "scene0-background")
       .setInteractive()
       .on("pointerdown", () => {
-        this.cursorTimer.remove(false);
-        this.cursor = "REQUEST MEDIA ACCESS";
+        this.rules += "REQUEST MEDIA ACCESS\n\n> ";
 
         navigator.mediaDevices
           .getUserMedia({ video: true, audio: true })
@@ -110,9 +111,6 @@ export class Scene0 extends Scene {
           });
       });
 
-    this.rules =
-      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 30 minutos.\n- Sem interação com os\n  atores.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.";
-
     this.rulesDisplay = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
@@ -121,6 +119,6 @@ export class Scene0 extends Scene {
   }
 
   update() {
-    this.rulesDisplay.setText(`${this.rules}\n\n> ${this.cursor}`);
+    this.rulesDisplay.setText(`${this.rules}${this.cursor}`);
   }
 }
