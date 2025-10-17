@@ -6,6 +6,7 @@ var CamWidth = CamHeight * (9 / 16)
 export class Scene6 extends Scene {
   // Timer
   timer!: Phaser.GameObjects.Text
+  arrow!: Phaser.GameObjects.Sprite
   videoElement?: HTMLVideoElement
   flashButton?: HTMLButtonElement
   filtroButton?: HTMLButtonElement
@@ -19,24 +20,20 @@ export class Scene6 extends Scene {
   }
 
   preload() {
-    this.load.image("detectorco", "assets/Scene6/detectorco.png")
+    this.load.image("detector-background", "assets/Scene6/detector-background.png")
+    this.load.image("arrow", "assets/Scene6/detector-arrow.png")
     //this.load.image("Visor", "assets/Scene4/Visor.png");
   }
 
-  create() {
-    this.add.image(220, 400, "detectorco")
+  text!: Phaser.GameObjects.Text;
 
-    if (this.videoElement) {
-      this.videoElement.pause()
-      this.videoElement.srcObject = null
-      this.videoElement.remove()
-    }
-    if (this.flashButton) this.flashButton.remove()
-    if (this.filtroButton) this.filtroButton.remove()
-    if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
-    // });
+  create() {
+    this.add.image(220, 400, "detector-background")
+
+    this.arrow = this.add.sprite(220, 400, 'arrow').setOrigin(0, 0);
+    
     // Timer
-    this.timer = this.add.text(25, 25, "")
+    this.timer = this.add.text(25, 25, "");
   }
 
   update() {
@@ -50,5 +47,7 @@ export class Scene6 extends Scene {
         "0"
       )}`
     )
+    // Rotate arrow
+    this.arrow.angle += 0.1
   }
 }
