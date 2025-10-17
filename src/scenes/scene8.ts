@@ -1,75 +1,48 @@
-import Phaser from "phaser"
+import { Scene } from "phaser"
+import MultiPlayerGame from "../main"
 
-export class Scene8 extends Phaser.Scene {
-  private timerText!: Phaser.GameObjects.Text
-  private timeLeft: number = 600
-
+export class Scene8 extends Scene {
   constructor() {
-    super("Scene8")
+    super({ key: "Scene8" })
+  }
+
+  preload() {
+    // Carrega a imagem (ajuste o caminho se necessário)
+    this.load.image("regras8", "assets/Scene8/regras8.png")
   }
 
   create() {
-    // Fundo gradiente roxo → azul
-    const graphics = this.add.graphics()
-    graphics.fillStyle(0x1a0033)
-    graphics.fillGradientStyle(0x1a0033, 0x1a0033, 0x000022, 0x000022, 1)
-    graphics.fillRect(0, 0, 450, 800)
+    // Define o tamanho fixo desejado
+    const targetWidth = 450
+    const targetHeight = 800
 
-    // Título
-    this.add
-      .text(225, 100, "JOGO INICIADO", {
-        fontFamily: "monospace",
-        fontSize: "38px",
-        color: "#b84cff"
-      })
-      .setOrigin(0.5)
-      .setShadow(0, 0, "#b84cff", 20, true, true)
+    // Centraliza na tela
+    const centerX = this.scale.width / 2
+    const centerY = this.scale.height / 2
 
-    // Texto central
-    this.add
-      .text(
-        225,
-        250,
-        "APÓS COLETAR O BARALHO\nDENTRO DO COFRE,\nSENTEM-SE E AGUARDEM.\n\nAPENAS DOIS SOBREVIVERÃO.",
-        {
-          fontFamily: "monospace",
-          fontSize: "20px",
-          color: "#4dcaff",
-          align: "center",
-          wordWrap: { width: 400 }
-        }
+    // Adiciona a imagem
+    const bg = this.add.image(centerX, centerY, "regras8")
+
+    // Define tamanho fixo de exibição (sem redimensionar automaticamente)
+    bg.setDisplaySize(targetWidth, targetHeight)
+    bg.setScrollFactor(0)
+
+    // MQTT: publica que está na Scene8
+    ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
+      "escape-run/player/scene",
+      "Scene8"
+    )
+
+    // Transição automática para a próxima cena após 10 segundos
+    this.time.delayedCall(10000, () => {
+      ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
+        "escape-run/player/scene",
+        "Scene9"
       )
-      .setOrigin(0.5)
-      .setShadow(0, 0, "#4dcaff", 10, true, true)
-
-    // Timer
-    this.timerText = this.add
-      .text(225, 720, "10:00", {
-        fontFamily: "monospace",
-        fontSize: "48px",
-        color: "#ff33cc"
-      })
-      .setOrigin(0.5)
-      .setShadow(0, 0, "#ff33cc", 15, true, true)
-
-    // Timer loop
-    this.time.addEvent({
-      delay: 1000,
-      loop: true,
-      callback: () => {
-        if (this.timeLeft > 0) {
-          this.timeLeft--
-          this.updateTimer()
-        }
-      }
     })
   }
 
-  updateTimer() {
-    const min = Math.floor(this.timeLeft / 60)
-    const sec = this.timeLeft % 60
-    this.timerText.setText(
-      `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
-    )
+  update() {
+    // Nenhuma atualização necessária
   }
 }

@@ -1,135 +1,119 @@
-import Phaser from "phaser"
+import { Scene } from "phaser"
+import MultiPlayerGame from "../main"
+import WebFont from "webfontloader"
 
-export class Scene7 extends Phaser.Scene {
+interface Button {
+  x: number
+  y: number
+  number: string
+  sprite?: Phaser.GameObjects.Image
+}
+
+export class Scene7 extends Scene {
   private password: string = ""
+  private display!: Phaser.GameObjects.Text
+  private buttons!: Button[]
+  private enter!: Phaser.GameObjects.Image
   private correctPassword: string = "6666"
-  private displayText!: Phaser.GameObjects.Text
-  private timerText!: Phaser.GameObjects.Text
-  private timeLeft: number = 600
 
   constructor() {
-    super("Scene7")
+    super({ key: "Scene7" })
   }
 
-  create() {
-    // Fundo com gradiente roxo → azul
-    const graphics = this.add.graphics()
-    graphics.fillStyle(0x1a0033)
-    graphics.fillGradientStyle(0x1a0033, 0x1a0033, 0x000022, 0x000022, 1)
-    graphics.fillRect(0, 0, 450, 800)
-
-    // Título
-    this.add
-      .text(225, 80, "ACESSO RESTRITO", {
-        fontFamily: "monospace",
-        fontSize: "32px",
-        color: "#b84cff"
-      })
-      .setOrigin(0.5)
-      .setShadow(0, 0, "#b84cff", 12, true, true)
-
-    // Timer
-    this.timerText = this.add
-      .text(225, 140, "10:00", {
-        fontFamily: "monospace",
-        fontSize: "36px",
-        color: "#4dcaff"
-      })
-      .setOrigin(0.5)
-      .setShadow(0, 0, "#4dcaff", 12, true, true)
-
-    // Display da senha
-    this.displayText = this.add
-      .text(225, 220, "", {
-        fontFamily: "monospace",
-        fontSize: "40px",
-        color: "#ff33cc"
-      })
-      .setOrigin(0.5)
-      .setShadow(0, 0, "#ff33cc", 8, true, true)
-
-    // Numpad
-    const numbers = [
-      "7",
-      "8",
-      "9",
-      "4",
-      "5",
-      "6",
-      "1",
-      "2",
-      "3",
-      "X",
-      "0",
-      "✔"
-    ]
-    let startX = 120
-    let startY = 300
-    let index = 0
-
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col < 3; col++) {
-        const value = numbers[index++]
-        const btn = this.add
-          .text(startX + col * 70, startY + row * 70, value, {
-            fontFamily: "monospace",
-            fontSize: "36px",
-            color: value === "X" ? "#ff3366" : "#4dcaff"
-          })
-          .setOrigin(0.5)
-          .setInteractive()
-          .setShadow(
-            0,
-            0,
-            value === "X" ? "#ff3366" : "#4dcaff",
-            12,
-            true,
-            true
-          )
-
-        btn.on("pointerover", () => {
-          btn.setScale(1.2)
-        })
-        btn.on("pointerout", () => {
-          btn.setScale(1)
-        })
-        btn.on("pointerdown", () => this.handleInput(value))
-      }
-    }
-
-    // Timer conta
-    this.time.addEvent({
-      delay: 1000,
-      loop: true,
-      callback: () => {
-        if (this.timeLeft > 0) {
-          this.timeLeft--
-          this.updateTimer()
-        }
-      }
+  init() {
+    WebFont.load({
+      google: { families: ["Tiny5", "Sixtyfour"] }
     })
   }
 
-  handleInput(value: string) {
-    if (value === "X") {
-      this.password = ""
-    } else if (value === "✔") {
-      if (this.password === this.correctPassword) {
-        this.scene.start("Scene8")
-      } else {
-        this.password = ""
-      }
-    } else {
-      this.password += value
-    }
-    this.displayText.setText(this.password)
+  preload() {
+    // Carrega o fundo do teclado (único asset)
+    this.load.image("scene7-background", "assets/Scene7/tecladocena7.png")
+
+    // Botões transparentes (clicáveis)
+    this.load.image("void", "assets/scene11/void.png")
+    this.load.image("void-3x", "assets/scene11/void-3x.png")
   }
 
-  updateTimer() {
-    const min = Math.floor(this.timeLeft / 60)
-    const sec = this.timeLeft % 60
-    this.timerText.setText(
-      `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
+  create() {
+    // 🔮 Fundo do teclado neon
+    this.add.image(225, 400, "scene7-background")
+
+    // 💾 Campo de exibição do código digitado (na parte superior)
+    this.display = this.add
+      .text(225, 115, "", {
+        fontFamily: "Sixtyfour",
+        fontSize: "64px",
+        color: "#ff00ff"
+      })
+      .setOrigin(0.5)
+
+    // 🔢 Botões (posicionados sobre o teclado no asset)
+    this.buttons = [
+      { x: 100, y: 250, number: "1" },
+      { x: 225, y: 250, number: "2" },
+      { x: 350, y: 250, number: "3" },
+      { x: 100, y: 370, number: "4" },
+      { x: 225, y: 370, number: "5" },
+      { x: 350, y: 370, number: "6" },
+      { x: 100, y: 490, number: "7" },
+      { x: 225, y: 490, number: "8" },
+      { x: 350, y: 490, number: "9" },
+      { x: 100, y: 610, number: "0" }
+    ]
+
+    // 🧱 Cria os botões invisíveis, mas interativos
+    this.buttons.forEach((button) => {
+      button.sprite = this.add
+        .image(button.x, button.y, "void")
+        .setDisplaySize(90, 90)
+        .setInteractive({ useHandCursor: true })
+        .on("pointerdown", () => {
+          if (this.password.length < 4) {
+            this.password += button.number
+            this.display.setText(this.password)
+          }
+        })
+    })
+
+    // ⌨️ Botão ENTER (maior botão no layout)
+    this.enter = this.add
+      .image(350, 610, "void-3x")
+      .setDisplaySize(120, 90)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        if (this.password === this.correctPassword) {
+          // ✅ Publica para todos os jogadores mudarem de cena
+          ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
+            "escape-run/scene/change",
+            "Scene8"
+          )
+        } else {
+          this.password = ""
+          this.display.setText("")
+        }
+      })
+
+    // 📡 Recebe mensagem MQTT para mudar de cena (sincronização)
+    ;(this.game as typeof MultiPlayerGame).mqttClient.subscribe(
+      "escape-run/scene/change"
     )
+
+    ;(this.game as typeof MultiPlayerGame).mqttClient.on(
+      "message",
+      (topic, message) => {
+        if (topic === "escape-run/scene/change") {
+          const sceneName = message.toString()
+          if (sceneName === "Scene8") {
+            this.scene.start("Scene8")
+          }
+        }
+      }
+    )
+  }
+
+  update() {
+    // Exibe o código digitado
+    this.display.setText(this.password)
   }
 }
