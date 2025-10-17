@@ -27,9 +27,11 @@ export class Scene5 extends Scene {
   create() {
     this.add.image(220, 400, "background")
 
-    // Reproduzir som gerador.mp3 automaticamente
+    // Reproduzir som gerador.mp3 automaticamente com atraso de 500ms
     const geradorSom = this.sound.add("gerador")
-    geradorSom.play({ loop: false, volume: 1.5 })
+    this.time.delayedCall(500, () => {
+      geradorSom.play({ loop: false, volume: 1.5 })
+    })
 
     if (this.videoElement) {
       this.videoElement.pause()
