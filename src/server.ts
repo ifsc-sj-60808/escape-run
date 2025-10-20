@@ -35,6 +35,10 @@ class MultiPlayerGameServer {
             }
 
             this.startGame(counter)
+          } else if (topic === "escape-run/server/scene") {
+            const scene = JSON.parse(payload.toString()).scene
+            
+            this.changeScene(scene)
           } else if (topic === "escape-run/server/stop") {
             this.stopGame()
           }
@@ -63,6 +67,11 @@ class MultiPlayerGameServer {
 
     this.setTimer(duration)
     this.mqttClient.publish("escape-run/player/scene", "Scene1")
+  }
+
+  private changeScene(scene: string) {
+    console.log("Mudando para a cena:", scene)
+    this.mqttClient.publish("escape-run/player/scene", scene)
   }
 
   private stopGame() {
