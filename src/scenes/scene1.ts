@@ -10,8 +10,6 @@ export class Scene1 extends Scene {
   }
 
   init() {
-    ;(this.game as typeof MultiPlayerGame).timer = 1800
-
     WebFont.load({
       google: {
         families: ["Sixtyfour"]

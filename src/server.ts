@@ -27,7 +27,7 @@ class MultiPlayerGameServer {
 
         if (password === this.password) {
           if (topic === "escape-run/server/start") {
-            let counter: number = 1800
+            let counter: number = 2400
             try {
               counter = parseInt(JSON.parse(payload.toString()).time, 10)
             } catch {
@@ -37,7 +37,7 @@ class MultiPlayerGameServer {
             this.startGame(counter)
           } else if (topic === "escape-run/server/scene") {
             const scene = JSON.parse(payload.toString()).scene
-            
+
             this.changeScene(scene)
           } else if (topic === "escape-run/server/stop") {
             this.stopGame()

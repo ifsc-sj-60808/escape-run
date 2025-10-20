@@ -11,7 +11,7 @@
     <p />
 
     Tempo:
-    <input type="text" id="time" placeholder="Tempo em segundos" value="1800" />
+    <input type="text" id="time" placeholder="Tempo em segundos" value="2400" />
     <p />
 
     <button onclick="start()">Iniciar partida</button>
@@ -62,7 +62,7 @@
       function start() {
         const password = document.getElementById("password").value
         let time = parseInt(document.getElementById("time").value)
-        if (isNaN(time) || time <= 0) time = 1800
+        if (isNaN(time) || time <= 0) time = 2400
 
         client.publish(
           "escape-run/server/start",
