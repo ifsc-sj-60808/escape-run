@@ -12,7 +12,7 @@ export class Scene8 extends Scene {
 
   preload() {
     // Carrega imagem de fundo
-    this.load.image("regras8", "assets/Scene8/regras8.png")
+    this.load.image("regras8", "assets/scene8/regras8.png")
   }
 
   create() {

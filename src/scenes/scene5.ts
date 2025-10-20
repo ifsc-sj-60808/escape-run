@@ -19,9 +19,9 @@ export class Scene5 extends Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/Scene5/background.png")
-    this.load.audio("gerador", "assets/Scene5/Sound-effects/gerador.mp3")
-    //this.load.image("Visor", "assets/Scene5/Visor.png");
+    this.load.image("background", "assets/scene5/background.png")
+    this.load.audio("gerador", "assets/scene5/Sound-effects/gerador.mp3")
+    //this.load.image("Visor", "assets/scene5/Visor.png");
   }
 
   create() {

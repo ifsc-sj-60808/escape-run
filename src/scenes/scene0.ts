@@ -60,12 +60,12 @@ export class Scene0 extends Scene {
     this.load.audio("las", "assets/scene2/las.mp3")
     this.load.audio("si", "assets/scene2/si.mp3")
 
-    this.load.image("bateriabaixa", "assets/Scene4/bateriabaixa.png")
+    this.load.image("bateriabaixa", "assets/scene4/bateriabaixa.png")
 
-    this.load.image("background", "assets/Scene5/background.png")
+    this.load.image("background", "assets/scene5/background.png")
     this.load.audio("gerador", "assets/Scene5/Sound-effects/gerador.mp3")
 
-    this.load.image("detectorco", "assets/Scene6/detectorco.png")
+    this.load.image("detectorco", "assets/scene6/detectorco.png")
 
     this.load.image("scene11-background", "assets/scene11/numpad.png")
     this.load.image("void", "assets/scene11/void.png")

@@ -20,9 +20,9 @@ export class Scene6 extends Scene {
   }
 
   preload() {
-    this.load.image("detector-background", "assets/Scene6/detector-background.png")
-    this.load.image("arrow", "assets/Scene6/detector-arrow.png")
-    //this.load.image("Visor", "assets/Scene4/Visor.png");
+    this.load.image("detector-background", "assets/scene6/detector-background.png")
+    this.load.image("arrow", "assets/scene6/detector-arrow.png")
+    //this.load.image("Visor", "assets/scene4/Visor.png");
   }
 
   text!: Phaser.GameObjects.Text;

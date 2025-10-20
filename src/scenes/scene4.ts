@@ -24,11 +24,11 @@ export class Scene4 extends Scene {
   preload() {
     this.load.image(
       "battery-background",
-      "assets/Scene4/battery-background.png"
+      "assets/scene4/battery-background.png"
     )
-    this.load.image("batteryicon1", "assets/Scene4/battery-icon1.png")
-    this.load.image("batteryicon2", "assets/Scene4/battery-icon2.png")
-    //this.load.image("Visor", "assets/Scene4/Visor.png");
+    this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
+    this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
+    //this.load.image("Visor", "assets/scene4/Visor.png");
   }
 
   create() {

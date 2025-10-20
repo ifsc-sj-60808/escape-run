@@ -28,7 +28,7 @@ export class Scene7 extends Scene {
 
   preload() {
     // Carrega o fundo do teclado (único asset)
-    this.load.image("scene7-background", "assets/Scene7/tecladocena7.png")
+    this.load.image("scene7-background", "assets/scene7/tecladocena7.png")
 
     // Botões transparentes (clicáveis)
     this.load.image("void", "assets/scene11/void.png")

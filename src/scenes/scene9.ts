@@ -92,22 +92,6 @@ export class Scene9 extends Scene {
           this.display.setText("")
         }
       })
-
-    // 📡 Recebe mensagem MQTT para mudar de cena (sincronização)
-    ;(this.game as typeof MultiPlayerGame).mqttClient.subscribe(
-      "escape-run/scene/change"
-    )
-    ;(this.game as typeof MultiPlayerGame).mqttClient.on(
-      "message",
-      (topic, message) => {
-        if (topic === "escape-run/scene/change") {
-          const sceneName = message.toString()
-          if (sceneName === "Scene9") {
-            this.scene.start("Scene9")
-          }
-        }
-      }
-    )
   }
 
   update() {
