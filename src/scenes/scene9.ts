@@ -15,6 +15,9 @@ export class Scene9 extends Scene {
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
 
+  private readonly NUMERO_CORRETO = '1955'
+  private isConnecting: boolean = false
+
   constructor() {
     super({ key: "Scene9" })
   }
@@ -61,9 +64,8 @@ export class Scene9 extends Scene {
         .setDisplaySize(90, 90)
         .setInteractive({ useHandCursor: true })
         .on("pointerdown", () => {
-          if (this.password.length < 4) {
+          if (!this.isConnecting && this.password.length < 4) {
             this.password += button.number
-            this.display.setText(this.password)
           }
         })
     })
@@ -73,16 +75,40 @@ export class Scene9 extends Scene {
       .setDisplaySize(120, 90)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
-          "escape-run/room/10/0",
-          this.password
-        )
+        if (this.password === this.NUMERO_CORRETO) {
+          this.isConnecting = true
+          this.input.enabled = false
 
-        this.password = ""
+          this.display.setFontSize('40px')
+          this.display.setText("CHAMANDO...")
+          this.display.setColor("#ffff00")
+
+          this.time.delayedCall(3000, () => {
+            this.display.setText("LIBERADO!")
+            this.display.setColor("#00ff00")
+
+            this.time.delayedCall(2000, () => {
+              this.scene.start('Scene10')
+            })
+          })
+        } else {
+          this.display.setFontSize('32px')
+          this.display.setText("DISCAGEM INCORRETA")
+          this.display.setColor("#ff0000")
+          this.password = ""
+
+          this.time.delayedCall(1500, () => {
+            this.display.setFontSize('64px')
+            this.display.setText("")
+            this.display.setColor("#ff00ff")
+          })
+        }
       })
   }
 
   update() {
-    this.display.setText(this.password)
+    if (!this.isConnecting) {
+      this.display.setText(this.password)
+    }
   }
 }
