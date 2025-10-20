@@ -60,16 +60,27 @@ export class Scene0 extends Scene {
     this.load.audio("las", "assets/scene2/las.mp3")
     this.load.audio("si", "assets/scene2/si.mp3")
 
-    this.load.image("bateriabaixa", "assets/scene4/bateriabaixa.png")
+    this.load.image(
+      "battery-background",
+      "assets/scene4/battery-background.png"
+    )
+    this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
+    this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
 
     this.load.image("background", "assets/scene5/background.png")
-    this.load.audio("gerador", "assets/Scene5/Sound-effects/gerador.mp3")
+    this.load.audio("gerador", "assets/scene5/Sound-effects/gerador.mp3")
 
-    this.load.image("detectorco", "assets/scene6/detectorco.png")
+    this.load.image(
+      "detector-background",
+      "assets/scene6/detector-background.png"
+    )
+    this.load.image("arrow", "assets/scene6/detector-arrow.png")
 
     this.load.image("scene9-numpad", "assets/scene9/numpad.png")
     this.load.image("scene9-void", "assets/scene9/void.png")
     this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
+
+    this.load.image("cena10-start.png", "assets/scene10/start.png")
 
     this.load.image("scene11-background", "assets/scene11/numpad.png")
     this.load.image("void", "assets/scene11/void.png")
@@ -96,7 +107,7 @@ export class Scene0 extends Scene {
     })
 
     this.rules =
-      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 40 minutos.\n- Sem interação com os\n atores.\n- Caso o dispositivo\n descarregue ou sair da\n tela o jogador será\n desclassificado.\n- Placas escritas para\n não encostar e fitas\n que impeçam do jogador\n avançar devem ser\n respeitadas.\n- Proibido mais de um\n celular por usuário.\n- Brigas entre jogadores\n causará desclassificação\n imediata da equipe.\n- Pode-se ser anunciado\n dicas pelo alto falantes.\n- Caso de emergência, a\n dona morte irá buscar\n o jogar e segue os\n demais.\n- Cada ação no jogo terá\n uma reação, os fracos\n juntam-se a festa.\n- Aproveitar as cenas e a\n ambientação.\n\n Sigam o fluxograma, caso\n não seja respeitado, você\n será mais um perdedor.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.\n\n> "
+      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 40 minutos.\n- Não interagir com os\n  atores.\n- Caso o dispositivo\n  descarregue ou saia do\n  jogo você será\n  desclassificado.\n- Respeita as placas e\n  fitas de isolamento.\n- Proibido mais de um\n  celular por usuário.\n- Brigas entre jogadores\n causará desclassificação\n imediata da equipe.\n- Podem ser anunciadas\n dicas pelo alto-falantes.\n- Caso de emergência, a\n dona morte irá buscar\n o jogar e segue os\n demais.\n- Cada ação no jogo tem\n uma reação, os fracos\n juntam-se à festa.\n- Aproveitem as cenas e a\n ambientação.\n\n Siga o fluxograma, caso\n não seja respeitado, você\n será mais um perdedor.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.\n\n> "
 
     this.add
       .image(225, 400, "scene0-background")
