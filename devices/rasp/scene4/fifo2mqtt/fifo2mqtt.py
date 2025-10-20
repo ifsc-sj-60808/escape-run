@@ -9,13 +9,13 @@ MQTT_BROKER = "escape-run.sj.ifsc.edu.br"
 MQTT_PORT = 1883
 MQTT_TOPIC = "escape-run/player/scene"
 MQTT_PAYLOAD = "Scene5"
-POLL_TIMEOUT = 1.0 # 1 second
-READ_SIZE = 1 # 1 byte
+POLL_TIMEOUT = 1.0  # 1 second
+READ_SIZE = 1  # 1 byte
 
 if not os.path.exists(FIFO_PATH):
     os.mkfifo(FIFO_PATH, 0o600)
 
-client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2) # type: ignore
 client.connect(MQTT_BROKER, MQTT_PORT)
 client.loop_start()
 
@@ -53,7 +53,7 @@ try:
 
         print(f"Read byte: {byte.hex()}")
 
-        if (byte == b'1'):
+        if byte == b"1":
             client.publish(MQTT_TOPIC, payload=MQTT_PAYLOAD, qos=0)
 
 except KeyboardInterrupt:
