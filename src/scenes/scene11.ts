@@ -28,7 +28,7 @@ export class Scene11 extends Scene {
   init() {
     WebFont.load({
       google: {
-        families: ["Tiny5", "Sixtyfour"]
+        families: ["Sixtyfour"]
       }
     })
   }

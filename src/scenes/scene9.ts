@@ -14,7 +14,6 @@ export class Scene9 extends Scene {
   private display!: Phaser.GameObjects.Text
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
-  private correctPassword: string = "6696"
 
   constructor() {
     super({ key: "Scene9" })
@@ -22,24 +21,19 @@ export class Scene9 extends Scene {
 
   init() {
     WebFont.load({
-      google: { families: ["Tiny5", "Sixtyfour"] }
+      google: { families: ["Sixtyfour"] }
     })
   }
 
   preload() {
-    // Carrega o fundo do teclado (único asset)
-    this.load.image("teclado", "assets/scene11/numpad.png")
-
-    // Botões transparentes (clicáveis)
-    this.load.image("void", "assets/scene9/void.png")
-    this.load.image("void-3x", "assets/scene9/void-3x.png")
+    this.load.image("scene9-numpad", "assets/scene9/numpad.png")
+    this.load.image("scene9-void", "assets/scene9/void.png")
+    this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
   }
 
   create() {
-    // 🔮 Fundo do teclado neon
-    this.add.image(225, 400, "teclado")
+    this.add.image(225, 400, "scene9-numpad")
 
-    // 💾 Campo de exibição do código digitado (na parte superior)
     this.display = this.add
       .text(225, 115, "", {
         fontFamily: "Sixtyfour",
@@ -61,10 +55,9 @@ export class Scene9 extends Scene {
       { x: 100, y: 585, number: "0" }
     ]
 
-    // 🧱 Cria os botões invisíveis, mas interativos
     this.buttons.forEach((button) => {
       button.sprite = this.add
-        .image(button.x, button.y, "void")
+        .image(button.x, button.y, "scene9-void")
         .setDisplaySize(90, 90)
         .setInteractive({ useHandCursor: true })
         .on("pointerdown", () => {
@@ -75,27 +68,21 @@ export class Scene9 extends Scene {
         })
     })
 
-    // ⌨️ Botão ENTER (maior botão no layout)
     this.enter = this.add
-      .image(290, 585, "void-3x")
+      .image(290, 585, "scene9-void-3x")
       .setDisplaySize(120, 90)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        if (this.password === this.correctPassword) {
-          // ✅ Publica para todos os jogadores mudarem de cena
-          ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
-            "escape-run/scene/change",
-            "Scene9"
-          )
-        } else {
-          this.password = ""
-          this.display.setText("")
-        }
+        ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
+          "escape-run/room/10/0",
+          this.password
+        )
+
+        this.password = ""
       })
   }
 
   update() {
-    // Exibe o código digitado
     this.display.setText(this.password)
   }
 }

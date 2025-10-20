@@ -67,6 +67,10 @@ export class Scene0 extends Scene {
 
     this.load.image("detectorco", "assets/scene6/detectorco.png")
 
+    this.load.image("scene9-numpad", "assets/scene9/numpad.png")
+    this.load.image("scene9-void", "assets/scene9/void.png")
+    this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
+
     this.load.image("scene11-background", "assets/scene11/numpad.png")
     this.load.image("void", "assets/scene11/void.png")
     this.load.image("void-3x", "assets/scene11/void-3x.png")
