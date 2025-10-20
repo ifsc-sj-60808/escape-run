@@ -2,55 +2,91 @@
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.14.1/mqtt.min.js"></script>
 
+    Senha:
     <input
       type="text"
       id="password"
       placeholder="Senha do servidor"
-      value="***"
-    />
+      value="***" />
+    <p />
+
+    Tempo:
     <input type="text" id="time" placeholder="Tempo em segundos" value="1800" />
+    <p />
+
     <button onclick="start()">Iniciar partida</button>
+
+    <select id="scene" onchange="changeScene()">
+      <option value="Scene0">Cena 0</option>
+      <option value="Scene1">Cena 1</option>
+      <option value="Scene2">Cena 2</option>
+      <option value="Scene3">Cena 3</option>
+      <option value="Scene4">Cena 4</option>
+      <option value="Scene5">Cena 5</option>
+      <option value="Scene6">Cena 6</option>
+      <option value="Scene7">Cena 7</option>
+      <option value="Scene8">Cena 8</option>
+      <option value="Scene9">Cena 9</option>
+      <option value="Scene10">Cena 10</option>
+      <option value="Scene11">Cena 11</option>
+      <option value="Scene12">Cena 12</option>
+      <option value="Scene13">Cena 13</option>
+      <option value="Scene14">Cena 14</option>
+      <option value="Scene15">Cena 15</option>
+    </select>
+
     <button onclick="stop()">Encerrar partida</button>
+
     <div class="center" id="mqtt-logger"></div>
     <script>
-      const mqttBrokerUrl = "wss://escape-run.sj.ifsc.edu.br/mqtt";
-      const client = mqtt.connect(mqttBrokerUrl);
-      const logger = document.getElementById("mqtt-logger");
+      const mqttBrokerUrl = "wss://escape-run.sj.ifsc.edu.br/mqtt"
+      const client = mqtt.connect(mqttBrokerUrl)
+      const logger = document.getElementById("mqtt-logger")
 
       client.on("connect", () => {
-        logger.innerHTML += "<p>Connected to MQTT broker</p>";
+        logger.innerHTML += "<p>Connected to MQTT broker</p>"
 
         client.subscribe("escape-run/#", (err) => {
           if (!err) {
-            logger.innerHTML += "<p>Subscribed to escape run topics</p>";
+            logger.innerHTML += "<p>Subscribed to escape run topics</p>"
           } else {
-            logger.innerHTML += `<p>Error subscribing: ${err}</p>`;
+            logger.innerHTML += `<p>Error subscribing: ${err}</p>`
           }
 
           client.on("message", (topic, message) => {
-            logger.innerHTML += `<p><strong>Topic:</strong> ${topic} <strong>Message:</strong> ${message.toString()}</p>`;
-          });
-        });
-      });
+            logger.innerHTML += `<p><strong>Topic:</strong> ${topic} <strong>Message:</strong> ${message.toString()}</p>`
+          })
+        })
+      })
 
       function start() {
-        const password = document.getElementById("password").value;
-        let time = parseInt(document.getElementById("time").value);
-        if (isNaN(time) || time <= 0) time = 1800;
+        const password = document.getElementById("password").value
+        let time = parseInt(document.getElementById("time").value)
+        if (isNaN(time) || time <= 0) time = 1800
 
         client.publish(
           "escape-run/server/start",
           JSON.stringify({ password: password, time: time })
-        );
+        )
+      }
+
+      function changeScene() {
+        const password = document.getElementById("password").value
+        const scene = document.getElementById("scene").value
+
+        client.publish(
+          "escape-run/server/scene",
+          JSON.stringify({ password: password, scene: scene })
+        )
       }
 
       function stop() {
-        const password = document.getElementById("password").value;
-        
+        const password = document.getElementById("password").value
+
         client.publish(
           "escape-run/server/stop",
           JSON.stringify({ password: password, time: 0 })
-        );
+        )
       }
     </script>
   </body>
