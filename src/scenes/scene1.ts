@@ -19,12 +19,6 @@ export class Scene1 extends Scene {
 
   preload() {
     this.load.image("scene1-background", "assets/scene1/background.png")
-
-    this.display = this.add.text(25, 25, "", {
-      fontFamily: "Sixtyfour",
-      fontSize: "16px",
-      color: "#ff00ff"
-    })
   }
 
   create() {
