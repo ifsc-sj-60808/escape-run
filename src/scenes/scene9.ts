@@ -62,7 +62,7 @@ export class Scene9 extends Scene {
       button.sprite = this.add
         .image(button.x, button.y, "scene9-void")
         .setDisplaySize(90, 90)
-        .setInteractive({ useHandCursor: true })
+        .setInteractive()
         .on("pointerdown", () => {
           if (!this.isConnecting && this.password.length < 4) {
             this.password += button.number
@@ -73,7 +73,7 @@ export class Scene9 extends Scene {
     this.enter = this.add
       .image(290, 585, "scene9-void-3x")
       .setDisplaySize(120, 90)
-      .setInteractive({ useHandCursor: true })
+      .setInteractive()
       .on("pointerdown", () => {
         if (this.password === this.NUMERO_CORRETO) {
           this.isConnecting = true

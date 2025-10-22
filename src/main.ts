@@ -30,7 +30,6 @@ class MultiPlayerGame extends Game {
         const scene = payload.toString()
 
         if (this.scene.keys[scene]) {
-          console.log(`Mudando de ${this.currentScene} para ${scene}`)
           this.scene.stop(this.currentScene)
           if (window.document.querySelector("#camera-video"))
             window.document.querySelector("#camera-video")?.remove()
@@ -45,7 +44,6 @@ class MultiPlayerGame extends Game {
         if (!isNaN(counter)) {
           this.minutes = String(Math.floor(counter / 60)).padStart(2, "0")
           this.seconds = String(Math.floor(counter % 60)).padStart(2, "0")
-          console.log("Tempo atualizado:", this.minutes, ":", this.seconds)
         } else {
           console.warn(`Contador de tempo inválido: ${payload.toString()}`)
         }
