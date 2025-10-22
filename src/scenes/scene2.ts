@@ -211,9 +211,11 @@ export class Scene2 extends Scene {
         .sprite(key.x, key.y, key.image)
         .setInteractive()
         .on("pointerdown", () => {
-          if (key.sound) key.sound.play()
-          if (this.password.length < 5) this.password += key.code
-          this.display.setText(this.display.text + key.text + " ")
+          if (this.password.length < 5) {
+            if (key.sound) key.sound.play()
+            this.password += key.code
+            this.display.setText(this.display.text + key.text + " ")
+          }
         })
 
       this.add.text(key.x - 10, key.y + 60, key.text, {
