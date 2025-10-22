@@ -11,6 +11,10 @@ export class Scene5 extends Scene {
   filtroButton?: HTMLButtonElement
   stream?: MediaStream
   track?: MediaStreamTrack
+  batteryIcon3?: Phaser.GameObjects.Image
+  batteryIcon4?: Phaser.GameObjects.Image
+  batteryIcon5?: Phaser.GameObjects.Image
+  batteryToggle: boolean = false
   filtroAtivo: boolean = false
   flashAtivo: boolean = false
 
@@ -19,38 +23,58 @@ export class Scene5 extends Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/scene5/background.png")
+    this.load.image("charged-background", "assets/scene5/charged-background.png")
+    this.load.image("batteryicon3", "assets/scene5/battery-icon3.png")
+    this.load.image("batteryicon4", "assets/scene5/battery-icon4.png")
+    this.load.image("batteryicon5", "assets/scene5/battery-icon5.png")
+    this.load.image("camera-background", "assets/scene5/camera-background.png")
     this.load.audio("gerador", "assets/scene5/Sound-effects/gerador.mp3")
-    //this.load.image("Visor", "assets/scene5/Visor.png");
   }
 
   create() {
-    this.add.image(220, 400, "background")
+  this.add.image(220, 400, "charged-background")
+      
+      this.batteryIcon3 = this.add.image(220, 400, "batteryicon3")
+      this.batteryIcon4 = this.add.image(220, 400, "batteryicon4")
+      this.batteryIcon5 = this.add.image(220, 400, "batteryicon5")
 
-    // Reproduzir som gerador.mp3 automaticamente com atraso de 500ms
-    const geradorSom = this.sound.add("gerador")
-    this.time.delayedCall(500, () => {
-      geradorSom.play({ loop: false, volume: 1.5 })
-    })
+    this.time.addEvent({
+      delay: 400,
+      loop: true,
+      callback: () => {
+        this.batteryToggle = !this.batteryToggle
+        if (this.batteryIcon1 && this.batteryIcon2) {
+          this.batteryIcon3.setVisible(!this.batteryToggle)
+          this.batteryIcon4.setVisible(!this.batteryToggle)
+          this.batteryIcon5.setVisible(!this.batteryToggle)
+        }
 
-    if (this.videoElement) {
-      this.videoElement.pause()
-      this.videoElement.srcObject = null
-      this.videoElement.remove()
-    }
-    if (this.flashButton) this.flashButton.remove()
-    if (this.filtroButton) this.filtroButton.remove()
-    if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
-    // });
-    // Timer
-    this.timer = this.add.text(25, 25, "", {
-      fontFamily: "Sixtyfour",
-      fontSize: "16px",
-      color: "#ff00ff"
-    })
-    // Solicitar acesso à câmerahttps://effective-potato-69wp6rjj64jr24rg4-1234.app.github.dev/
-    this.startCamera()
-  }
+        this.add.image(220, 400, "camera-background")
+
+        // Reproduzir som gerador.mp3 automaticamente com atraso de 500ms
+        const geradorSom = this.sound.add("gerador")
+        this.time.delayedCall(500, () => {
+          geradorSom.play({ loop: false, volume: 1.5 })
+        })
+
+        if (this.videoElement) {
+          this.videoElement.pause()
+          this.videoElement.srcObject = null
+          this.videoElement.remove()
+        }
+        if (this.flashButton) this.flashButton.remove()
+        if (this.filtroButton) this.filtroButton.remove()
+        if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
+        // });
+        // Timer
+        this.timer = this.add.text(25, 25, "", {
+          fontFamily: "Sixtyfour",
+          fontSize: "16px",
+          color: "#ff00ff"
+        })
+        // Solicitar acesso à câmerahttps://effective-potato-69wp6rjj64jr24rg4-1234.app.github.dev/
+        this.startCamera()
+      }
 
   update() {
     // Timer

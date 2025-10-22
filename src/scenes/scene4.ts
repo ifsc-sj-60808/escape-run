@@ -1,18 +1,8 @@
 import { Scene } from "phaser"
 import MultiPlayerGame from "../main"
-
-var CamHeight = 600
-var CamWidth = CamHeight * (9 / 16)
 export class Scene4 extends Scene {
   // Timer
   timer!: Phaser.GameObjects.Text
-  videoElement?: HTMLVideoElement
-  flashButton?: HTMLButtonElement
-  filtroButton?: HTMLButtonElement
-  stream?: MediaStream
-  track?: MediaStreamTrack
-  filtroAtivo: boolean = false
-  flashAtivo: boolean = false
   batteryIcon1?: Phaser.GameObjects.Image
   batteryIcon2?: Phaser.GameObjects.Image
   batteryToggle: boolean = false
@@ -28,6 +18,7 @@ export class Scene4 extends Scene {
     )
     this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
     this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
+
     //this.load.image("Visor", "assets/scene4/Visor.png");
   }
 
