@@ -15,7 +15,7 @@ export class Scene9 extends Scene {
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
 
-  private readonly NUMERO_CORRETO = '1955'
+  private readonly NUMERO_CORRETO = "1955"
   private isConnecting: boolean = false
 
   constructor() {
@@ -38,7 +38,7 @@ export class Scene9 extends Scene {
     this.add.image(225, 400, "scene9-numpad")
 
     this.display = this.add
-      .text(225, 115, "", {
+      .text(225, 110, "", {
         fontFamily: "Sixtyfour",
         fontSize: "64px",
         color: "#ff00ff"
@@ -73,32 +73,35 @@ export class Scene9 extends Scene {
     this.enter = this.add
       .image(290, 585, "scene9-void-3x")
       .setDisplaySize(120, 90)
-      .setInteractive()
+      .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         if (this.password === this.NUMERO_CORRETO) {
           this.isConnecting = true
           this.input.enabled = false
 
-          this.display.setFontSize('40px')
-          this.display.setText("CHAMANDO...")
+          this.display.setFontSize("40px")
+          this.display.setText("CHAMANDO")
           this.display.setColor("#ffff00")
 
           this.time.delayedCall(3000, () => {
-            this.display.setText("LIBERADO!")
+            this.display.setText("LIBERADO")
             this.display.setColor("#00ff00")
 
             this.time.delayedCall(2000, () => {
-              this.scene.start('Scene10')
+              ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
+                "escape-run/player/scene",
+                "Scene10"
+              )
             })
           })
         } else {
-          this.display.setFontSize('32px')
+          this.display.setFontSize("32px")
           this.display.setText("DISCAGEM INCORRETA")
           this.display.setColor("#ff0000")
           this.password = ""
 
           this.time.delayedCall(1500, () => {
-            this.display.setFontSize('64px')
+            this.display.setFontSize("64px")
             this.display.setText("")
             this.display.setColor("#ff00ff")
           })
