@@ -22,7 +22,7 @@ export class Scene7 extends Scene {
 
   init() {
     WebFont.load({
-      google: { families: ["Tiny5", "Sixtyfour"] }
+      google: { families: ["Sixtyfour"] }
     })
   }
 

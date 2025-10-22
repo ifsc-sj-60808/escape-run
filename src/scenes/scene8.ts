@@ -1,4 +1,5 @@
 import { Scene } from "phaser"
+import WebFont from "webfontloader"
 import MultiPlayerGame from "../main"
 
 export class Scene8 extends Scene {
@@ -7,7 +8,13 @@ export class Scene8 extends Scene {
   private timerEvent!: Phaser.Time.TimerEvent
 
   constructor() {
-    super("scene8")
+    super("Scene8")
+  }
+
+  init() {
+    WebFont.load({
+      google: { families: ["Sixtyfour"] }
+    })
   }
 
   preload() {
@@ -17,9 +24,8 @@ export class Scene8 extends Scene {
 
   create() {
     // Fundo
-    const bg = this.add.image(0, 0, "regras8").setOrigin(0)
-    bg.displayWidth = 450
-    bg.displayHeight = 800
+    const bg = this.add.image(225, 400, "regras8")
+    bg.setDisplaySize(450, 800)
 
     // Texto do cronômetro
     this.timerText = this.add
@@ -30,7 +36,6 @@ export class Scene8 extends Scene {
         fontStyle: "bold"
       })
       .setOrigin(0.5)
-      
 
     // Atualiza o cronômetro a cada segundo
     this.timerEvent = this.time.addEvent({
