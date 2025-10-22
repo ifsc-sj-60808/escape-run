@@ -11,53 +11,68 @@ MQTT_TOPIC = "escape-run/player/scene"
 MQTT_PAYLOAD = "Scene5"
 POLL_TIMEOUT = 1.0  # 1 second
 READ_SIZE = 1  # 1 byte
+RUNNING = True
 
 
 def fifo_create():
-    print("Creating FIFO...")
+    '''Create the FIFO if it doesn't exist.'''
+    
     if not os.path.exists(FIFO_PATH):
         os.mkfifo(FIFO_PATH, 0o600)
 
 
 def fifo_open():
-    print("Opening FIFO...")
+    '''Open the FIFO for reading.'''
+
     fd = os.open(FIFO_PATH, os.O_RDONLY | os.O_NONBLOCK)
     fifo = os.fdopen(fd, "rb", buffering=0)
 
     poller = select.poll() if hasattr(select, "poll") else None
     if poller:
         poller.register(fd, select.POLLIN)
-    return fifo, poller
+        return fifo, poller
+    
+    return fifo, None
 
 
 def fifo_read(fifo, poller):
-    print("Reading from FIFO...")
+    '''Read from the FIFO.'''
+
     if poller:
         events = poller.poll(int(POLL_TIMEOUT * 1000))
+
         if not events:
-            print("No data available to read.")
+            return None
+
         try:
             byte = fifo.read(READ_SIZE)  # read 1 byte
-        except BlockingIOError:
-            print("No data available to read (BlockingIOError).")
 
-        return byte
+        except BlockingIOError:
+            RUNNING = False
+
+        finally:
+            return byte
+
+    return None
 
 
 def fifo_close(fifo):
-    print("Closing FIFO...")
+    '''Close the FIFO.'''
+
     if os.path.exists(FIFO_PATH):
         fifo.close()
 
 
 def fifo_delete():
-    print("Deleting FIFO...")
+    '''Delete the FIFO.'''
+    
     if os.path.exists(FIFO_PATH):
         os.remove(FIFO_PATH)
 
 
 def mqtt_connect():
-    print("Connecting to MQTT broker...")
+    '''Connect to the MQTT broker.'''
+
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)  # type: ignore
     client.connect(MQTT_BROKER, MQTT_PORT)
     client.loop_start()
@@ -67,22 +82,28 @@ def mqtt_connect():
 if __name__ == "__main__":
     try:
         mqtt_client = mqtt_connect()
+
         fifo_create()
         fifo, poller = fifo_open()
 
-        while True:
+        while RUNNING:
             byte = fifo_read(fifo, poller)
+
             if byte == b"1":
-                print("Publishing MQTT message...")
                 mqtt_client.publish(MQTT_TOPIC, payload=MQTT_PAYLOAD)
+
             time.sleep(1)
+
     except KeyboardInterrupt:
-        print("Exiting...")
+        pass
+
     finally:
         try:
             fifo_close(fifo)
             fifo_delete()
+
         except Exception:
             pass
+
         mqtt_client.loop_stop()
         mqtt_client.disconnect()
