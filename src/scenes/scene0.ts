@@ -75,7 +75,7 @@ export class Scene0 extends Scene {
     this.load.image("batteryicon4", "assets/scene5/battery-icon4.png")
     this.load.image("batteryicon5", "assets/scene5/battery-icon5.png")
     this.load.image("camera-background", "assets/scene5/camera-background.png")
-    this.load.audio("gerador", "assets/scene5/Sound-effects/gerador.mp3")
+    this.load.audio("gerador", "assets/scene5/gerador.mp3")
 
     this.load.image(
       "detector-background",
