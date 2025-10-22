@@ -32,6 +32,8 @@ class MultiPlayerGame extends Game {
         if (this.scene.keys[scene]) {
           console.log(`Mudando de ${this.currentScene} para ${scene}`)
           this.scene.stop(this.currentScene)
+          if (window.document.querySelector("#camera-video"))
+            window.document.querySelector("#camera-video")?.remove()
           this.scene.start(scene)
           this.currentScene = scene
         } else {

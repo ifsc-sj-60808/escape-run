@@ -65,16 +65,14 @@ export class Scene5 extends Scene {
       this.add.image(220, 400, "camera-background")
 
       if (this.videoElement) {
-            this.videoElement.pause()
-            this.videoElement.srcObject = null
-            this.videoElement.remove()
-          }
-          if (this.flashButton) this.flashButton.remove()
-          if (this.filtroButton) this.filtroButton.remove()
-          if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
+        this.videoElement.pause()
+        this.videoElement.srcObject = null
+        this.videoElement.remove()
+      }
+      if (this.flashButton) this.flashButton.remove()
+      if (this.filtroButton) this.filtroButton.remove()
+      if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
     }, 5000)
-
-    
 
     // Timer
     this.timer = this.add.text(25, 25, "", {
@@ -107,6 +105,7 @@ export class Scene5 extends Scene {
         this.stream = mediaStream
         this.track = mediaStream.getVideoTracks()[0]
         this.videoElement = document.createElement("video")
+        this.videoElement.id = "camera-video"
         this.videoElement.autoplay = true
         this.videoElement.playsInline = true
         this.videoElement.style.position = "absolute"
