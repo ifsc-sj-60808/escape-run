@@ -44,6 +44,12 @@ def fifo_read(fifo, poller):
         return byte
 
 
+def fifo_close(fifo):
+    print("Closing FIFO...")
+    if os.path.exists(FIFO_PATH):
+        fifo.close()
+
+
 def fifo_delete():
     print("Deleting FIFO...")
     if os.path.exists(FIFO_PATH):
@@ -63,6 +69,7 @@ if __name__ == "__main__":
         mqtt_client = mqtt_connect()
         fifo_create()
         fifo, poller = fifo_open()
+
         while True:
             byte = fifo_read(fifo, poller)
             if byte == b"1":
@@ -73,6 +80,7 @@ if __name__ == "__main__":
         print("Exiting...")
     finally:
         try:
+            fifo_close(fifo)
             fifo_delete()
         except Exception:
             pass

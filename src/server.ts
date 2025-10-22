@@ -56,8 +56,8 @@ class MultiPlayerGameServer {
       console.log("Timer:", duration)
 
       if (duration <= 0) {
-        this.stopGame()
         clearInterval(this.timer)
+        this.mqttClient.publish("escape-run/player/scene", "Scene15")
       }
     }, 1000)
   }
