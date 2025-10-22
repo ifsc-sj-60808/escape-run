@@ -63,7 +63,7 @@ export class Scene7 extends Scene {
       button.sprite = this.add
         .image(button.x, button.y, "void")
         .setDisplaySize(90, 90)
-        .setInteractive({ useHandCursor: true })
+        .setInteractive()
         .on("pointerdown", () => {
           if (this.password.length < 4) {
             this.password += button.number
@@ -76,12 +76,12 @@ export class Scene7 extends Scene {
     this.enter = this.add
       .image(350, 610, "void-3x")
       .setDisplaySize(120, 90)
-      .setInteractive({ useHandCursor: true })
+      .setInteractive()
       .on("pointerdown", () => {
         if (this.password === this.correctPassword) {
           // ✅ Publica para todos os jogadores mudarem de cena
           ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
-            "escape-run/scene/change",
+            "escape-run/player/scene",
             "Scene8"
           )
         } else {
@@ -89,23 +89,6 @@ export class Scene7 extends Scene {
           this.display.setText("")
         }
       })
-
-    // 📡 Recebe mensagem MQTT para mudar de cena (sincronização)
-    ;(this.game as typeof MultiPlayerGame).mqttClient.subscribe(
-      "escape-run/scene/change"
-    )
-
-    ;(this.game as typeof MultiPlayerGame).mqttClient.on(
-      "message",
-      (topic, message) => {
-        if (topic === "escape-run/scene/change") {
-          const sceneName = message.toString()
-          if (sceneName === "Scene8") {
-            this.scene.start("Scene8")
-          }
-        }
-      }
-    )
   }
 
   update() {
