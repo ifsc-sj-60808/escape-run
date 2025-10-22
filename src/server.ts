@@ -56,8 +56,7 @@ class MultiPlayerGameServer {
       console.log("Timer:", duration)
 
       if (duration <= 0) {
-        clearInterval(this.timer)
-        this.mqttClient.publish("escape-run/player/scene", "Scene15")
+        this.stopGame()
       }
     }, 1000)
   }
@@ -77,7 +76,7 @@ class MultiPlayerGameServer {
   private stopGame() {
     console.log("Jogo parado!")
 
-    if (this.timer) clearInterval(this.timer)
+    this.setTimer(0)
     this.mqttClient.publish("escape-run/player/scene", "Scene15")
   }
 }
