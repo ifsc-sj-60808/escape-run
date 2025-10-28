@@ -36,6 +36,16 @@ export class Scene5 extends Scene {
   }
 
   create() {
+    // Garante que o container do jogo ocupe toda a tela quando o site estiver em fullscreen
+    const container = document.getElementById("game-container")
+    if (container) {
+      container.style.position = "fixed"
+      container.style.top = "0"
+      container.style.left = "0"
+      container.style.width = "100vw"
+      container.style.height = "100vh"
+      container.style.zIndex = "5"
+    }
     this.add.image(220, 400, "charged-background")
     this.batteryIcon3 = this.add.image(220, 400, "batteryicon3")
     this.batteryIcon4 = this.add
@@ -80,7 +90,10 @@ export class Scene5 extends Scene {
       fontSize: "16px",
       color: "#ff00ff"
     })
-    this.startCamera()
+    // Só inicia a câmera após garantir que a imagem foi carregada/renderizada
+    this.time.delayedCall(500, () => {
+      this.startCamera()
+    })
   }
 
   update() {
