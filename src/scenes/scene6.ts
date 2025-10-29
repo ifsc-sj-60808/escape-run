@@ -20,20 +20,25 @@ export class Scene6 extends Scene {
   }
 
   preload() {
-    this.load.image("detector-background", "assets/scene6/detector-background.png")
+    this.load.image(
+      "detector-background",
+      "assets/scene6/detector-background.png"
+    )
     this.load.image("arrow", "assets/scene6/detector-arrow.png")
     //this.load.image("Visor", "assets/scene4/Visor.png");
   }
 
-  text!: Phaser.GameObjects.Text;
+  text!: Phaser.GameObjects.Text
 
   create() {
     this.add.image(220, 400, "detector-background")
 
-    this.arrow = this.add.sprite(220, 400, 'arrow').setOrigin(0, 0);
-    
+    this.arrow = this.add.sprite(220, 385, "arrow").setOrigin(0.1, 0.5
+    )
+    this.arrow.angle = -175
+
     // Timer
-    this.timer = this.add.text(25, 25, "");
+    this.timer = this.add.text(25, 25, "")
   }
 
   update() {
@@ -48,6 +53,6 @@ export class Scene6 extends Scene {
       )}`
     )
     // Rotate arrow
-    this.arrow.angle += 0.1
+    if (this.arrow.angle <= -15) this.arrow.angle += 2
   }
 }
