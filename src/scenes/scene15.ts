@@ -1,13 +1,22 @@
 import { Scene } from "phaser"
 import MultiPlayerGame from "../main"
+import WebFont from "webfontloader"
 
 export class Scene15 extends Scene {
+  gameOver!: Phaser.GameObjects.Text
+
   constructor() {
     super({ key: "Scene15" })
   }
 
+  init() {
+    WebFont.load({
+      google: { families: ["Sixtyfour"] }
+    })
+  }
+
   create() {
-    this.add.image(225, 400, "scene15-black")
+    this.add.image(225, 400, "scene15-background")
 
     this.anims.create({
       key: "tv-noise",
@@ -20,5 +29,13 @@ export class Scene15 extends Scene {
     })
 
     this.add.sprite(225, 400, "scene15-tv-noise").play("tv-noise")
+
+    this.gameOver = this.add
+      .text(225, 640, "GAME OVER", {
+        fontFamily: "Sixtyfour",
+        fontSize: "48px",
+        color: "#ff00ff"
+      })
+      .setOrigin(0.5)
   }
 }

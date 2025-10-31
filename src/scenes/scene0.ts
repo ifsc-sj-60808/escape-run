@@ -96,7 +96,11 @@ export class Scene0 extends Scene {
 
     this.load.image("cena12-fantasma", "assets/scene12/fantasma.png")
 
-    this.load.image("scene15-black", "assets/scene15/black.png")
+    this.load.image("scene13-background", "assets/scene13/background.png")
+
+    this.load.image("scene14-background", "assets/scene14/background.png")
+
+    this.load.image("scene15-background", "assets/scene15/background.png")
     this.load.spritesheet("scene15-tv-noise", "assets/scene15/tv-noise.png", {
       frameWidth: 450,
       frameHeight: 333
