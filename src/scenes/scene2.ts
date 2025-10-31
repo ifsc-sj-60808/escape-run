@@ -37,29 +37,6 @@ export class Scene2 extends Scene {
     super({ key: "Scene2" })
   }
 
-  preload() {
-    // Background
-    this.load.image("scene2-background", "assets/scene2/background.png")
-
-    // Piano
-    this.load.image("keyBlack", "assets/scene2/keyBlack.png") // imagem das teclas pretas
-    this.load.image("keyWhite", "assets/scene2/keyWhite.png") // imagem das teclas brancas
-    this.load.image("enter", "assets/scene2/enter.png") // imagem do botão enter
-    this.load.image("clear", "assets/scene2/clear.png") // imagem do botão clear
-    this.load.audio("do", "assets/scene2/do.mp3") // som da tecla dó
-    this.load.audio("dos", "assets/scene2/dos.mp3") // som da tecla dó sustenido
-    this.load.audio("re", "assets/scene2/re.mp3") // som da tecla ré
-    this.load.audio("res", "assets/scene2/res.mp3") // som da tecla ré sustenido
-    this.load.audio("mi", "assets/scene2/mi.mp3") // som da tecla mi
-    this.load.audio("fa", "assets/scene2/fa.mp3") // som da tecla fá
-    this.load.audio("fas", "assets/scene2/fas.mp3") // som da tecla fá sustenido
-    this.load.audio("sol", "assets/scene2/sol.mp3") // som da tecla sol
-    this.load.audio("sols", "assets/scene2/sols.mp3") // som da tecla sol sustenido
-    this.load.audio("la", "assets/scene2/la.mp3") // som da tecla lá
-    this.load.audio("las", "assets/scene2/las.mp3") // som da tecla lá sustenido
-    this.load.audio("si", "assets/scene2/si.mp3") // som da tecla si
-  }
-
   create() {
     // Background
     this.add.image(225, 400, "scene2-background")

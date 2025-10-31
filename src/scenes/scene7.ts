@@ -26,15 +26,6 @@ export class Scene7 extends Scene {
     })
   }
 
-  preload() {
-    // Carrega o fundo do teclado (único asset)
-    this.load.image("scene7-background", "assets/scene7/tecladocena7.png")
-
-    // Botões transparentes (clicáveis)
-    this.load.image("void", "assets/scene11/void.png")
-    this.load.image("void-3x", "assets/scene11/void-3x.png")
-  }
-
   create() {
     // 🔮 Fundo do teclado neon
     this.add.image(225, 400, "scene7-background")

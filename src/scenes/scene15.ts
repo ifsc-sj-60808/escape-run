@@ -1,16 +1,9 @@
 import { Scene } from "phaser"
+import MultiPlayerGame from "../main"
 
 export class Scene15 extends Scene {
   constructor() {
     super({ key: "Scene15" })
-  }
-
-  preload() {
-    this.load.image("scene15-black", "assets/scene15/black.png")
-    this.load.spritesheet("scene15-tv-noise", "assets/scene15/tv-noise.png", {
-      frameWidth: 450,
-      frameHeight: 333
-    })
   }
 
   create() {

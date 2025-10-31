@@ -23,18 +23,6 @@ export class Scene5 extends Scene {
     super({ key: "Scene5" })
   }
 
-  preload() {
-    this.load.image(
-      "charged-background",
-      "assets/scene5/charged-background.png"
-    )
-    this.load.image("batteryicon3", "assets/scene5/battery-icon3.png")
-    this.load.image("batteryicon4", "assets/scene5/battery-icon4.png")
-    this.load.image("batteryicon5", "assets/scene5/battery-icon5.png")
-    this.load.audio("gerador", "assets/scene5/gerador.mp3")
-    this.load.image("camera-background", "assets/scene5/camera-background.png")
-  }
-
   create() {
     // Garante que o container do jogo ocupe toda a tela quando o site estiver em fullscreen
     const container = document.getElementById("game-container")

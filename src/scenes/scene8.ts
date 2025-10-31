@@ -17,11 +17,6 @@ export class Scene8 extends Scene {
     })
   }
 
-  preload() {
-    // Carrega imagem de fundo
-    this.load.image("regras8", "assets/scene8/regras8.png")
-  }
-
   create() {
     // Fundo
     const bg = this.add.image(225, 400, "regras8")

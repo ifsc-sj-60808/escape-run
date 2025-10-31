@@ -17,10 +17,6 @@ export class Scene1 extends Scene {
     })
   }
 
-  preload() {
-    this.load.image("scene1-background", "assets/scene1/background.png")
-  }
-
   create() {
     this.add.image(225, 400, "scene1-background")
 
