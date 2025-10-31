@@ -4,18 +4,26 @@ from umqtt.robust import MQTTClient
 from time import sleep
 
 led = Pin(2, Pin.OUT)
+vault = Pin(3, Pin.OUT)
+button = Pin(4, Pin.IN)
+audio = Pin(5, Pin.OUT)
+
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
-mqtt_client_id = "room-14-0"
+mqtt_client_id = "room-cultura-1"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = "escape-run/room/14/0"
+mqtt_topic_subscribe = "escape-run/room/cultura/1"
 mqtt_topic_publish = "escape-run/player/msg"
+
+vault_password = "859"
 
 
 def setup():
     led.off()
+    vault.on()
+    audio.off()
 
 
 def blink():
@@ -26,9 +34,19 @@ def blink():
         led.on()
 
 
-def panic():
-    # Liberar todas as portas e travas
-    pass
+def open_vault():
+    vault.off()
+    print("Vault opened!")
+
+    mqtt_client.publish(b"escape-run/player/scene", "Scene12")
+    print("Changed scene: Scene12")
+
+    blink()
+
+
+def play_audio():
+    audio.on()
+    print("Audio played!")
 
 
 def connect_wifi():
@@ -58,10 +76,8 @@ def callback(topic, payload):
     msg = payload.decode()
     print("Received message:", msg)
 
-    if msg == "blink":
-        blink()
-    elif msg == "panic":
-        panic()
+    if msg == vault_password:
+        open_vault()
     elif msg == "reset":
         reset()
 
@@ -79,8 +95,15 @@ if __name__ == "__main__":
     mqtt_client = connect_mqtt()
     subscribe(mqtt_client)
 
+    last_button = button.value()
     while True:
-        # mqtt_client.publish(mqtt_topic_publish, "ping")
+        current_button = button.value()
+        if last_button == 1 and current_button == 0:
+            play_audio()
+            print("Button pressed!")
+
+        last_button = current_button
+
         mqtt_client.check_msg()
 
-        sleep(1)
+        sleep(0.1)
