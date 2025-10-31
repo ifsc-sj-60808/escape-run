@@ -11,17 +11,6 @@ export class Scene4 extends Scene {
     super({ key: "Scene4" })
   }
 
-  preload() {
-    this.load.image(
-      "battery-background",
-      "assets/scene4/battery-background.png"
-    )
-    this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
-    this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
-
-    //this.load.image("Visor", "assets/scene4/Visor.png");
-  }
-
   create() {
     this.add.image(220, 400, "battery-background")
 

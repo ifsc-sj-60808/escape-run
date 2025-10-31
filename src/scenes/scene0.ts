@@ -27,7 +27,6 @@ export class Scene0 extends Scene {
     })
 
     this.load.on("progress", (progress: number) => {
-      console.log(progress)
       this.loadingDisplay.setText(
         " Carregando jogo em RAM...\n[" +
           "#".repeat(Math.floor(progress * 25)) +

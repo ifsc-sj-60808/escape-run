@@ -33,15 +33,6 @@ export class Scene11 extends Scene {
     })
   }
 
-  preload() {
-    // Background
-    this.load.image("scene11-background", "assets/scene11/numpad.png")
-
-    // Numpad
-    this.load.image("void", "assets/scene11/void.png")
-    this.load.image("void-3x", "assets/scene11/void-3x.png")
-  }
-
   create() {
     //Background
     this.add.image(225, 400, "scene11-background")

@@ -28,12 +28,6 @@ export class Scene9 extends Scene {
     })
   }
 
-  preload() {
-    this.load.image("scene9-numpad", "assets/scene9/numpad.png")
-    this.load.image("scene9-void", "assets/scene9/void.png")
-    this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
-  }
-
   create() {
     this.add.image(225, 400, "scene9-numpad")
 

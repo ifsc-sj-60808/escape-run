@@ -17,10 +17,6 @@ export class Scene10 extends Scene {
     })
   }
 
-  preload() {
-    this.load.image("cena10-start.png", "assets/scene10/start.png")
-  }
-
   create() {
     this.add.image(225, 400, "cena10-start.png")
 
