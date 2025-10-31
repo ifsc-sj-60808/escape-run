@@ -4,6 +4,8 @@ from umqtt.robust import MQTTClient
 from time import sleep
 
 led = Pin(2, Pin.OUT)
+states = [Pin(i, Pin.OUT) for i in range(3, 7)]
+state = 3
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
@@ -16,6 +18,8 @@ mqtt_topic_publish = "escape-run/player/msg"
 
 def setup():
     led.off()
+    for i in range(len(states)):
+        states[i].off()
 
 
 def blink():
@@ -24,6 +28,11 @@ def blink():
         led.off()
         sleep(0.1)
         led.on()
+
+
+def open(pin):
+    pin.on()
+    print("Pin changed state to 1")
 
 
 def panic():
@@ -60,6 +69,11 @@ def callback(topic, payload):
 
     if msg == "blink":
         blink()
+    elif msg == "next":
+        global states, state
+        state = (state + 1) % len(states)
+
+        open(states[state])
     elif msg == "panic":
         panic()
     elif msg == "reset":
