@@ -18,22 +18,15 @@ export class Scene5 extends Scene {
   track?: MediaStreamTrack
   filtroAtivo: boolean = false
   flashAtivo: boolean = false
+  // posição da última imagem camera-background (coordenadas do jogo)
+  lastBgX: number = 220
+  lastBgY: number = 400
 
   constructor() {
     super({ key: "Scene5" })
   }
 
   create() {
-    // Garante que o container do jogo ocupe toda a tela quando o site estiver em fullscreen
-    const container = document.getElementById("game-container")
-    if (container) {
-      container.style.position = "fixed"
-      container.style.top = "0"
-      container.style.left = "0"
-      container.style.width = "100vw"
-      container.style.height = "100vh"
-      container.style.zIndex = "5"
-    }
     this.add.image(220, 400, "charged-background")
     this.batteryIcon3 = this.add.image(220, 400, "batteryicon3")
     this.batteryIcon4 = this.add
@@ -60,16 +53,19 @@ export class Scene5 extends Scene {
     })
 
     setInterval(() => {
+      // Adiciona a nova imagem de fundo da câmera (última imagem)
       this.add.image(220, 400, "camera-background")
+      // atualiza posição registrada da imagem
+      this.lastBgX = 220
+      this.lastBgY = 400
 
-      if (this.videoElement) {
-        this.videoElement.pause()
-        this.videoElement.srcObject = null
-        this.videoElement.remove()
+      // Não removemos mais a câmera nem os botões aqui. Apenas iniciamos a
+      // câmera se ela ainda não estiver presente (para evitar duplicatas).
+      if (!this.videoElement) {
+        this.time.delayedCall(100, () => {
+          this.startCamera()
+        })
       }
-      if (this.flashButton) this.flashButton.remove()
-      if (this.filtroButton) this.filtroButton.remove()
-      if (this.stream) this.stream.getTracks().forEach((t) => t.stop())
     }, 5000)
 
     // Timer
@@ -78,10 +74,7 @@ export class Scene5 extends Scene {
       fontSize: "16px",
       color: "#ff00ff"
     })
-    // Só inicia a câmera após garantir que a imagem foi carregada/renderizada
-    this.time.delayedCall(500, () => {
-      this.startCamera()
-    })
+    // A câmera será iniciada a partir do setInterval quando a imagem for adicionada
   }
 
   update() {
@@ -97,27 +90,81 @@ export class Scene5 extends Scene {
     )
   }
 
+  // Mapeia coordenadas do jogo (x,y,w,h) para posições/valores CSS no DOM
+  private mapGameToDOM(
+    x: number,
+    y: number,
+    w: number,
+    h: number
+  ): {
+    left: number
+    top: number
+    cssWidth: number
+    cssHeight: number
+    container: HTMLElement
+  } {
+    const container = (document.getElementById("game-container") ||
+      document.body) as HTMLElement
+    const canvas = (this.game.canvas || document.querySelector("canvas")) as
+      | HTMLCanvasElement
+      | undefined
+
+    // fallback: centraliza na viewport
+    if (!canvas) {
+      const left = window.innerWidth / 2
+      const top = window.innerHeight / 2
+      return {
+        left,
+        top,
+        cssWidth: w,
+        cssHeight: h,
+        container
+      }
+    }
+
+    const rect = canvas.getBoundingClientRect()
+    const gameW = this.scale.width
+    const gameH = this.scale.height
+
+    const left = rect.left + (x / gameW) * rect.width
+    const top = rect.top + (y / gameH) * rect.height
+    const scale = rect.width / gameW
+    const cssWidth = Math.round(w * scale)
+    const cssHeight = Math.round(h * (rect.height / gameH))
+
+    return { left, top, cssWidth, cssHeight, container }
+  }
+
   async startCamera() {
     const stream = navigator.mediaDevices
-      .getUserMedia({
-        video: { facingMode: { exact: "environment" } }
-      })
+      .getUserMedia({ video: { facingMode: { exact: "environment" } } })
       .then((mediaStream) => {
         this.stream = mediaStream
         this.track = mediaStream.getVideoTracks()[0]
+
+        // Calcula onde posicionar o vídeo para que fique sobre a imagem
+        const dom = this.mapGameToDOM(
+          this.lastBgX,
+          this.lastBgY,
+          CamWidth,
+          CamHeight
+        )
+
         this.videoElement = document.createElement("video")
         this.videoElement.id = "camera-video"
         this.videoElement.autoplay = true
         this.videoElement.playsInline = true
         this.videoElement.style.position = "absolute"
-        this.videoElement.style.top = "55%"
-        this.videoElement.style.left = "50%"
-        this.videoElement.style.width = `${CamWidth}px`
-        this.videoElement.style.height = `${CamHeight}px`
+        this.videoElement.style.left = `${dom.left}px`
+        this.videoElement.style.top = `${dom.top}px`
+        this.videoElement.style.width = `${dom.cssWidth}px`
+        this.videoElement.style.height = `${dom.cssHeight}px`
         this.videoElement.style.transform = "translate(-50%, -50%)"
-        this.videoElement.style.zIndex = "10"
+        this.videoElement.style.zIndex = "99999"
         this.videoElement.style.pointerEvents = "none" // Não interfere nos cliques do Phaser
         this.videoElement.srcObject = mediaStream
+
+        // Anexa no body com z-index alto para garantir que fique acima do canvas
         document.body.appendChild(this.videoElement)
 
         // Adiciona botões após o vídeo ser adicionado
@@ -125,19 +172,33 @@ export class Scene5 extends Scene {
       })
       .catch((err) => {
         console.error("Erro ao acessar a câmera: ", err)
+        // mesmo sem câmera, ainda posicionamos os botões sobre a imagem
+        this.addControlButtons()
       })
   }
 
   addControlButtons() {
+    // evita duplicação
+    if (this.flashButton || this.filtroButton) return
+
+    // calcula posição baseada na última imagem
+    const dom = this.mapGameToDOM(
+      this.lastBgX,
+      this.lastBgY,
+      CamWidth,
+      CamHeight
+    )
+
     // Botão Flash
     this.flashButton = document.createElement("button")
     this.flashButton.innerText = "Ligar Flash"
     this.flashButton.style.position = "absolute"
-    this.flashButton.style.top = "87%"
-    this.flashButton.style.left = "30%"
-    this.flashButton.style.transform = "translate(-50%, 0)"
-    this.flashButton.style.zIndex = "20"
-    this.flashButton.style.padding = "1em"
+    // posiciona logo abaixo do vídeo, alinhado à esquerda
+    this.flashButton.style.left = `${dom.left - 80}px`
+    this.flashButton.style.top = `${dom.top + dom.cssHeight / 2 + 12}px`
+    this.flashButton.style.transform = "translate(0, 0)"
+    this.flashButton.style.zIndex = "99999"
+    this.flashButton.style.padding = "0.6em 1em"
     this.flashButton.style.fontSize = "1.1em"
     this.flashButton.style.fontFamily = "sans-serif"
     this.flashButton.style.color = "#b62271ff"
@@ -151,11 +212,11 @@ export class Scene5 extends Scene {
     this.filtroButton = document.createElement("button")
     this.filtroButton.innerText = "Ativar Filtro"
     this.filtroButton.style.position = "absolute"
-    this.filtroButton.style.top = "87%"
-    this.filtroButton.style.left = "70%"
-    this.filtroButton.style.transform = "translate(-50%, 0)"
-    this.filtroButton.style.zIndex = "20"
-    this.filtroButton.style.padding = "1em"
+    this.filtroButton.style.left = `${dom.left + 20}px`
+    this.filtroButton.style.top = `${dom.top + dom.cssHeight / 2 + 12}px`
+    this.filtroButton.style.transform = "translate(0, 0)"
+    this.filtroButton.style.zIndex = "99999"
+    this.filtroButton.style.padding = "0.6em 1em"
     this.filtroButton.style.width = "8em"
     this.filtroButton.style.fontSize = "1.1em"
     this.filtroButton.style.fontFamily = "sans-serif"
@@ -163,7 +224,6 @@ export class Scene5 extends Scene {
     this.filtroButton.style.fontWeight = "bold"
     this.filtroButton.style.backgroundColor = "#130b1cff"
     this.filtroButton.style.border = "2px solid #881753"
-    this.filtroButton.style.fontWeight = "bold"
     this.filtroButton.onclick = () => this.toggleFiltro()
     document.body.appendChild(this.filtroButton)
   }
