@@ -1,6 +1,6 @@
-from machine import Pin, reset
-import network
-from umqtt.robust import MQTTClient
+from machine import Pin, reset # pyright: ignore[reportMissingImports]
+import network # pyright: ignore[reportMissingImports]
+from umqtt.robust import MQTTClient # pyright: ignore[reportMissingImports]
 from time import sleep
 
 led = Pin(2, Pin.OUT)
