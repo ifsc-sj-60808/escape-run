@@ -36,11 +36,11 @@ def open(pin):
 
 
 def panic():
-    # Liberar todas as portas e travas
-    pass
+    for i in range(len(states)):
+        states[i].on()
 
 
-def connect_wifi():
+def wifi_connect():
     wlan = network.WLAN()
     wlan.active(True)
     wlan.connect(wifi_ssid, wifi_password)
@@ -52,32 +52,33 @@ def connect_wifi():
     print("Connected to Wi-Fi!")
 
 
-def connect_mqtt():
-    client = MQTTClient(mqtt_client_id, mqtt_broker)
-    client.connect()
-    client.set_callback(callback)
-    print("Connected to MQTT broker!")
-
-    led.on()
-
-    return client
-
-
 def callback(topic, payload):
     msg = payload.decode()
     print("Received message:", msg)
 
     if msg == "blink":
         blink()
+
     elif msg == "next":
         global states, state
         state = (state + 1) % len(states)
-
         open(states[state])
+
     elif msg == "panic":
         panic()
+
     elif msg == "reset":
         reset()
+
+
+def mqtt_connect():
+    client = MQTTClient(mqtt_client_id, mqtt_broker)
+    client.connect()
+    client.set_callback(callback)
+    led.on()
+    print("Connected to MQTT broker!")
+
+    return client
 
 
 def subscribe(client):
@@ -88,9 +89,9 @@ def subscribe(client):
 if __name__ == "__main__":
     setup()
 
-    connect_wifi()
+    wifi_connect()
 
-    mqtt_client = connect_mqtt()
+    mqtt_client = mqtt_connect()
     subscribe(mqtt_client)
 
     while True:
