@@ -13,11 +13,10 @@ wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
 mqtt_client_id = "room-cultura-0"            
-#mqtt_broker = 'escape-run.sj.ifsc.edu.br'
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
 mqtt_topic_subscribe = "escape-run/room/cultura/0"
 mqtt_topic_publish = "escape-run/player/msg"
-
+ 
 def setup():
     cofre.on()
     botao.off()

@@ -1,13 +1,12 @@
-from machine import Pin, reset
-import network
-from umqtt.robust import MQTTClient
+from machine import Pin, reset  # pyright: ignore[reportMissingImports]
+import network  # pyright: ignore[reportMissingImports]
+from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
 led = Pin(2, Pin.OUT)
 vault = Pin(3, Pin.OUT)
 button = Pin(4, Pin.IN)
 audio = Pin(5, Pin.OUT)
-
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"

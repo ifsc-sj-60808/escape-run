@@ -1,6 +1,6 @@
-from machine import Pin, reset
-import network
-from umqtt.robust import MQTTClient
+from machine import Pin, reset  # pyright: ignore[reportMissingImports]
+import network  # pyright: ignore[reportMissingImports]
+from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
 led = Pin(2, Pin.OUT)
@@ -30,8 +30,8 @@ def blink():
 def panic():
     # Liberar todas as portas e travas
     pass
-    
-    
+
+
 def connect_wifi():
     wlan = network.WLAN()
     wlan.active(True)
@@ -94,8 +94,8 @@ def callback(topic, payload):
 def subscribe(client):
     client.subscribe(mqtt_topic_subscribe)
     print('Subscribed to device topic:', mqtt_topic_subscribe)
-    
-    
+
+
 if __name__ == '__main__':
     setup()
     connect_wifi()
