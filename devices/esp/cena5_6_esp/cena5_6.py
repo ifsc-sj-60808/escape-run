@@ -10,8 +10,7 @@ wifi_ssid = 'escape-run'
 wifi_password = 'escape-run'
 
 mqtt_client_id = 'room-14-0-oooo'
-#mqtt_broker = 'escape-run.sj.ifsc.edu.br'
-mqtt_broker = 'test.mosquitto.org'
+mqtt_broker = 'escape-run.sj.ifsc.edu.br'
 mqtt_topic_subscribe = 'escape-run/room/10/0'
 mqtt_topic_publish = 'escape-run/player/msg'
 
