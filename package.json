@@ -8,7 +8,7 @@
     "@typescript-eslint/parser": "^8.39.1",
     "eslint": "^9.33.0",
     "globals": "^16.3.0",
-    "parcel": "^2.15.4",
+    "parcel": "^2.16.1",
     "parcel-reporter-clean-dist": "^1.0.4",
     "parcel-reporter-static-files-copy": "^1.5.3",
     "process": "^0.11.10",
