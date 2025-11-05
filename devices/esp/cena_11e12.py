@@ -7,8 +7,7 @@ cofre = Pin (3, Pin.OUT)
 senha = Pin(X, Pin.IN)
 botao = Pin (4, Pin.IN)
 audio = Pin (5, Pin.OUT)
-
-
+  
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 

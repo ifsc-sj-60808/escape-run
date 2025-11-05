@@ -8,16 +8,15 @@ led2 = Pin(23, Pin.OUT)
 game_started = Pin(12, Pin.OUT)
 gerador = Pin(14, Pin.OUT)
 door = Pin(11, Pin.OUT)
-dispencer = Pin(10, Pin.OUT)
-
+dispenser = Pin(10, Pin.OUT)
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
 mqtt_client_id = "room-12-0"
-mqtt_broker = 'escape-run.sj.ifsc.edu.br'
+mqtt_broker = "escape-run.sj.ifsc.edu.br"
 mqtt_topic_subscribe = "escape-run/room/12/0"
-mqtt_topic_publish = "escape-run/player/msg"
+mqtt_topic_publish = "escape-run/player/scene"
 
 
 # ==== DFPLAYER MINI ====
@@ -51,7 +50,7 @@ def setup():
     led.off()
     led2.on()
     gerador.off()
-    door.value(0)  # trancado
+    door.off()
     print("Sistema pronto!")
 
 
@@ -64,8 +63,8 @@ def blink():
 
 
 # ==== FUNÇÃO PARA LIBERAR O PRÊMIO ====
-def dispencer():
-    dispencer(1)
+def dispenser():
+    dispenser.on()
     print("Prêmio sendo liberado")
 
 
@@ -89,11 +88,11 @@ def game_start():
 
 
 def gerador_on():
-    gerador.value(1)
+    gerador.on()
 
 
 def gerador_off():
-    gerador.value(0)
+    gerador.off()
 
 
 def door():
@@ -157,9 +156,9 @@ def callback(topic, payload):
     elif msg == "reset":
         reset()
     elif msg == "Liberando prêmio":
-        dispencer(1)
+        dispenser(1)
         sleep(5)
-        dispencer(0)
+        dispenser(0)
 
 
 def subscribe(client):
@@ -167,13 +166,13 @@ def subscribe(client):
     print("Subscribed to device topic:", mqtt_topic_subscribe)
 
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     setup()
     connect_wifi()
     mqtt_client = connect_mqtt()
-    subscribe(mqtt_client)
+    subscribe(mqtt_topic_subscribe)
 
     while True:
-        mqtt_client.publish(mqtt_topic_publish, "ping")
+        # mqtt_client.publish(mqtt_topic_publish, "ping")
         mqtt_client.check_msg()
         sleep(1)
