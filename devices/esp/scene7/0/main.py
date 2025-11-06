@@ -1,24 +1,20 @@
-from machine import Pin, reset
-import network
-from umqtt.robust import MQTTClient
+from machine import Pin, reset  # pyright: ignore[reportMissingImports]
+import network  # pyright: ignore[reportMissingImports]
+from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
-# === Pinos ===
-cofre = Pin(3, Pin.OUT)          # Controle do cofre (trava)
-sensor_presenca = Pin(4, Pin.IN) # Sensor PIR (detecção de presença)
+cofre = Pin(3, Pin.OUT)
+sensor_presenca = Pin(4, Pin.IN)
 
-# === Wi-Fi ===
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
-# === MQTT ===
-mqtt_client_id = "room-10-0"
+mqtt_client_id = "scene7-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = b"escape-run/room/10/0"  # Recebe comandos do Phaser
-mqtt_topic_publish_scene = b"escape-run/player/scene"  # Envia mudança de cena
+mqtt_topic_subscribe = "escape-run/scene7/0"
+mqtt_topic_publish = "escape-run/player/scene"
 
-# === Configurações ===
-vault_password = "859"  # Senha correta do cofre
+vault_password = "859"
 presenca_detectada = False
 
 
@@ -33,7 +29,7 @@ def open_cofre():
     global cofre
     cofre.off()
     print("Cofre aberto!")
-    mqtt_client.publish(mqtt_topic_publish_scene, b"Scene8")
+    mqtt_client.publish(mqtt_topic_publish, "Scene8")
     print("Cena mudada para Scene8")
 
 
@@ -101,7 +97,7 @@ if __name__ == "__main__":
         # Detecta entrada e manda Scene7 apenas uma vez
         if not presenca_detectada and sensor_presenca.value() == 1:
             print("Presença detectada! Indo para Scene7...")
-            mqtt_client.publish(mqtt_topic_publish_scene, b"Scene7")
+            mqtt_client.publish(mqtt_topic_publish, "Scene7")
             presenca_detectada = True  # só dispara uma vez
 
-        sleep(0.1)
+        sleep(1)
