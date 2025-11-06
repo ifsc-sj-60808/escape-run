@@ -11,10 +11,10 @@ audio = Pin(5, Pin.OUT)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
-mqtt_client_id = "room-cultura-1"
+mqtt_client_id = "scene11-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = "escape-run/room/cultura/1"
-mqtt_topic_publish = "escape-run/player/msg"
+mqtt_topic_subscribe = "escape-run/devices/scene11/0"
+mqtt_topic_publish = "escape-run/player/scene"
 
 vault_password = "859"
 
@@ -37,7 +37,7 @@ def open_vault():
     vault.off()
     print("Vault opened!")
 
-    mqtt_client.publish(b"escape-run/player/scene", "Scene12")
+    mqtt_client.publish(mqtt_topic_publish, "Scene12")
     print("Changed scene: Scene12")
 
     blink()
@@ -104,5 +104,4 @@ if __name__ == "__main__":
         last_button = current_button
 
         mqtt_client.check_msg()
-
-        sleep(0.1)
+        sleep(1)
