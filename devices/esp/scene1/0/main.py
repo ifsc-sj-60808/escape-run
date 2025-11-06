@@ -85,6 +85,7 @@ if __name__ == "__main__":
     scene1 = True
     while True:
         if scene1 and pir.value() == 1:
+            lock.on()
             mqtt_client.publish(mqtt_topic_publish, "Scene2")
             scene1 = False
 
