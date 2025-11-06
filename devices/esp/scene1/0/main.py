@@ -5,6 +5,7 @@ from time import sleep
 
 led = Pin(2, Pin.OUT)
 pir = Pin(3, Pin.IN)
+lock = Pin(4, Pin.OUT)
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
@@ -17,6 +18,7 @@ mqtt_topic_publish = "escape-run/player/scene"
 
 def setup():
     led.off()
+    lock.off()
 
 
 def blink():
@@ -59,6 +61,12 @@ def callback(topic, payload):
 
     elif msg == "reset":
         reset()
+
+    elif msg == "lock":
+        lock.on()
+
+    elif msg == "unlock":
+        lock.off()
 
 
 def subscribe(client):
