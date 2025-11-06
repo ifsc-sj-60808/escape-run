@@ -1,10 +1,12 @@
+import dis
 from machine import Pin, reset  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
 from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
 led = Pin(2, Pin.OUT)
-dispenser = Pin(19, Pin.OUT) 
+dispenser = Pin(19, Pin.OUT)
+dispenser_released = False
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
@@ -14,7 +16,6 @@ mqtt_broker = "escape-run.sj.ifsc.edu.br"
 
 mqtt_topic_subscribe = "escape-run/devices/scene5-0"
 mqtt_topic_publish = "escape-run/player/scene"
-
 
 
 def setup():
@@ -32,6 +33,9 @@ def blink():
 
 
 def release():
+    global dispenser_released
+    dispenser_released = True
+
     dispenser.off()
 
 
@@ -54,7 +58,7 @@ def connect_mqtt():
     print("Conectado ao broker MQTT!")
 
     led.on()
-    
+
     return client
 
 
@@ -64,9 +68,6 @@ def callback(topic, payload):
 
     if msg == "blink":
         blink()
-
-    elif msg == "panic":
-        release()
 
     elif msg == "reset":
         reset()
@@ -89,5 +90,9 @@ if __name__ == "__main__":
     subscribe(mqtt_client)
 
     while True:
+        if dispenser_released:
+            mqtt_client.publish(mqtt_topic_publish, "Scene6")
+            dispenser_released = False
+
         mqtt_client.check_msg()
         sleep(1)

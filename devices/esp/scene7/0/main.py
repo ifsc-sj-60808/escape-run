@@ -3,7 +3,7 @@ import network  # pyright: ignore[reportMissingImports]
 from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
-cofre = Pin(3, Pin.OUT)
+vault = Pin(3, Pin.OUT)
 sensor_presenca = Pin(4, Pin.IN)
 
 wifi_ssid = "escape-run"
@@ -11,32 +11,26 @@ wifi_password = "escape-run"
 
 mqtt_client_id = "scene7-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = "escape-run/scene7/0"
+mqtt_topic_subscribe = "escape-run/devices/scene7/0"
 mqtt_topic_publish = "escape-run/player/scene"
 
 vault_password = "859"
-presenca_detectada = False
 
 
-# === Setup inicial ===
 def setup():
-    cofre.on()  # Cofre trancado
-    print("Cofre trancado e pronto")
+    vault.on()
 
 
-# === Controle do Cofre ===
-def open_cofre():
-    global cofre
-    cofre.off()
-    print("Cofre aberto!")
+def open_vault():
+    global vault
+    vault.off()
+
     mqtt_client.publish(mqtt_topic_publish, "Scene8")
-    print("Cena mudada para Scene8")
 
 
-def close_cofre():
-    global cofre
-    cofre.on()
-    print("Cofre trancado!")
+def close_vault():
+    global vault
+    vault.on()
 
 
 # === Conexão Wi-Fi ===
@@ -66,10 +60,12 @@ def callback(topic, payload):
     msg = payload.decode().strip()
     print("Mensagem recebida:", msg)
 
-    if msg == vault_password:
-        open_cofre()  # Abre cofre e muda para Scene8
+    if msg == "859":
+        open_vault()
+
     elif msg == "close":
-        close_cofre()
+        close_vault()
+
     elif msg == "reset":
         print("Reiniciando ESP32...")
         reset()
@@ -92,12 +88,10 @@ if __name__ == "__main__":
     presenca_detectada = False
 
     while True:
-        mqtt_client.check_msg()
-
-        # Detecta entrada e manda Scene7 apenas uma vez
         if not presenca_detectada and sensor_presenca.value() == 1:
             print("Presença detectada! Indo para Scene7...")
             mqtt_client.publish(mqtt_topic_publish, "Scene7")
-            presenca_detectada = True  # só dispara uma vez
+            presenca_detectada = True
 
+        mqtt_client.check_msg()
         sleep(1)

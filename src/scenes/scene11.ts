@@ -82,7 +82,7 @@ export class Scene11 extends Scene {
       .setInteractive()
       .on("pointerdown", () => {
         ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
-          "escape-run/room/cultura/0",
+          "escape-run/devices/11/0",
           this.password
         )
 

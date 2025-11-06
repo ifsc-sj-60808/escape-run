@@ -11,7 +11,7 @@ wifi_password = "escape-run"
 
 mqtt_client_id = "scene4-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = "escape-run/scene4/0"
+mqtt_topic_subscribe = "escape-run/devices/scene4/0"
 mqtt_topic_publish = "escape-run/player/scene"
 
 
