@@ -7,8 +7,8 @@ import paho.mqtt.client as mqtt  # type: ignore
 FIFO_PATH = "/tmp/p8_out"
 MQTT_BROKER = "escape-run.sj.ifsc.edu.br"
 MQTT_PORT = 1883
-MQTT_TOPIC = "escape-run/player/scene"
-MQTT_PAYLOAD = "Scene5"
+MQTT_TOPIC = "escape-run/devices/scene5-0"
+MQTT_PAYLOAD = "release"
 POLL_TIMEOUT = 1.0  # 1 second
 READ_SIZE = 1  # 1 byte
 RUNNING = True
