@@ -53,9 +53,9 @@ def connect_mqtt():
 def callback(topic, payload):
     msg = payload.decode()
     print("Received message:", msg)
-
-    if msg == vault_password:
-        open_vault()
+    
+    if msg == "blink":
+        blink()
     elif msg == "reset":
         reset()
 
