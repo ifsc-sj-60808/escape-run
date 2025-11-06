@@ -14,7 +14,7 @@ export class Scene7 extends Scene {
   private display!: Phaser.GameObjects.Text
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
-  private correctPassword: string = "6666"
+  private correctPassword: string = "859"
 
   constructor() {
     super({ key: "Scene7" })
@@ -27,10 +27,10 @@ export class Scene7 extends Scene {
   }
 
   create() {
-    // 🔮 Fundo do teclado neon
+    //Fundo do teclado neon
     this.add.image(225, 400, "scene7-background")
 
-    // 💾 Campo de exibição do código digitado (na parte superior)
+    //Campo de exibição do código digitado (na parte superior)
     this.display = this.add
       .text(225, 115, "", {
         fontFamily: "Sixtyfour",
@@ -49,7 +49,7 @@ export class Scene7 extends Scene {
       { x: 100, y: 610, number: "0" }
     ]
 
-    // 🧱 Cria os botões invisíveis, mas interativos
+    //Cria os botões invisíveis, mas interativos
     this.buttons.forEach((button) => {
       button.sprite = this.add
         .image(button.x, button.y, "void")
@@ -63,14 +63,14 @@ export class Scene7 extends Scene {
         })
     })
 
-    // ⌨️ Botão ENTER (maior botão no layout)
+    //Botão ENTER (maior botão no layout)
     this.enter = this.add
       .image(350, 610, "void-3x")
       .setDisplaySize(120, 90)
       .setInteractive()
       .on("pointerdown", () => {
         if (this.password === this.correctPassword) {
-          // ✅ Publica para todos os jogadores mudarem de cena
+          //Publica para todos os jogadores mudarem de cena
           ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
             "escape-run/player/scene",
             "Scene8"
