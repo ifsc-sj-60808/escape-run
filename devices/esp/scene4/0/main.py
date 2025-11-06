@@ -3,19 +3,24 @@ import network  # pyright: ignore[reportMissingImports]
 from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
+
+# ==== CONFIGURAÇÕES ====
+
+sensor_gerador = Pin(18, Pin.IN)
+
 led = Pin(2, Pin.OUT)
 led2 = Pin(23, Pin.OUT)
-game_started = Pin(12, Pin.OUT)
+esp_scene5 = Pin(12, Pin.OUT)
 gerador = Pin(14, Pin.OUT)
-door = Pin(11, Pin.OUT)
+door = Pin(11, Pin.OUT,)
 dispenser = Pin(10, Pin.OUT)
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
-mqtt_client_id = "room-12-0"
+mqtt_client_id = "scene4-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = "escape-run/room/12/0"
+mqtt_topic_subscribe = "escape-run/scene4/0"
 mqtt_topic_publish = "escape-run/player/scene"
 
 
@@ -40,17 +45,13 @@ def enviar_comando_DFPlayer(cmd, param1=0, param2=0):
     uart.write(buf)
 
 
-def tocar_som():
-    print("🎵 Tocando música ambiente...")
-    enviar_comando_DFPlayer(0x03, 0x00, 0x01)  # toca 0001.mp3 no SD
-
-
 # ==== FUNÇÕES ====
 def setup():
     led.off()
     led2.on()
     gerador.off()
     door.off()
+    dispenser.on()
     print("Sistema pronto!")
 
 
@@ -63,29 +64,25 @@ def blink():
 
 
 # ==== FUNÇÃO PARA LIBERAR O PRÊMIO ====
-def dispenser():
-    dispenser.on()
+def dispenser_liberar():
+    dispenser.off()
     print("Prêmio sendo liberado")
 
 
-# print("🎁 Enviando comando para o dispenser liberar o prêmio...")
-# client.publish(mqtt_topic_dispenser, b'release')
+def dispenser_trancar():
+    dispenser.on()
+    print("Prêmio trancado")
+
 
 
 def panic():
     print("PANIC! Liberando tudo!")
-    door.value(1)
+    door.off()
     gerador.off()
 
 
 def tocar_som():
     pass
-
-
-def game_start():
-    # Iniciar o jogo
-    pass
-
 
 def gerador_on():
     gerador.on()
@@ -95,12 +92,12 @@ def gerador_off():
     gerador.off()
 
 
-def door():
+def open_door():
     door.off()
-    led.off()
-    sleep(5)
+
+def close_door():
     door.on()
-    led.on()
+
 
 
 # ==== CONEXÕES ====
@@ -132,33 +129,32 @@ def callback(topic, payload):
 
     if msg == "blink":
         blink()
+
     elif msg == "panic":
         panic()
+
     elif msg == "door_lock":
-        door(0) == "lock"
-        led.off()
+        door.on()
         print("Porta fechada")
-        sleep(0, 1)
-        door(1) == "open"
-        led.on()
+
+    elif msg ==" door_unlock":
+        door.off()
         print("Porta aberta")
-        blink(0, 5)
-    # elif msg == 'door_on'
-    # door(1)
-    # door(on)
+
+   
     elif msg == "gerador_on":
         gerador.on()
+   
     elif msg == "gerador_off":
         gerador.off()
-    elif msg == "start":
-        game_start()
-
+   
     elif msg == "reset":
         reset()
+    
     elif msg == "Liberando prêmio":
-        dispenser(1)
-        sleep(5)
-        dispenser(0)
+        dispenser.off()
+        sleep(10)
+        dispenser.on()
 
 
 def subscribe(client):

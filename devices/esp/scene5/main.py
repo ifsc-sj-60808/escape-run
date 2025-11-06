@@ -8,13 +8,13 @@ from time import sleep
 # ================================
 led = Pin(2, Pin.OUT)
 
-gerador = Pin(14, Pin.IN, Pin.PULL_DOWN)  # sensor que ativa a tranca
+gerador = Pin(18, Pin.IN)  # sensor que ativa a tranca
 tranca = Pin(11, Pin.OUT)  # saída para trava magnética
 
-fliper = Pin(35, Pin.IN)  # sensor PIR que libera o dispenser
-dispenser = Pin(26, Pin.OUT)  # saída que controla o dispenser
+rasp = Pin(12, Pin.IN)  # sensor PIR que libera o dispenser
+dispenser = Pin(19, Pin.OUT)  # saída que controla o dispenser
 
-sensor_dispenser = Pin(34, Pin.IN)  # PIR interno do dispenser
+sensor_dispenser = Pin(19, Pin.IN)  # PIR interno do dispenser
 cena6 = Pin(27, Pin.OUT)  # saída digital para cena 6
 
 # ================================
@@ -23,7 +23,7 @@ cena6 = Pin(27, Pin.OUT)  # saída digital para cena 6
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 
-mqtt_client_id = "room-12-1"
+mqtt_client_id = "scene5-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
 
 mqtt_topic_subscribe = b"escape-run/room/12/1"
@@ -149,7 +149,7 @@ def verifica_gerador():
 
 def verifica_fliper():
     """Verifica sensor PIR (fliper) e libera o dispenser."""
-    if fliper.value() == 1:
+    if rasp.value() == 1:
         print("Sensor FLIPER acionado → DISPENSER liberado!")
         dispenser.on()
         mqtt_client.publish(mqtt_topic_publish, b"dispenser_ativado")
