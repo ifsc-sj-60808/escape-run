@@ -74,10 +74,11 @@ if __name__ == "__main__":
     mqtt_client = connect_mqtt()
     subscribe(mqtt_client)
 
-    running = True
-    while running:
-        if pir.value() == 1:
-            running = False
+    scene1 = True
+    while True:
+        if scene1 and pir.value() == 1:
             mqtt_client.publish(mqtt_topic_publish, "Scene2")
+            scene1 = False
+
         mqtt_client.check_msg()
         sleep(1)
