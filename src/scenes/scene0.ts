@@ -16,7 +16,7 @@ export class Scene0 extends Scene {
   init() {
     WebFont.load({
       google: {
-        families: ["Sixtyfour"]
+        families: ["Sixtyfour", "Noto Sans Devanagari"]
       }
     })
 
@@ -40,6 +40,8 @@ export class Scene0 extends Scene {
     this.load.image("scene0-background", "assets/scene0/background.png")
 
     this.load.image("scene1-background", "assets/scene1/background.png")
+
+    this.load.image("scene2-background", "assets/scene2/background.png")
 
     this.load.image("scene3-background", "assets/scene3/background.png")
     this.load.image("keyBlack", "assets/scene3/keyBlack.png")

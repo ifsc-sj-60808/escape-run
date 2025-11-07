@@ -27,14 +27,13 @@ export class Scene2 extends Scene {
   }
 
   create() {
-
     this.add.image(225, 400, "scene2-background")
 
     this.keys = [
       {
         x: 32,
         y: 320,
-        text: "A"
+        text: "स"
       },
       {
         x: 160,
@@ -141,11 +140,16 @@ export class Scene2 extends Scene {
   }
 
   update() {
-    // timer
     this.display.setText(
       `${(this.game as typeof MultiPlayerGame).minutes}:${
         (this.game as typeof MultiPlayerGame).seconds
       }`
     )
+
+    this.keys.forEach((key) => {
+      key.sprite?.setColor(
+        this.password.includes(key.text) ? "#ff0000" : "#881753"
+      )
+    })
   }
 }
