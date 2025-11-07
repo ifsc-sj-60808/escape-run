@@ -15,7 +15,7 @@ export class Scene9 extends Scene {
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
 
-  private readonly NUMERO_CORRETO = "1955"
+  private readonly NUMERO_CORRETO = "1955" // Sua senha
   private isConnecting: boolean = false
 
   constructor() {
@@ -26,6 +26,13 @@ export class Scene9 extends Scene {
     WebFont.load({
       google: { families: ["Sixtyfour"] }
     })
+  }
+
+  preload() {
+    // Verifique se o nome da imagem está correto
+    this.load.image("scene9-numpad", "assets/scene9/numpad.png") 
+    this.load.image("scene9-void", "assets/scene9/void.png")
+    this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
   }
 
   create() {
@@ -39,6 +46,7 @@ export class Scene9 extends Scene {
       })
       .setOrigin(0.5)
 
+    // ... (O resto do seu código da Scene9 que já funcionava) ...
     this.buttons = [
       { x: 100, y: 225, number: "1" },
       { x: 225, y: 225, number: "2" },
@@ -69,31 +77,25 @@ export class Scene9 extends Scene {
       .setDisplaySize(120, 90)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        // --- LÓGICA DE SUCESSO ATUALIZADA ---
         if (this.password === this.NUMERO_CORRETO) {
           this.isConnecting = true
           this.input.enabled = false
 
-          // 1. Mostra "CHAMANDO"
           this.display.setFontSize("40px")
           this.display.setText("CHAMANDO")
-          this.display.setColor("#ffff00") // Amarelo
+          this.display.setColor("#ffff00")
 
-          // 2. "logo" (depois de 2s) mostra "ATENDIDA"
           this.time.delayedCall(2000, () => {
             this.display.setText("ATENDIDA")
-            this.display.setColor("#00ff00") // Verde
+            this.display.setColor("#00ff00")
 
-            // 3. Espera 5 segundos com "ATENDIDA" na tela
             this.time.delayedCall(5000, () => {
-              // 4. Encerra e vai para a próxima cena
               ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
                 "escape-run/player/scene",
                 "Scene10"
               )
             })
           })
-        // --- LÓGICA DE ERRO (continua a mesma) ---
         } else {
           this.display.setFontSize("32px")
           this.display.setText("DISCAGEM INCORRETA")
