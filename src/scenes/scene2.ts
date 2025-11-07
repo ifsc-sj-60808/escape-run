@@ -27,6 +27,9 @@ export class Scene2 extends Scene {
   }
 
   create() {
+
+    this.add.image(225, 400, "scene2-background")
+
     this.keys = [
       {
         x: 32,
