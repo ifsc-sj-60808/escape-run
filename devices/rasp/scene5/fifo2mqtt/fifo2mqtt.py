@@ -80,6 +80,8 @@ def mqtt_connect():
 
 
 if __name__ == "__main__":
+    last_byte = None
+
     try:
         mqtt_client = mqtt_connect()
 
@@ -88,9 +90,12 @@ if __name__ == "__main__":
 
         while RUNNING:
             byte = fifo_read(fifo, poller)
+            print(f"Bytes: {last_byte}, {byte}")
 
-            if byte == b"1":
+            if last_byte == b"0" and byte == b"1":
                 mqtt_client.publish(MQTT_TOPIC, payload=MQTT_PAYLOAD)
+
+            last_byte = byte
 
             time.sleep(1)
 
