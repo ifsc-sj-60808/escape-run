@@ -6,7 +6,6 @@ from time import sleep
 
 led = Pin(2, Pin.OUT)
 dispenser = Pin(19, Pin.OUT)
-dispenser_released = False
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
@@ -33,10 +32,9 @@ def blink():
 
 
 def release():
-    global dispenser_released
-    dispenser_released = True
-
     dispenser.off()
+
+    mqtt_client.publish(mqtt_topic_publish, "Scene6")
 
 
 def connect_wifi():
@@ -90,9 +88,5 @@ if __name__ == "__main__":
     subscribe(mqtt_client)
 
     while True:
-        if dispenser_released:
-            mqtt_client.publish(mqtt_topic_publish, "Scene6")
-            dispenser_released = False
-
         mqtt_client.check_msg()
         sleep(1)
