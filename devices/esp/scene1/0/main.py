@@ -5,7 +5,7 @@ from time import sleep
 
 led = Pin(2, Pin.OUT)
 pir = Pin(3, Pin.IN)
-lock = Pin(4, Pin.OUT)
+vault = Pin(4, Pin.OUT)
 
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
@@ -18,7 +18,7 @@ mqtt_topic_publish = "escape-run/player/scene"
 
 def setup():
     led.off()
-    lock.off()
+    vault.off()
 
     blink()
     sleep(30)
@@ -31,6 +31,18 @@ def blink():
         led.off()
         sleep(0.1)
         led.on()
+
+
+def lock():
+    vault.on()
+
+    blink()
+
+
+def unlock():
+    vault.off()
+
+    blink()
 
 
 def connect_wifi():
@@ -67,10 +79,10 @@ def callback(topic, payload):
         reset()
 
     elif msg == "lock":
-        lock.on()
+        lock()
 
     elif msg == "unlock":
-        lock.off()
+        unlock()
 
 
 def subscribe(client):
@@ -89,7 +101,7 @@ if __name__ == "__main__":
     scene1 = True
     while True:
         if scene1 and pir.value() == 1:
-            lock.on()
+            unlock()
             mqtt_client.publish(mqtt_topic_publish, "Scene2")
             scene1 = False
 
