@@ -18,6 +18,10 @@ mqtt_topic_publish = "escape-run/player/scene"
 def setup():
     led.off()
 
+    blink()
+    sleep(30)
+    blink()
+
 
 def blink():
     for _ in range(3):
