@@ -3,6 +3,7 @@ import network  # pyright: ignore[reportMissingImports]
 from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
+led = Pin(2, Pin.OUT)
 vault = Pin(3, Pin.OUT)
 sensor_presenca = Pin(4, Pin.IN)
 
@@ -18,7 +19,20 @@ vault_password = "859"
 
 
 def setup():
+    led.off()
     vault.on()
+
+    blink()
+    sleep(30)
+    blink()
+
+
+def blink():
+    for _ in range(3):
+        sleep(0.1)
+        led.off()
+        sleep(0.1)
+        led.on()
 
 
 def open_vault():
@@ -33,7 +47,6 @@ def close_vault():
     vault.on()
 
 
-# === Conexão Wi-Fi ===
 def connect_wifi():
     wlan = network.WLAN()
     wlan.active(True)
@@ -46,16 +59,17 @@ def connect_wifi():
     print("Conectado ao Wi-Fi!")
 
 
-# === Conexão MQTT ===
 def connect_mqtt():
     client = MQTTClient(mqtt_client_id, mqtt_broker)
     client.set_callback(callback)
     client.connect()
     print("Conectado ao broker MQTT!")
+
+    led.on()
+
     return client
 
 
-# === Callback de mensagens MQTT ===
 def callback(topic, payload):
     msg = payload.decode().strip()
     print("Mensagem recebida:", msg)
@@ -71,13 +85,11 @@ def callback(topic, payload):
         reset()
 
 
-# === Assinatura do tópico ===
 def subscribe(client):
     client.subscribe(mqtt_topic_subscribe)
     print("Assinado em:", mqtt_topic_subscribe)
 
 
-# === Loop principal ===
 if __name__ == "__main__":
     setup()
     connect_wifi()

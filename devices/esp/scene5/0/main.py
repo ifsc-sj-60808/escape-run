@@ -21,6 +21,10 @@ def setup():
     led.off()
     dispenser.on()
 
+    blink()
+    sleep(30)
+    blink()
+
 
 def blink():
     for _ in range(3):

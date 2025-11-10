@@ -24,6 +24,10 @@ def setup():
     vault.on()
     audio.off()
 
+    blink()
+    sleep(30)
+    blink()
+
 
 def blink():
     for _ in range(3):
