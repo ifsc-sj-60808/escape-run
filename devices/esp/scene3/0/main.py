@@ -121,8 +121,8 @@ if __name__ == "__main__":
     subscribe(mqtt_client)
 
     while True:
-        if button_1.value(True):
-            mqtt_client.publish("escape-run/player/scene", "Botão 1 pressionado")
+        if button.value() == 1:
+            mqtt_client.publish("escape-run/player/scene", "Botão pressionado")
 
         mqtt_client.check_msg()
         sleep(1)
