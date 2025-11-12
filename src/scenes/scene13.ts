@@ -1,8 +1,15 @@
 import { Scene } from "phaser"
+import WebFont from "webfontloader"
 
 export class Scene13 extends Scene {
   constructor() {
     super({ key: "Scene13" })
+  }
+
+  init() {
+    WebFont.load({
+      google: { families: ["Sixtyfour"] }
+    })
   }
 
   create() {

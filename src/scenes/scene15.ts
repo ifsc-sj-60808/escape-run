@@ -1,5 +1,4 @@
 import { Scene } from "phaser"
-import MultiPlayerGame from "../main"
 import WebFont from "webfontloader"
 
 export class Scene15 extends Scene {
