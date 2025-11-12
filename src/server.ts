@@ -1,4 +1,5 @@
 import mqtt from "mqtt"
+import express from "express"
 
 class MultiPlayerGameServer {
   private mqttClient!: mqtt.MqttClient
