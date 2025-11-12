@@ -18,12 +18,11 @@ import { Scene15 } from "./scenes/scene15"
 
 const config: Types.Core.GameConfig = {
   type: Phaser.AUTO,
+
   width: 450,
   height: 800,
   parent: "game-container",
-  input: {
-    gamepad: true
-  },
+
   scene: [
     Scene0,
     Scene1,
@@ -42,12 +41,14 @@ const config: Types.Core.GameConfig = {
     Scene14,
     Scene15
   ],
+
   physics: {
     default: "arcade",
     arcade: {
       gravity: { x: 0, y: 0 }
     }
   },
+
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
