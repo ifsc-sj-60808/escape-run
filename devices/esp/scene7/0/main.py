@@ -20,7 +20,7 @@ def setup():
     vault.off()
 
     blink()
-    #sleep(30)
+    sleep(30)
     blink()
 
 
@@ -33,7 +33,6 @@ def blink():
 
 
 def panic():
-    # Liberar todas as portas e travas
     pass
 
 
@@ -54,16 +53,16 @@ def connect_mqtt():
     client.connect()
     client.set_callback(callback)
     print("Connected to MQTT broker!")
+
     led.on()
+
     return client
 
 
 def open_vault():
     vault.on()
-    print("Cofre aberto!")
-    
+
     mqtt_client.publish("escape-run/player/scene", "Scene8")
-    print("Mudando para cena 8...")
 
 
 def callback(topic, payload):
@@ -72,13 +71,13 @@ def callback(topic, payload):
 
     if msg == "blink":
         blink()
-        
+
     elif msg == "panic":
         panic()
-        
+
     elif msg == "859":
         open_vault()
-        
+
     elif msg == "reset":
         reset()
 
@@ -90,11 +89,12 @@ def subscribe(client):
 
 if __name__ == "__main__":
     setup()
+
     connect_wifi()
+
     mqtt_client = connect_mqtt()
     subscribe(mqtt_client)
 
     while True:
-        mqtt_client.publish(mqtt_topic_publish, "ping")
         mqtt_client.check_msg()
         sleep(1)

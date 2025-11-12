@@ -39,17 +39,14 @@ def blink():
 
 def open_vault():
     vault.off()
-    print("Vault opened!")
 
     mqtt_client.publish(mqtt_topic_publish, "Scene12")
-    print("Changed scene: Scene12")
-
+    
     blink()
 
 
 def play_audio():
     audio.on()
-    print("Audio played!")
 
 
 def connect_wifi():
@@ -81,6 +78,7 @@ def callback(topic, payload):
 
     if msg == vault_password:
         open_vault()
+
     elif msg == "reset":
         reset()
 
@@ -103,7 +101,6 @@ if __name__ == "__main__":
         current_button = button.value()
         if last_button == 1 and current_button == 0:
             play_audio()
-            print("Button pressed!")
 
         last_button = current_button
 
