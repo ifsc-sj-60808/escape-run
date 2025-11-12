@@ -22,21 +22,27 @@ export class Scene6 extends Scene {
 
   create() {
     // Remove câmera e botões da scene5
-    const videoElement = document.getElementById("camera-video") as HTMLVideoElement
+    const videoElement = document.getElementById(
+      "camera-video"
+    ) as HTMLVideoElement
     if (videoElement) {
       videoElement.remove()
       // Para a stream de vídeo
       if (videoElement.srcObject) {
         const stream = videoElement.srcObject as MediaStream
-        stream.getTracks().forEach(track => track.stop())
+        stream.getTracks().forEach((track) => track.stop())
       }
     }
 
     // Remove botões Flash e Filtro
     const buttons = document.querySelectorAll("button")
-    buttons.forEach(button => {
-      if (button.innerText === "Ligar Flash" || button.innerText === "Desligar Flash" ||
-          button.innerText === "Ativar Filtro" || button.innerText === "Desativar Filtro") {
+    buttons.forEach((button) => {
+      if (
+        button.innerText === "Ligar Flash" ||
+        button.innerText === "Desligar Flash" ||
+        button.innerText === "Ativar Filtro" ||
+        button.innerText === "Desativar Filtro"
+      ) {
         button.remove()
       }
     })
