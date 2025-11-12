@@ -78,10 +78,11 @@ if __name__ == "__main__":
     mqtt_client = connect_mqtt()
     subscribe(mqtt_client)
 
-    running = True
-    while running:
-        if sensor_gerador.value() == 1:
-            running = False
+    scene4 = True
+    while True:
+        if scene4 and sensor_gerador.value() == 1:
             mqtt_client.publish(mqtt_topic_publish, "Scene5")
+            scene4 = False
+
         mqtt_client.check_msg()
         sleep(1)
