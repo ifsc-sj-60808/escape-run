@@ -14,7 +14,6 @@ export class Scene7 extends Scene {
   private display!: Phaser.GameObjects.Text
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
-  private correctPassword: string = "859"
 
   constructor() {
     super({ key: "Scene7" })
@@ -69,16 +68,13 @@ export class Scene7 extends Scene {
       .setDisplaySize(120, 90)
       .setInteractive()
       .on("pointerdown", () => {
-        if (this.password === this.correctPassword) {
-          //Publica para todos os jogadores mudarem de cena
-          ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
-            "escape-run/player/scene",
-            "Scene8"
-          )
-        } else {
-          this.password = ""
-          this.display.setText("")
-        }
+        ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
+          "escape-run/devices/scene7/0",
+          this.password
+        )
+
+        this.password = ""
+        this.display.setText("")
       })
   }
 

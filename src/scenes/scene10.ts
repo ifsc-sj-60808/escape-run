@@ -18,13 +18,10 @@ export class Scene10 extends Scene {
   }
 
   preload() {
-    // CORRIGIDO AQUI: O nome do arquivo é "start.png", não "cena10-start.png"
-    // E o caminho deve ser o que o seu projeto usa, provavelmente 'assets/scene10/start.png'
     this.load.image("cena10-start", "assets/scene10/start.png") 
   }
 
   create() {
-    // CORRIGIDO AQUI: Usamos a 'key' que definimos no preload, "cena10-start"
     this.add.image(225, 400, "cena10-start")
 
     this.display = this.add.text(25, 25, "", {

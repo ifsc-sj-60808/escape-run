@@ -16,8 +16,6 @@ mqtt_broker = "escape-run.sj.ifsc.edu.br"
 mqtt_topic_subscribe = "escape-run/devices/scene11/0"
 mqtt_topic_publish = "escape-run/player/scene"
 
-vault_password = "859"
-
 
 def setup():
     led.off()
@@ -76,7 +74,7 @@ def callback(topic, payload):
     msg = payload.decode()
     print("Received message:", msg)
 
-    if msg == vault_password:
+    if msg == "859":
         open_vault()
 
     elif msg == "reset":
