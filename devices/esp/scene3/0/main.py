@@ -103,7 +103,7 @@ def callback(topic, payload):
     elif msg == "fffff":
         open_chest()
 
-    elif msg == "botão pressionado":
+    elif msg == "botao":
         open_door()
 
 
@@ -120,9 +120,11 @@ if __name__ == "__main__":
     mqtt_client = connect_mqtt()
     subscribe(mqtt_client)
 
+    last = 0
     while True:
-        if button.value() == 1:
-            mqtt_client.publish("escape-run/player/scene", "Botão pressionado")
+        if last == 0 and button.value() == 1:
+            # mqtt_client.publish("escape-run/player/scene", "Scene4")
+            last = 1
 
         mqtt_client.check_msg()
         sleep(1)
