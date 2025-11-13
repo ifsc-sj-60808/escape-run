@@ -121,24 +121,9 @@ export class Scene0 extends Scene {
     })
 
     this.rules =
-      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 40 minutos.\n- Não interagir com os\n  atores.\n- Caso o dispositivo\n  descarregue ou saia do\n  jogo você será\n  desclassificado.\n- Respeita as placas e\n  fitas de isolamento.\n- Proibido mais de um\n  celular por usuário.\n- Brigas entre jogadores\n causará desclassificação\n imediata da equipe.\n- Podem ser anunciadas\n dicas pelo alto-falantes.\n- Caso de emergência, a\n dona morte irá buscar\n o jogar e segue os\n demais.\n- Cada ação no jogo tem\n uma reação, os fracos\n juntam-se à festa.\n- Aproveitem as cenas e a\n ambientação.\n\n Siga o fluxograma, caso\n não seja respeitado, você\n será mais um perdedor.\n\nAntes de começar:\n- Toque na tela para\n  preparar o celular:\n  tela cheia e mídias.\n\n> "
+      "> LOAD RULES\n\nRegras do jogo:\n- Duração de 40 minutos.\n- Não interagir com os\n  atores.\n- Caso o dispositivo\n  descarregue ou saia do\n  jogo você será\n  desclassificado.\n- Respeita as placas e\n  fitas de isolamento.\n- Proibido mais de um\n  celular por usuário.\n- Brigas entre jogadores\n causará desclassificação\n imediata da equipe.\n- Podem ser anunciadas\n dicas pelo alto-falantes.\n- Caso de emergência, a\n dona morte irá buscar\n o jogar e segue os\n demais.\n- Cada ação no jogo tem\n uma reação, os fracos\n juntam-se à festa.\n- Aproveitem as cenas e a\n ambientação.\n\n Siga o fluxograma, caso\n não seja respeitado, você\n será mais um perdedor.\n\n> "
 
-    this.add
-      .image(225, 400, "scene0-background")
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.rules += "REQUEST MEDIA ACCESS\n\n> "
-
-        navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then(() => {
-            if (this.scale.isFullscreen) {
-              this.scale.stopFullscreen()
-            } else {
-              this.scale.startFullscreen()
-            }
-          })
-      })
+    this.add.image(225, 400, "scene0-background")
 
     this.rulesDisplay = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
