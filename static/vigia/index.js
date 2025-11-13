@@ -1,5 +1,5 @@
 audio = document.querySelector("#audio")
-button = document.querySelector("#answer")
+room = "vigia"
 
 iceServers = {
   iceServers: [
@@ -14,7 +14,7 @@ navigator.mediaDevices
     remoteConnection = new RTCPeerConnection(iceServers)
 
     remoteConnection.onicecandidate = ({ candidate }) => {
-      socket.emit("candidate", candidate)
+      socket.emit("candidate", room, candidate)
     }
 
     remoteConnection.ontrack = ({ streams: [stream] }) => {
@@ -31,14 +31,16 @@ socket = io()
 
 socket.on("connect", () => {
   console.log(`Usuário ${socket.id} conectado no servidor`)
+  socket.emit("join", room)
 })
 
 socket.on("offer", (description) => {
+  window.alert("Chamada recebida!")
   remoteConnection
     .setRemoteDescription(description)
     .then(() => remoteConnection.createAnswer())
     .then((answer) => remoteConnection.setLocalDescription(answer))
-    .then(() => socket.emit("answer", remoteConnection.localDescription))
+    .then(() => socket.emit("answer", room, remoteConnection.localDescription))
 })
 
 socket.on("candidate", (candidate) => {

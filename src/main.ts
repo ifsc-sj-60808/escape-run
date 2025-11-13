@@ -61,12 +61,14 @@ class MultiPlayerGame extends Game {
           let remaining
           if (this.currentScene === "Scene8") {
             remaining = this.counter - this.scene8Delay
-            this.scene8Minutes = String(
-              Math.floor(remaining / 60)
-            ).padStart(2, "0")
-            this.scene8Seconds = String(
-              Math.floor(remaining % 60)
-            ).padStart(2, "0")
+            this.scene8Minutes = String(Math.floor(remaining / 60)).padStart(
+              2,
+              "0"
+            )
+            this.scene8Seconds = String(Math.floor(remaining % 60)).padStart(
+              2,
+              "0"
+            )
           }
 
           if (remaining === 0 && this.currentScene === "Scene8") {
