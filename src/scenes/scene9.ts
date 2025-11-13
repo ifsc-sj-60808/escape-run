@@ -1,4 +1,5 @@
 import { Scene } from "phaser"
+import io from "socket.io-client"
 import MultiPlayerGame from "../main"
 import WebFont from "webfontloader"
 
@@ -15,7 +16,7 @@ export class Scene9 extends Scene {
   private buttons!: Button[]
   private enter!: Phaser.GameObjects.Image
 
-  private readonly NUMERO_CORRETO = "1955" // Sua senha
+  private readonly NUMERO_CORRETO = "1955"
   private isConnecting: boolean = false
 
   constructor() {
@@ -26,13 +27,6 @@ export class Scene9 extends Scene {
     WebFont.load({
       google: { families: ["Sixtyfour"] }
     })
-  }
-
-  preload() {
-    // Verifique se o nome da imagem está correto
-    this.load.image("scene9-numpad", "assets/scene9/numpad.png") 
-    this.load.image("scene9-void", "assets/scene9/void.png")
-    this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
   }
 
   create() {
@@ -75,9 +69,11 @@ export class Scene9 extends Scene {
     this.enter = this.add
       .image(290, 585, "scene9-void-3x")
       .setDisplaySize(120, 90)
-      .setInteractive({ useHandCursor: true })
+      .setInteractive()
       .on("pointerdown", () => {
         if (this.password === this.NUMERO_CORRETO) {
+          this.makeCall()
+
           this.isConnecting = true
           this.input.enabled = false
 
@@ -89,7 +85,7 @@ export class Scene9 extends Scene {
             this.display.setText("ATENDIDA")
             this.display.setColor("#00ff00")
 
-            this.time.delayedCall(5000, () => {
+            this.time.delayedCall(60000, () => {
               ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
                 "escape-run/player/scene",
                 "Scene10"
@@ -115,5 +111,61 @@ export class Scene9 extends Scene {
     if (!this.isConnecting) {
       this.display.setText(this.password)
     }
+  }
+
+  makeCall() {
+    const socket = io()
+    const iceServers = {
+      iceServers: [
+        { urls: "stun:feira-de-jogos.dev.br" },
+        { urls: "stun:stun.l.google.com:19302" }
+      ]
+    }
+    const room = "vigia"
+    let media!: MediaStream
+
+    socket.on("connect", () => {
+      console.log(`Usuário ${socket.id} conectado no servidor`)
+      socket.emit("join", room)
+
+      const audio = document.querySelector("#audio") as HTMLAudioElement
+      const localConnection = new RTCPeerConnection(iceServers)
+
+      localConnection.onicecandidate = ({ candidate }) => {
+        socket.emit("candidate", room, candidate)
+      }
+
+      localConnection.ontrack = ({ streams: [stream] }) => {
+        audio.srcObject = stream
+      }
+
+      navigator.mediaDevices
+        .getUserMedia({ video: false, audio: true })
+        .then((stream) => {
+          stream
+            .getTracks()
+            .forEach((track) => localConnection.addTrack(track, stream))
+
+          localConnection
+            .createOffer()
+            .then((offer) => localConnection.setLocalDescription(offer))
+            .then(() =>
+              socket.emit(
+                "offer",
+                room,
+                localConnection.localDescription
+              )
+            )
+
+          socket.on("answer", (description: RTCSessionDescription) => {
+            localConnection.setRemoteDescription(description)
+          })
+
+          socket.on("candidate", (candidate: RTCIceCandidate) => {
+            localConnection.addIceCandidate(candidate)
+          })
+        })
+        .catch((error) => console.error(error))
+    })
   }
 }

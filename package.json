@@ -4,6 +4,9 @@
     "@eslint/js": "^9.33.0",
     "@eslint/json": "^0.13.1",
     "@eslint/markdown": "^7.1.0",
+    "@types/express": "^5.0.5",
+    "@types/socket.io": "^3.0.1",
+    "@types/socket.io-client": "^1.4.36",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
     "@typescript-eslint/parser": "^8.39.1",
     "eslint": "^9.33.0",
@@ -26,6 +29,8 @@
     "mqtt": "^5.14.0",
     "phaser": "^4.0.0-rc.4",
     "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "webfontloader": "^1.6.28"
-  }
+  },
+  "type": "module"
 }
