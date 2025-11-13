@@ -2,14 +2,6 @@
   <body>
     <script src="./mqtt.min.js"></script>
 
-    Senha:
-    <input
-      type="text"
-      id="password"
-      placeholder="Senha do servidor"
-      value="***" />
-    <p />
-
     Tempo:
     <input type="text" id="time" placeholder="Tempo em segundos" value="2400" />
     <p />
@@ -64,33 +56,20 @@
       })
 
       function start() {
-        const password = document.getElementById("password").value
         let time = parseInt(document.getElementById("time").value)
         if (isNaN(time) || time <= 0) time = 2400
 
-        client.publish(
-          "escape-run/server/start",
-          JSON.stringify({ password: password, time: time })
-        )
+        client.publish("escape-run/server/start", time.toString())
       }
 
       function changeScene() {
-        const password = document.getElementById("password").value
         const scene = document.getElementById("scene").value
 
-        client.publish(
-          "escape-run/server/scene",
-          JSON.stringify({ password: password, scene: scene })
-        )
+        client.publish("escape-run/server/scene", scene)
       }
 
       function stop() {
-        const password = document.getElementById("password").value
-
-        client.publish(
-          "escape-run/server/stop",
-          JSON.stringify({ password: password, time: 0 })
-        )
+        client.publish("escape-run/server/stop", 0)
       }
     </script>
   </body>
