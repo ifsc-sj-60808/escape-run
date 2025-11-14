@@ -1,4 +1,3 @@
-import dis
 from machine import Pin, reset  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
 from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
