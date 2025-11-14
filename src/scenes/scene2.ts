@@ -39,61 +39,61 @@ export class Scene2 extends Scene {
         x: 160,
         y: 320,
 
-        text: "B"
+        text: "मा"
       },
       {
         x: 224,
         y: 320,
 
-        text: "C"
+        text: "के"
       },
       {
         x: 288,
         y: 320,
 
-        text: "D"
+        text: "गौ"
       },
       {
         x: 352,
         y: 320,
 
-        text: "E"
+        text: "औ"
       },
       {
         x: 416,
         y: 320,
 
-        text: "F"
+        text: "चूं"
       },
       {
         x: 64,
         y: 285,
 
-        text: "G"
+        text: "कि"
       },
       {
         x: 128,
         y: 285,
 
-        text: "H"
+        text: "रि"
       },
       {
         x: 256,
         y: 285,
 
-        text: "I"
+        text: "स्यों"
       },
       {
         x: 320,
         y: 285,
 
-        text: "J"
+        text: "वा"
       },
       {
         x: 384,
         y: 285,
 
-        text: "K"
+        text: "न्म"
       }
     ]
 
