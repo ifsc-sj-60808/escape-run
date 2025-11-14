@@ -84,6 +84,8 @@ export class Scene0 extends Scene {
     )
     this.load.image("arrow", "assets/scene6/detector-arrow.png")
 
+    this.load.image("scene7-background", "assets/scene7/background.png")
+
     this.load.image("regras8", "assets/scene8/regras8.png")
 
     this.load.image("scene9-numpad", "assets/scene9/numpad.png")
