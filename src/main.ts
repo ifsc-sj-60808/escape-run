@@ -44,7 +44,7 @@ class MultiPlayerGame extends Game {
           this.scene.start(scene)
 
           if (scene === "Scene8") {
-            this.scene8Delay = this.counter - 10
+            this.scene8Delay = this.counter - 600
           }
 
           this.currentScene = scene
