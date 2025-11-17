@@ -60,15 +60,16 @@ class MultiPlayerGameServer {
         if (topic === "escape-run/server/start") {
           let counter: number = 2400
 
-          try {
-            counter = parseInt(msg, 10)
-          } catch {
+          counter = parseInt(msg, 10)
+          if (isNaN(counter) || counter <= 0)
             console.error("Formato de mensagem inválido:", msg)
-          }
 
-          this.startGame(counter)
+          this.setTimer(counter)
+          this.mqttClient.publish("escape-run/player/scene", "Scene1")
+
         } else if (topic === "escape-run/server/scene") {
-          this.changeScene(msg)
+          this.mqttClient.publish("escape-run/player/scene", msg)
+
         } else if (topic === "escape-run/server/stop") {
           this.stopGame()
         }
@@ -90,21 +91,8 @@ class MultiPlayerGameServer {
     }, 1000)
   }
 
-  private startGame(duration: number) {
-    console.log("Jogo iniciado:", duration)
-
-    this.setTimer(duration)
-    this.mqttClient.publish("escape-run/player/scene", "Scene1")
-  }
-
-  private changeScene(scene: string) {
-    console.log("Mudando para a cena:", scene)
-    this.mqttClient.publish("escape-run/player/scene", scene)
-  }
-
   private stopGame() {
-    console.log("Jogo parado!")
-
+    clearInterval(this.timer)
     this.mqttClient.publish("escape-run/player/scene", "Scene15")
   }
 }

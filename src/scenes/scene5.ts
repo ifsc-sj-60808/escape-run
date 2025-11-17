@@ -36,12 +36,12 @@ export class Scene5 extends Scene {
       .image(220, 400, "batteryicon5")
       .setVisible(false)
 
-    setInterval(() => {
+    setTimeout(() => {
       this.batteryIcon3?.setVisible(false)
       this.batteryIcon4?.setVisible(true)
     }, 1000)
 
-    setInterval(() => {
+    setTimeout(() => {
       this.batteryIcon4?.setVisible(false)
       this.batteryIcon5?.setVisible(true)
     }, 2000)
@@ -51,7 +51,7 @@ export class Scene5 extends Scene {
       geradorSom.play({ loop: false, volume: 1.5 })
     })
 
-    setInterval(() => {
+    setTimeout(() => {
       this.add.image(220, 400, "camera-background")
       this.lastBgX = 220
       this.lastBgY = 400
