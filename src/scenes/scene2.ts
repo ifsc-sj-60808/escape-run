@@ -11,6 +11,7 @@ export class Scene2 extends Scene {
     x: number
     y: number
     text: string
+    code: string
     sprite?: Phaser.GameObjects.Text
   }>
 
@@ -33,67 +34,78 @@ export class Scene2 extends Scene {
       {
         x: 32,
         y: 320,
-        text: "स"
+        text: "स",
+        code: "0"
       },
       {
         x: 160,
         y: 320,
 
-        text: "मा"
+        text: "मा",
+        code: "1"
       },
       {
         x: 224,
         y: 320,
 
-        text: "के"
+        text: "के",
+        code: "2"
       },
       {
         x: 288,
         y: 320,
 
-        text: "गौ"
+        text: "गौ",
+        code: "3"
       },
       {
         x: 352,
         y: 320,
 
-        text: "औ"
+        text: "औ",
+        code: "4"
       },
       {
         x: 416,
         y: 320,
 
-        text: "चूं"
+        text: "चूं",
+        code: "5"
       },
       {
         x: 64,
         y: 285,
 
-        text: "कि"
+        text: "कि",
+        code: "6"
       },
       {
         x: 128,
         y: 285,
 
-        text: "रि"
+        text: "रि",
+        code: "7"
       },
       {
         x: 256,
         y: 285,
 
-        text: "स्यों"
+        text: "स्यों",
+        code: "8"
       },
       {
         x: 320,
         y: 285,
 
-        text: "वा"
+        text: "वा",
+        code: "9"
       },
       {
         x: 384,
         y: 285,
 
-        text: "न्म"
+        text: "न्म",
+        code: "A"
       }
     ]
 
@@ -137,8 +149,8 @@ export class Scene2 extends Scene {
         })
         .setInteractive()
         .on("pointerdown", () => {
-          if (this.password.length < 5) this.password += key.text
-          this.display.setText(this.display.text + key.text + " ")
+          if (this.password.length < 5) this.password += key.code
+          // this.display.setText(this.display.text + key.text + " ")
         })
     })
 
@@ -158,7 +170,7 @@ export class Scene2 extends Scene {
 
     this.keys.forEach((key) => {
       key.sprite?.setColor(
-        this.password.includes(key.text) ? "#ff0000" : "#881753"
+        this.password.includes(key.code) ? "#ff0000" : "#881753"
       )
     })
   }
