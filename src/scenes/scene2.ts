@@ -98,7 +98,12 @@ export class Scene2 extends Scene {
     ]
 
     this.clear = this.add
-      .text(75, 700, "clear")
+      .text(100, 700, "clear", {
+        fontFamily: "Sixtyfour",
+        fontSize: "32px",
+        color: "#ff00ff"
+      })
+      .setOrigin(0.5)
       .setInteractive()
       .on("pointerdown", () => {
         this.password = ""
@@ -106,7 +111,12 @@ export class Scene2 extends Scene {
       })
 
     this.enter = this.add
-      .text(375, 700, "enter")
+      .text(350, 700, "enter", {
+        fontFamily: "Sixtyfour",
+        fontSize: "32px",
+        color: "#ff00ff"
+      })
+      .setOrigin(0.5)
       .setInteractive()
       .on("pointerdown", () => {
         ;(this.game as typeof MultiPlayerGame).mqttClient.publish(
@@ -122,7 +132,7 @@ export class Scene2 extends Scene {
       key.sprite = this.add
         .text(key.x, key.y, key.text, {
           fontFamily: "Noto Sans Devanagari",
-          fontSize: "16px",
+          fontSize: "32px",
           color: "#881753"
         })
         .setInteractive()
@@ -134,7 +144,7 @@ export class Scene2 extends Scene {
 
     this.display = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
-      fontSize: "16px",
+      fontSize: "32px",
       color: "#ff00ff"
     })
   }
