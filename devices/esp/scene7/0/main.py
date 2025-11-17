@@ -1,4 +1,4 @@
-from machine import Pin, reset  # pyright: ignore[reportMissingImports]
+from machine import Pin  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
 from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
@@ -59,12 +59,6 @@ def connect_mqtt():
     return client
 
 
-def open_vault():
-    vault.on()
-
-    mqtt_client.publish("escape-run/player/scene", "Scene8")
-
-
 def callback(topic, payload):
     msg = payload.decode()
     print("Received message:", msg)
@@ -76,10 +70,10 @@ def callback(topic, payload):
         panic()
 
     elif msg == "859":
-        open_vault()
+        vault.on()
 
-    elif msg == "reset":
-        reset()
+        global open
+        open = True
 
 
 def subscribe(client):
@@ -88,6 +82,7 @@ def subscribe(client):
 
 
 if __name__ == "__main__":
+    open = False
     setup()
 
     connect_wifi()
@@ -96,5 +91,9 @@ if __name__ == "__main__":
     subscribe(mqtt_client)
 
     while True:
+        if open:
+            mqtt_client.publish("escape-run/player/scene", "Scene8")
+            open = False
+
         mqtt_client.check_msg()
         sleep(1)
