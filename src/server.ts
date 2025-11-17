@@ -46,6 +46,10 @@ class MultiPlayerGameServer {
     this.mqttClient.on("connect", () => {
       console.log("Connected to MQTT broker")
 
+      setInterval(() => {
+        this.mqttClient.publish("escape-run/server/heartbeat", "ping")
+      }, 30000)
+
       this.mqttClient.subscribe("escape-run/server/#", (err) => {
         if (err) {
           console.error("Failed to subscribe:", err)
