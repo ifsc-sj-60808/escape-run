@@ -10,7 +10,7 @@ MQTT_PORT = 1883
 MQTT_SUBSCRIBE_TOPIC = "escape-run/devices/scene2-0"
 MQTT_PUBLISH_TOPIC = "escape-run/player/scene"
 MQTT_PUBLISH_PAYLOAD = "Scene3"
-PASSWORD = "123"
+PASSWORD = "केऔचूं"
 
 vlc_process = None
 
