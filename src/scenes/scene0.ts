@@ -67,6 +67,7 @@ export class Scene0 extends Scene {
     )
     this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
     this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
+    this.load.image("scene4-transition", "assets/scene4/transition.png") 
 
     this.load.image(
       "charged-background",

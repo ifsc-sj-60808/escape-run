@@ -9,7 +9,7 @@ wifi_password = "escape-run"
 mqtt_client_id = "scene3-0"
 mqtt_broker = "escape-run.sj.ifsc.edu.br"
 mqtt_topic_subscribe = "escape-run/devices/scene3/0"
-mqtt_topic_publish = "escape-run/devices/scene3/0"
+mqtt_topic_publish = "escape-run/player/scene"
 
 led = Pin(2, Pin.OUT)
 
@@ -40,9 +40,7 @@ def setup():
     led_door_3_red.on()
     led_door_3_green.off()
 
-    blink()
     sleep(30)
-    blink()
 
 
 def connect_wifi():
@@ -64,20 +62,20 @@ def connect_mqtt():
     print("Connected to MQTT broker!")
 
     led.on()
-    
+
     return client
 
 
 def open_chest():
     chest.off()
-    mqtt_client.publish("escape-run/player/scene", "Scene3")
+    mqtt_client.publish(mqtt_topic_publish, "Scene3")
     led_door_2_red.off()
     led_door_2_green.on()
 
 
 def open_door():
     door.off()
-    mqtt_client.publish("escape-run/player/scene", "Scene4")
+    mqtt_client.publish(mqtt_topic_publish, "Scene4")
     led_door_3_red.off()
     led_door_3_green.on()
 
@@ -123,7 +121,7 @@ if __name__ == "__main__":
     last = 0
     while True:
         if last == 0 and button.value() == 1:
-            # mqtt_client.publish("escape-run/player/scene", "Scene4")
+                # mqtt_client.publish("escape-run/player/scene", "Scene4")
             last = 1
 
         mqtt_client.check_msg()
