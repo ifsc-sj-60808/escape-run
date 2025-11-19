@@ -5,7 +5,7 @@ from time import sleep
 
 # === Sensores e Atuadores ===
 print("Iniciando código da Cena 10...")
-led = Pin(2, Pin.OUT)       # LED de Status (geralmente o azul da placa)
+led = Pin(2, Pin.OUT) # LED de status no pino 2
 
 # Pinos de INPUT (Leitura dos interruptores)
 # Usando pinos seguros e com PULL_UP para evitar leituras instáveis
