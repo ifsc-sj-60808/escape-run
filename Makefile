@@ -10,4 +10,4 @@ build:
 	npm run build
 
 restart:
-	systemctl --user restart escape-run.service
+	sudo systemctl restart escape-run.service
