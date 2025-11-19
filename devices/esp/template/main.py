@@ -66,4 +66,5 @@ while True:
         scanning = False
     last_read = current_read
     mqtt_client.check_msg()
+    mqtt_client.publish("escape-run/devices/ping", "template")
     sleep(1)
