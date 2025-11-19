@@ -6,8 +6,8 @@ from time import sleep
 
 # sensores e atuadores
 print("Iniciando código...")
-led = Pin(2, Pin.OUT)
-control = Pin(3, Pin.OUT)
+led = Pin(25, Pin.OUT)
+control = Pin(26, Pin.OUT)
 pir = Pin(4, Pin.IN)
 led.off()
 control.off()
