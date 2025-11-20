@@ -1,70 +1,107 @@
-from machine import Pin  # pyright: ignore[reportMissingImports]
+from machine import Pin, reset  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
-from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
+from umqtt.simple import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
+import gc
 
-
-# sensores e atuadores
-print("Iniciando código...")
-led = Pin(25, Pin.OUT)
+device = "scene0"
+device_number = "0"
+led = Pin(2, Pin.OUT)
 control = Pin(26, Pin.OUT)
 pir = Pin(4, Pin.IN)
-led.off()
-control.off()
-print("Sensores e atuadores configurados.")
+wifi_ssid = "azul"
+wifi_password = "amore1rAMaluca3"
+broker = "test.mosquitto.org"
 
-
-# saída do local
-print("30s para evacuar local...")
-sleep(30)
-print("Tempo esgotado!")
-
-
-# Wi-Fi
+topic_subscribe = "/".join(["escape-run", "devices", device, device_number])
+topic_publish = "escape-run/player/scene"
 wlan = network.WLAN()
-wlan.active(True)
-wlan.connect("escape-run", "escape-run")
-while not wlan.isconnected():
+mqtt_client = MQTTClient(device, broker, keepalive=60)
+last_read = 0
+scanning = True
+
+
+def setup():
+    print("Iniciando código...")
+    led.off()
+    control.off()
+    print("Sensores e atuadores configurados.")
+
+
+def pre_pir():
+    print("30s para evacuar local...")
+    # sleep(30)
+    print("Tempo esgotado!")
+
+
+def blink(num=1):
+    for _ in range(num):
+        sleep(0.1)
+        led.off()
+        sleep(0.1)
+        led.on()
+
+
+def wifi_connect():
     print("Conectando ao Wi-Fi...")
-    sleep(1)
-print("Conectado ao Wi-Fi!")
+    wlan.active(True)
+    wlan.connect(wifi_ssid, wifi_password)
+    while not wlan.isconnected():
+        print("Conectando ao Wi-Fi...")
+        sleep(1)
+    print("Conectado ao Wi-Fi!")
 
 
-# MQTT
 def callback(topic, payload):
     msg = payload.decode()
     print("Mensagem recebida:", msg)
-    if msg == "blink":
-        for _ in range(3):
-            sleep(0.1)
-            led.off()
-            sleep(0.1)
-            led.on()
-    elif msg == "open" or msg == "unlock" or msg == "panic":
+    blink()
+    if msg == "open" or msg == "unlock" or msg == "panic":
+        print("Abrindo cofre...")
         control.on()
     elif msg == "close" or msg == "lock":
+        print("Fechando cofre...")
         control.off()
+    elif msg == "reset":
+        print("Reiniciando dispositivo...")
+        reset()
 
 
-mqtt_client = MQTTClient("scene0-0", "escape-run.sj.ifsc.edu.br")
-mqtt_client.connect()
-print("Conectado ao broker MQTT!")
-mqtt_client.set_callback(callback)
-mqtt_client.subscribe("escape-run/devices/scene0/0")
-print("Definidos callback e assinatura de tópico(s).")
-led.on()
+def mqtt_connect():
+    global mqtt_client
+    mqtt_client.connect(timeout=5)
+    print("Conectado ao broker MQTT!")
+    mqtt_client.set_callback(callback)
+    mqtt_client.subscribe(topic_subscribe)
+    print("Definidos callback e assinatura do tópico", topic_subscribe)
+    led.on()
 
 
-# Loop principal
-last_read = 0
-scanning = True
-while True:
+def check_pir():
+    global last_read, scanning
     current_read = pir.value()
     if current_read > last_read and scanning:
         print("Novo jogador detectado!")
-        mqtt_client.publish("escape-run/player/scene", "Scene1")
+        mqtt_client.publish(topic_publish, "Scene15")
+        blink()
         scanning = False
     last_read = current_read
-    mqtt_client.check_msg()
-    mqtt_client.publish("escape-run/devices/ping", "template")
-    sleep(1)
+
+
+if __name__ == "__main__":
+    print("v0.1.1")
+    setup()
+    wifi_connect()
+    pre_pir()
+
+    while True:
+        blink()
+        try:
+            mqtt_connect()
+            while True:
+                check_pir()
+                mqtt_client.check_msg()
+                sleep(0.1)
+        except OSError as e:
+            print(f"Erro de conexão: {e}")
+            sleep(5)
