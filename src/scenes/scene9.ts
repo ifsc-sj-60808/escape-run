@@ -117,6 +117,11 @@ export class Scene9 extends Scene {
     const socket = io()
     const iceServers = {
       iceServers: [
+        {
+          urls: "turns:feira-de-jogos.dev.br",
+          username: "adc20252",
+          credential: "adc20252"
+        },
         { urls: "stun:feira-de-jogos.dev.br" },
         { urls: "stun:stun.l.google.com:19302" }
       ]
@@ -150,11 +155,7 @@ export class Scene9 extends Scene {
             .createOffer()
             .then((offer) => localConnection.setLocalDescription(offer))
             .then(() =>
-              socket.emit(
-                "offer",
-                room,
-                localConnection.localDescription
-              )
+              socket.emit("offer", room, localConnection.localDescription)
             )
 
           socket.on("answer", (description: RTCSessionDescription) => {

@@ -1,8 +1,18 @@
+setInterval(() => {
+  document.body.style.visibility =
+    document.body.style.visibility === "hidden" ? "visible" : "hidden"
+}, 1000)
+
 audio = document.querySelector("#audio")
 room = "vigia"
 
 iceServers = {
   iceServers: [
+    {
+      urls: "turns:feira-de-jogos.dev.br",
+      username: "adc20252",
+      credential: "adc20252"
+    },
     { urls: "stun:feira-de-jogos.dev.br" },
     { urls: "stun:stun.l.google.com:19302" }
   ]
