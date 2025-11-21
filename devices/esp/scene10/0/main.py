@@ -9,10 +9,10 @@ device_number = "0"
 led = Pin(2, Pin.OUT)
 switch1 = Pin(23, Pin.IN, Pin.PULL_UP)
 switch2 = Pin(22, Pin.IN, Pin.PULL_UP)
-switch3 = Pin(18, Pin.IN, Pin.PULL_UP)  # Pino 18 é seguro
-switch4 = Pin(19, Pin.IN, Pin.PULL_UP)  # Pino 19 é seguro
+switch3 = Pin(18, Pin.IN, Pin.PULL_UP)
 pista_luzes = Pin(12, Pin.OUT)
 globo_motor = Pin(13, Pin.OUT)
+audio = Pin(5, Pin.OUT)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 broker = "escape-run.sj.ifsc.edu.br"
@@ -22,7 +22,7 @@ topic_subscribe = "/".join(["escape-run", "devices", device, device_number])
 topic_publish = "escape-run/player/scene"
 wlan = network.WLAN()
 mqtt_client = MQTTClient(device_name, broker, keepalive=60)
-switch_password = [1, 0, 0, 1]
+switch_password = [1, 1, 1]
 puzzle_resolvido = False
 
 
@@ -31,6 +31,7 @@ def setup():
     led.off()
     pista_luzes.off()
     globo_motor.off()
+    audio.off()
     print("Sensores e atuadores configurados.")
 
 
@@ -91,13 +92,23 @@ def switch_check():
     estado_atual = [
         switch1.value(),
         switch2.value(),
-        switch3.value(),
-        switch4.value(),
+        switch3.value()
     ]
+
+    if switch1.value() == 1:
+        print("Switch 1: ON")
+        pista_luzes.on()
+
+    if switch2.value() == 1:
+        print("Switch 2: ON")
+        globo_motor.on()
+
+    if switch3.value() == 1:
+        print("Switch 3: ON")
+        audio.on()
+
     if estado_atual == switch_password:
         print("Sequência correta! Acionando pista, globo e avançando cena!")
-        pista_luzes.on()
-        globo_motor.on()
         mqtt_client.publish(topic_publish, "Scene11")
         puzzle_resolvido = True
 
