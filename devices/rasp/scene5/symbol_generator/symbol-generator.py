@@ -3,11 +3,11 @@ import numpy as np
 import random
 
 # Input symbol files
-MAIN_SYMBOL = "P8CII/cat.png"  # true (red)
-CYAN_DECOY = "P8CII/dots.png"  # cyan decoy
-BLUE_DECOY = "P8CII/music.png"  # blue decoy
-GREEN_DECOY = "P8CII/house.png"  # green decoy
-OUTPUT_IMAGE = "P8CII-stego/cat-stego.png"
+MAIN_SYMBOL = "P8CII/eye.png"  # true (red)
+CYAN_DECOY = "P8CII/lines-ver.png"  # cyan decoy
+BLUE_DECOY = "P8CII/hourglass.png"  # blue decoy
+GREEN_DECOY = "P8CII/person.png"  # green decoy
+OUTPUT_IMAGE = "P8CII-stego/eye-stego.png"
 
 IMG_SIZE = (512, 512)
 
