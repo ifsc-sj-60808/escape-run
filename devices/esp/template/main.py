@@ -9,14 +9,15 @@ device_number = "0"
 led = Pin(2, Pin.OUT)
 control = Pin(26, Pin.OUT)
 pir = Pin(4, Pin.IN)
-wifi_ssid = "azul"
-wifi_password = "amore1rAMaluca3"
-broker = "test.mosquitto.org"
+wifi_ssid = "escape-run"
+wifi_password = "escape-run"
+broker = "escape-run.sj.ifsc.edu.br"
 
+device_name = "-".join([device, device_number])
 topic_subscribe = "/".join(["escape-run", "devices", device, device_number])
 topic_publish = "escape-run/player/scene"
 wlan = network.WLAN()
-mqtt_client = MQTTClient(device, broker, keepalive=60)
+mqtt_client = MQTTClient(device_name, broker, keepalive=60)
 last_read = 0
 scanning = True
 
@@ -28,7 +29,7 @@ def setup():
     print("Sensores e atuadores configurados.")
 
 
-def pre_pir():
+def pir_pre():
     print("30s para evacuar local...")
     # sleep(30)
     print("Tempo esgotado!")
@@ -59,6 +60,7 @@ def callback(topic, payload):
     if msg == "open" or msg == "unlock" or msg == "panic":
         print("Abrindo cofre...")
         control.on()
+        mqtt_client.publish(topic_publish, "Scene1")
     elif msg == "close" or msg == "lock":
         print("Fechando cofre...")
         control.off()
@@ -77,7 +79,7 @@ def mqtt_connect():
     led.on()
 
 
-def check_pir():
+def pir_check():
     global last_read, scanning
     current_read = pir.value()
     if current_read > last_read and scanning:
@@ -89,19 +91,19 @@ def check_pir():
 
 
 if __name__ == "__main__":
-    print("v0.1.1")
+    print("v0.1.2")
     setup()
     wifi_connect()
-    pre_pir()
+    pir_pre()
 
     while True:
         blink()
         try:
             mqtt_connect()
             while True:
-                check_pir()
+                pir_check()
                 mqtt_client.check_msg()
-                sleep(0.1)
+                sleep(1)
         except OSError as e:
             print(f"Erro de conexão: {e}")
             sleep(5)
