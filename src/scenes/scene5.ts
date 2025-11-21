@@ -46,10 +46,10 @@ export class Scene5 extends Scene {
       this.batteryIcon5?.setVisible(true)
     }, 2000)
 
-    const geradorSom = this.sound.add("gerador")
-    this.time.delayedCall(500, () => {
-      geradorSom.play({ loop: false, volume: 1.5 })
-    })
+//    const geradorSom = this.sound.add("gerador")
+//    this.time.delayedCall(500, () => {
+//      geradorSom.play({ loop: false, volume: 1.5 })
+//    })
 
     setTimeout(() => {
       this.add.image(220, 400, "camera-background")
@@ -217,7 +217,7 @@ export class Scene5 extends Scene {
     this.filtroAtivo = !this.filtroAtivo
     if (this.filtroAtivo) {
       this.videoElement.style.filter =
-        "brightness(0.7) sepia(1) hue-rotate(-50deg) saturate(6)"
+        "brightness(50%) sepia(3) hue-rotate(300deg) saturate(300%) contrast(4)"
       this.filtroButton!.innerText = "Desativar Filtro"
     } else {
       this.videoElement.style.filter = ""
