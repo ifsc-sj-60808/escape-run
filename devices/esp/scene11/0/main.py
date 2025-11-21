@@ -1,106 +1,114 @@
 from machine import Pin, reset  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
-from umqtt.robust import MQTTClient  # pyright: ignore[reportMissingImports]
+from umqtt.simple import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
+device = "scene11"
+device_number = "0"
 led = Pin(2, Pin.OUT)
 vault = Pin(3, Pin.OUT)
 button = Pin(4, Pin.IN)
 audio = Pin(5, Pin.OUT)
-
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
+broker = "escape-run.sj.ifsc.edu.br"
 
-mqtt_client_id = "scene11-0"
-mqtt_broker = "escape-run.sj.ifsc.edu.br"
-mqtt_topic_subscribe = "escape-run/devices/scene11/0"
-mqtt_topic_publish = "escape-run/player/scene"
+device_name = "-".join([device, device_number])
+topic_subscribe = "/".join(["escape-run", "devices", device, device_number])
+topic_publish = "escape-run/player/scene"
+wlan = network.WLAN()
+mqtt_client = MQTTClient(device_name, broker, keepalive=60)
+last_read = 0
+scanning = True
 
 
 def setup():
+    print("Iniciando código...")
     led.off()
-    vault.on()
+    vault.off()
     audio.off()
-
-    blink()
-    sleep(30)
-    blink()
+    print("Sensores e atuadores configurados.")
 
 
-def blink():
-    for _ in range(3):
+def button_pre():
+    print("30s para evacuar local...")
+    # sleep(30)
+    print("Tempo esgotado!")
+
+
+def blink(num=1):
+    for _ in range(num):
         sleep(0.1)
         led.off()
         sleep(0.1)
         led.on()
 
 
-def open_vault():
-    vault.off()
-
-    mqtt_client.publish(mqtt_topic_publish, "Scene12")
-    
-    blink()
-
-
-def play_audio():
-    audio.on()
-
-
-def connect_wifi():
-    wlan = network.WLAN()
+def wifi_connect():
+    print("Conectando ao Wi-Fi...")
     wlan.active(True)
     wlan.connect(wifi_ssid, wifi_password)
-
     while not wlan.isconnected():
-        print("Connecting to Wi-Fi...")
+        print("Conectando ao Wi-Fi...")
         sleep(1)
-
-    print("Connected to Wi-Fi!")
-
-
-def connect_mqtt():
-    client = MQTTClient(mqtt_client_id, mqtt_broker)
-    client.connect()
-    client.set_callback(callback)
-    print("Connected to MQTT broker!")
-
-    led.on()
-
-    return client
+    print("Conectado ao Wi-Fi!")
 
 
 def callback(topic, payload):
     msg = payload.decode()
-    print("Received message:", msg)
-
-    if msg == "859":
-        open_vault()
-
+    print("Mensagem recebida:", msg)
+    blink()
+    if msg == "859" or msg == "open" or msg == "unlock" or msg == "panic":
+        print("Abrindo cofre...")
+        vault.on()
+        mqtt_client.publish(topic_publish, "Scene12")
+    elif msg == "close" or msg == "lock":
+        print("Fechando cofre...")
+        vault.off()
+    elif msg == "play_audio" or msg == "audio":
+        print("Tocando áudio...")
+        audio.on()
     elif msg == "reset":
+        print("Reiniciando dispositivo...")
         reset()
 
 
-def subscribe(client):
-    client.subscribe(mqtt_topic_subscribe)
-    print("Subscribed to device topic:", mqtt_topic_subscribe)
+def mqtt_connect():
+    global mqtt_client
+    mqtt_client.connect(timeout=5)
+    print("Conectado ao broker MQTT!")
+    mqtt_client.set_callback(callback)
+    mqtt_client.subscribe(topic_subscribe)
+    print("Definidos callback e assinatura do tópico", topic_subscribe)
+    led.on()
+
+
+def button_check():
+    global last_read, scanning
+    current_read = button.value()
+    if current_read > last_read:
+        print("Botão pressionado!")
+        #mqtt_client.publish(topic_publish, "Scene12")
+        audio.on()
+        blink()
+        scanning = False
+    last_read = current_read
 
 
 if __name__ == "__main__":
     setup()
+    wifi_connect()
+    button_pre()
 
-    connect_wifi()
-
-    mqtt_client = connect_mqtt()
-    subscribe(mqtt_client)
-
-    last_button = button.value()
     while True:
-        current_button = button.value()
-        if last_button == 1 and current_button == 0:
-            play_audio()
-
-        last_button = current_button
-
-        mqtt_client.check_msg()
-        sleep(1)
+        blink()
+        try:
+            mqtt_connect()
+            while True:
+                if scanning:
+                    button_check()
+                mqtt_client.check_msg()
+                sleep(1)
+        except OSError as e:
+            print(f"Erro de conexão: {e}")
+            sleep(5)
