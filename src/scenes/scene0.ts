@@ -67,7 +67,7 @@ export class Scene0 extends Scene {
     )
     this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
     this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
-    this.load.image("scene4-transition", "assets/scene4/transition.png") 
+    this.load.image("scene4-transition", "assets/scene4/transition.png")
 
     this.load.image(
       "charged-background",
@@ -93,7 +93,7 @@ export class Scene0 extends Scene {
     this.load.image("scene9-void", "assets/scene9/void.png")
     this.load.image("scene9-void-3x", "assets/scene9/void-3x.png")
 
-    this.load.image("cena10-start.png", "assets/scene10/start.png")
+    this.load.image("cena10-start", "assets/scene10/start.png")
 
     this.load.image("scene11-background", "assets/scene11/numpad.png")
     this.load.image("void", "assets/scene11/void.png")
