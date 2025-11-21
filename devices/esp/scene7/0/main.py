@@ -7,6 +7,7 @@ device = "scene7"
 device_number = "0"
 led = Pin(2, Pin.OUT)
 vault = Pin(23, Pin.OUT)
+pir = Pin(12, Pin.IN)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 broker = "escape-run.sj.ifsc.edu.br"
@@ -25,6 +26,12 @@ def setup():
     led.off()
     vault.off()
     print("Sensores e atuadores configurados.")
+
+
+def pir_pre():
+    print("30s para evacuar local...")
+    # sleep(30)
+    print("Tempo esgotado!")
 
 
 def blink(num=1):
@@ -52,7 +59,7 @@ def callback(topic, payload):
     if msg == "859" or msg == "panic":
         print("Abrindo cofre...")
         vault.on()
-        mqtt_client.publish(topic_publish, "Scene1")
+        mqtt_client.publish(topic_publish, "Scene8")
     elif msg == "close" or msg == "lock":
         print("Fechando cofre...")
         vault.off()
@@ -71,15 +78,29 @@ def mqtt_connect():
     led.on()
 
 
+def pir_check():
+    global last_read, scanning
+    current_read = pir.value()
+    if current_read > last_read:
+        print("Novo jogador detectado!")
+        mqtt_client.publish(topic_publish, "Scene7")
+        blink()
+        scanning = False
+    last_read = current_read
+
+
 if __name__ == "__main__":
     setup()
     wifi_connect()
+    pir_pre()
 
     while True:
         blink()
         try:
             mqtt_connect()
             while True:
+                if scanning:
+                    pir_check()
                 mqtt_client.check_msg()
                 sleep(1)
         except OSError as e:
