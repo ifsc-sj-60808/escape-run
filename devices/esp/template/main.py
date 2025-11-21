@@ -2,7 +2,6 @@ from machine import Pin, reset  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
 from umqtt.simple import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
-import gc
 
 device = "scene0"
 device_number = "0"
@@ -82,7 +81,7 @@ def mqtt_connect():
 def pir_check():
     global last_read, scanning
     current_read = pir.value()
-    if current_read > last_read and scanning:
+    if current_read > last_read:
         print("Novo jogador detectado!")
         mqtt_client.publish(topic_publish, "Scene15")
         blink()
@@ -91,7 +90,6 @@ def pir_check():
 
 
 if __name__ == "__main__":
-    print("v0.1.2")
     setup()
     wifi_connect()
     pir_pre()
@@ -101,7 +99,8 @@ if __name__ == "__main__":
         try:
             mqtt_connect()
             while True:
-                pir_check()
+                if scanning:
+                    pir_check()
                 mqtt_client.check_msg()
                 sleep(1)
         except OSError as e:
