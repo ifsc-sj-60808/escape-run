@@ -47,7 +47,7 @@ class MultiPlayerGameServer {
       console.log("Connected to MQTT broker")
 
       setInterval(() => {
-        this.mqttClient.publish("escape-run/server/heartbeat", "ping")
+        this.mqttClient.publish("escape-run/ping", "server")
       }, 30000)
 
       this.mqttClient.subscribe("escape-run/server/#", (err) => {
