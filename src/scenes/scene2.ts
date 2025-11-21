@@ -150,7 +150,7 @@ export class Scene2 extends Scene {
         .setInteractive()
         .on("pointerdown", () => {
           if (this.password.length < 5) this.password += key.code
-          // this.display.setText(this.display.text + key.text + " ")
+           this.display.setText(this.display.text + key.code + " ")
         })
     })
 
