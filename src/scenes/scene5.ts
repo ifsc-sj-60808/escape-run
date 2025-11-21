@@ -46,10 +46,10 @@ export class Scene5 extends Scene {
       this.batteryIcon5?.setVisible(true)
     }, 2000)
 
-//    const geradorSom = this.sound.add("gerador")
-//    this.time.delayedCall(500, () => {
-//      geradorSom.play({ loop: false, volume: 1.5 })
-//    })
+        const geradorSom = this.sound.add("gerador")
+        this.time.delayedCall(500, () => {
+          geradorSom.play({ loop: false, volume: 1.5 })
+        })
 
     setTimeout(() => {
       this.add.image(220, 400, "camera-background")
@@ -160,11 +160,11 @@ export class Scene5 extends Scene {
     this.flashButton = document.createElement("button")
     this.flashButton.innerText = "Ligar Flash"
     this.flashButton.style.position = "absolute"
-    this.flashButton.style.left = `${dom.left - 140}px`
-    this.flashButton.style.top = `${dom.top + dom.cssHeight / 2 + 12}px`
-    this.flashButton.style.zIndex = "99999"
-    this.flashButton.style.padding = "0.6em 1em"
-    this.flashButton.style.width = `${buttonWidth}px`
+    this.flashButton.style.top = "87%"
+    this.flashButton.style.left = "30%"
+    this.flashButton.style.transform = "translate(-50%, 0)"
+    this.flashButton.style.zIndex = "20"
+    this.flashButton.style.padding = "1em"
     this.flashButton.style.fontSize = "1.1em"
     this.flashButton.style.fontFamily = "sans-serif"
     this.flashButton.style.color = "#b62271ff"
@@ -174,23 +174,26 @@ export class Scene5 extends Scene {
     this.flashButton.onclick = () => this.toggleFlash()
     document.body.appendChild(this.flashButton)
 
-    this.filtroButton = document.createElement("button")
-    this.filtroButton.innerText = "Ativar Filtro"
-    this.filtroButton.style.position = "absolute"
-    this.filtroButton.style.left = `${dom.left + 20}px`
-    this.filtroButton.style.top = `${dom.top + dom.cssHeight / 2 + 12}px`
-    this.filtroButton.style.zIndex = "99999"
-    this.filtroButton.style.padding = "0.6em 1em"
-    this.filtroButton.style.width = `${buttonWidth}px`
-    this.filtroButton.style.fontSize = "1.1em"
-    this.filtroButton.style.fontFamily = "sans-serif"
-    this.filtroButton.style.color = "#b62271ff"
-    this.filtroButton.style.fontWeight = "bold"
-    this.filtroButton.style.backgroundColor = "#130b1cff"
-    this.filtroButton.style.border = "2px solid #881753"
-    this.filtroButton.onclick = () => this.toggleFiltro()
-    document.body.appendChild(this.filtroButton)
+    this.filtroButton = document.createElement("button");
+    this.filtroButton.innerText = "Ativar Filtro";
+    this.filtroButton.style.position = "absolute";
+    this.filtroButton.style.top = "87%";
+    this.filtroButton.style.left = "70%";
+    this.filtroButton.style.transform = "translate(-50%, 0)";
+    this.filtroButton.style.zIndex = "20";
+    this.filtroButton.style.padding = "1em";
+    this.filtroButton.style.width = "8em";
+    this.filtroButton.style.fontSize = "1.1em";
+    this.filtroButton.style.fontFamily = "sans-serif";
+    this.filtroButton.style.color = "#b62271ff";
+    this.filtroButton.style.fontWeight = "bold";
+    this.filtroButton.style.backgroundColor = "#130b1cff";
+    this.filtroButton.style.border = "2px solid #881753";
+    this.filtroButton.style.fontWeight = "bold";
+    this.filtroButton.onclick = () => this.toggleFiltro();
+    document.body.appendChild(this.filtroButton);
   }
+  
 
   async toggleFlash() {
     if (!this.track) return
@@ -202,7 +205,7 @@ export class Scene5 extends Scene {
     try {
       this.flashAtivo = !this.flashAtivo
       await this.track.applyConstraints({
-        advanced: [{ torch: this.flashAtivo } as any]
+        advanced: [{ torch: this.flashAtivo }]
       })
       this.flashButton!.innerText = this.flashAtivo
         ? "Desligar Flash"
@@ -217,11 +220,23 @@ export class Scene5 extends Scene {
     this.filtroAtivo = !this.filtroAtivo
     if (this.filtroAtivo) {
       this.videoElement.style.filter =
-        "brightness(50%) sepia(3) hue-rotate(300deg) saturate(300%) contrast(4)"
+        "brightness(0.7) sepia(1) hue-rotate(-50deg) saturate(6)"
+      // Ajusta a sombra para o tamanho do vídeo
+      const w = this.videoElement.offsetWidth
+      const h = this.videoElement.offsetHeight
+      this.videoElement.style.boxShadow = `${Math.max(
+        CamWidth,
+        CamHeight
+      )}px rgba(255,0,0,0.2) inset`
       this.filtroButton!.innerText = "Desativar Filtro"
+      this.filtroButton!.style.width = "10em"
+      this.flashButton!.style.left = "25%"
     } else {
       this.videoElement.style.filter = ""
+      this.videoElement.style.boxShadow = ""
       this.filtroButton!.innerText = "Ativar Filtro"
+      this.filtroButton!.style.width = "8em"
+      this.flashButton!.style.left = "30%"
     }
   }
 }
