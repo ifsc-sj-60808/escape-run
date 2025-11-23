@@ -2,7 +2,7 @@ import { Scene } from "phaser"
 import MultiPlayerGame from "../main"
 
 // Camera com altura levemente maior
-var CamHeight = 470
+var CamHeight = 500
 var CamWidth = CamHeight * (9 / 16)
 
 export class Scene5 extends Scene {
@@ -12,15 +12,21 @@ export class Scene5 extends Scene {
   batteryIcon5?: Phaser.GameObjects.Image
   batteryToggle: boolean = false
 
+  canvasElement?: HTMLCanvasElement
+  canvasCtx?: CanvasRenderingContext2D
+  animationFrameId?: number
+  redRevealOverlay?: HTMLDivElement
   videoElement?: HTMLVideoElement
-  flashButton?: HTMLButtonElement
-  filtroButton?: HTMLButtonElement
   stream?: MediaStream
   track?: MediaStreamTrack
+
+  flashButton?: HTMLButtonElement
+  filtroButton?: HTMLButtonElement
   filtroAtivo: boolean = false
   flashAtivo: boolean = false
-  lastBgX: number = 220
-  lastBgY: number = 400
+
+  sceneCreatedAt?: number
+  cameraStartScheduled: boolean = false
 
   constructor() {
     super({ key: "Scene5" })
@@ -46,31 +52,33 @@ export class Scene5 extends Scene {
       this.batteryIcon5?.setVisible(true)
     }, 2000)
 
-        const geradorSom = this.sound.add("gerador")
-        this.time.delayedCall(500, () => {
-          geradorSom.play({ loop: false, volume: 1.5 })
-        })
+    //    const geradorSom = this.sound.add("gerador")
+    //    this.time.delayedCall(500, () => {
+    //      geradorSom.play({ loop: false, volume: 1.5 })
+    //    })
 
-    setTimeout(() => {
+    // record when scene was created so we can prevent early camera prompts
+    this.sceneCreatedAt = Date.now()
+
+    // start camera only after 5 seconds
+    this.time.delayedCall(5000, () => {
       this.add.image(220, 400, "camera-background")
-      this.lastBgX = 220
-      this.lastBgY = 400
-
       if (!this.videoElement) {
-        this.time.delayedCall(100, () => {
-          this.startCamera()
-        })
+        this.startCamera()
       }
-    }, 5000)
+    })
 
     this.timer = this.add.text(25, 25, "", {
       fontFamily: "Sixtyfour",
       fontSize: "16px",
       color: "#ff00ff"
     })
+
+    // camera will be started by the delayedCall above after 5s
   }
 
   update() {
+    // Timer
     this.timer.setText(
       `${String((this.game as typeof MultiPlayerGame).minutes).padStart(
         2,
@@ -82,81 +90,70 @@ export class Scene5 extends Scene {
     )
   }
 
-  private mapGameToDOM(x: number, y: number, w: number, h: number) {
-    const container = (document.getElementById("game-container") ||
-      document.body) as HTMLElement
-    const canvas = (this.game.canvas || document.querySelector("canvas")) as
-      | HTMLCanvasElement
-      | undefined
-
-    if (!canvas) {
-      const left = window.innerWidth / 2
-      const top = window.innerHeight / 2
-      return { left, top, cssWidth: w, cssHeight: h, container }
+  async startCamera() {
+    // prevent requesting camera permissions before 5s since scene creation
+    const MIN_DELAY = 5000
+    const createdAt = this.sceneCreatedAt ?? Date.now()
+    const elapsed = Date.now() - createdAt
+    if (elapsed < MIN_DELAY) {
+      if (!this.cameraStartScheduled) {
+        this.cameraStartScheduled = true
+        this.time.delayedCall(MIN_DELAY - elapsed, () => {
+          this.cameraStartScheduled = false
+          // call startCamera again at the proper time
+          this.startCamera()
+        })
+      }
+      return
     }
 
-    const rect = canvas.getBoundingClientRect()
-    const gameW = this.scale.width
-    const gameH = this.scale.height
-
-    const left = rect.left + (x / gameW) * rect.width
-    const top = rect.top + (y / gameH) * rect.height
-    const scale = rect.width / gameW
-    const cssWidth = Math.round(w * scale)
-    const cssHeight = Math.round(h * (rect.height / gameH))
-
-    return { left, top, cssWidth, cssHeight, container }
-  }
-
-  async startCamera() {
     const stream = navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: { exact: "environment" } } })
+      .getUserMedia({
+        video: { facingMode: { exact: "environment" } }
+      })
       .then((mediaStream) => {
         this.stream = mediaStream
         this.track = mediaStream.getVideoTracks()[0]
-
-        const dom = this.mapGameToDOM(
-          this.lastBgX,
-          this.lastBgY,
-          CamWidth,
-          CamHeight
-        )
-
         this.videoElement = document.createElement("video")
-        this.videoElement.id = "camera-video"
         this.videoElement.autoplay = true
         this.videoElement.playsInline = true
         this.videoElement.style.position = "absolute"
-        this.videoElement.style.left = `${dom.left}px`
-        this.videoElement.style.top = `${dom.top}px`
-        this.videoElement.style.width = `${dom.cssWidth}px`
-        this.videoElement.style.height = `${dom.cssHeight}px`
+        this.videoElement.style.top = "55%"
+        this.videoElement.style.left = "50%"
+        this.videoElement.style.width = `${CamWidth}px`
+        this.videoElement.style.height = `${CamHeight}px`
         this.videoElement.style.transform = "translate(-50%, -50%)"
-        this.videoElement.style.zIndex = "99999"
-        this.videoElement.style.pointerEvents = "none"
+        this.videoElement.style.zIndex = "10"
+        this.videoElement.style.pointerEvents = "none" // Não interfere nos cliques do Phaser
         this.videoElement.srcObject = mediaStream
-
         document.body.appendChild(this.videoElement)
+
+        // Cria canvas para efeito red reveal (esteganografia)
+        this.canvasElement = document.createElement("canvas")
+        this.canvasElement.width = CamWidth
+        this.canvasElement.height = Math.floor(CamHeight * 0.75)
+        this.canvasElement.style.position = "absolute"
+        this.canvasElement.style.top = this.videoElement.style.top
+        this.canvasElement.style.left = this.videoElement.style.left
+        this.canvasElement.style.width = this.videoElement.style.width
+        this.canvasElement.style.height = Math.floor(CamHeight * 0.75) + "px"
+        this.canvasElement.style.transform = this.videoElement.style.transform
+        this.canvasElement.style.zIndex = "11"
+        this.canvasElement.style.pointerEvents = "none"
+        this.canvasElement.style.display = "none"
+        document.body.appendChild(this.canvasElement)
+        this.canvasCtx = this.canvasElement.getContext("2d")!
+
+        // Adiciona botões após o vídeo ser adicionado
         this.addControlButtons()
       })
       .catch((err) => {
         console.error("Erro ao acessar a câmera: ", err)
-        this.addControlButtons()
       })
   }
 
   addControlButtons() {
-    if (this.flashButton || this.filtroButton) return
-
-    const dom = this.mapGameToDOM(
-      this.lastBgX,
-      this.lastBgY,
-      CamWidth,
-      CamHeight
-    )
-
-    const buttonWidth = 120
-
+    // Botão Flash
     this.flashButton = document.createElement("button")
     this.flashButton.innerText = "Ligar Flash"
     this.flashButton.style.position = "absolute"
@@ -174,26 +171,26 @@ export class Scene5 extends Scene {
     this.flashButton.onclick = () => this.toggleFlash()
     document.body.appendChild(this.flashButton)
 
-    this.filtroButton = document.createElement("button");
-    this.filtroButton.innerText = "Ativar Filtro";
-    this.filtroButton.style.position = "absolute";
-    this.filtroButton.style.top = "87%";
-    this.filtroButton.style.left = "70%";
-    this.filtroButton.style.transform = "translate(-50%, 0)";
-    this.filtroButton.style.zIndex = "20";
-    this.filtroButton.style.padding = "1em";
-    this.filtroButton.style.width = "8em";
-    this.filtroButton.style.fontSize = "1.1em";
-    this.filtroButton.style.fontFamily = "sans-serif";
-    this.filtroButton.style.color = "#b62271ff";
-    this.filtroButton.style.fontWeight = "bold";
-    this.filtroButton.style.backgroundColor = "#130b1cff";
-    this.filtroButton.style.border = "2px solid #881753";
-    this.filtroButton.style.fontWeight = "bold";
-    this.filtroButton.onclick = () => this.toggleFiltro();
-    document.body.appendChild(this.filtroButton);
+    // Botão Filtro Vermelho
+    this.filtroButton = document.createElement("button")
+    this.filtroButton.innerText = "Ativar Filtro"
+    this.filtroButton.style.position = "absolute"
+    this.filtroButton.style.top = "87%"
+    this.filtroButton.style.left = "70%"
+    this.filtroButton.style.transform = "translate(-50%, 0)"
+    this.filtroButton.style.zIndex = "20"
+    this.filtroButton.style.padding = "1em"
+    this.filtroButton.style.width = "8em"
+    this.filtroButton.style.fontSize = "1.1em"
+    this.filtroButton.style.fontFamily = "sans-serif"
+    this.filtroButton.style.color = "#b62271ff"
+    this.filtroButton.style.fontWeight = "bold"
+    this.filtroButton.style.backgroundColor = "#130b1cff"
+    this.filtroButton.style.border = "2px solid #881753"
+    this.filtroButton.style.fontWeight = "bold"
+    this.filtroButton.onclick = () => this.toggleFiltro()
+    document.body.appendChild(this.filtroButton)
   }
-  
 
   async toggleFlash() {
     if (!this.track) return
@@ -211,32 +208,58 @@ export class Scene5 extends Scene {
         ? "Desligar Flash"
         : "Ligar Flash"
     } catch (e) {
-      alert("Não foi possível alternar o flash.")
+      alert("Não foi possível ligar o flash.")
     }
   }
 
   toggleFiltro() {
-    if (!this.videoElement) return
+    if (!this.videoElement || !this.canvasElement || !this.canvasCtx) return
     this.filtroAtivo = !this.filtroAtivo
     if (this.filtroAtivo) {
-      this.videoElement.style.filter =
-        "brightness(0.7) sepia(1) hue-rotate(-50deg) saturate(6)"
-      // Ajusta a sombra para o tamanho do vídeo
-      const w = this.videoElement.offsetWidth
-      const h = this.videoElement.offsetHeight
-      this.videoElement.style.boxShadow = `${Math.max(
-        CamWidth,
-        CamHeight
-      )}px rgba(255,0,0,0.2) inset`
+      this.canvasElement.style.display = "block"
+      this.videoElement.style.visibility = "hidden"
       this.filtroButton!.innerText = "Desativar Filtro"
       this.filtroButton!.style.width = "10em"
       this.flashButton!.style.left = "25%"
+      this.startRedReveal()
     } else {
-      this.videoElement.style.filter = ""
-      this.videoElement.style.boxShadow = ""
+      this.canvasElement.style.display = "none"
+      this.videoElement.style.visibility = "visible"
       this.filtroButton!.innerText = "Ativar Filtro"
       this.filtroButton!.style.width = "8em"
       this.flashButton!.style.left = "30%"
+      if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId)
     }
+  }
+
+  startRedReveal() {
+    if (!this.videoElement || !this.canvasCtx || !this.canvasElement) return
+    const canvasHeight = Math.floor(CamHeight * 0.75)
+    const draw = () => {
+      this.canvasCtx!.drawImage(
+        this.videoElement!,
+        0,
+        0,
+        CamWidth,
+        canvasHeight
+      )
+      const frame = this.canvasCtx!.getImageData(0, 0, CamWidth, canvasHeight)
+      const l = frame.data.length
+      for (let i = 0; i < l; i += 4) {
+        // Intensifica o vermelho
+        frame.data[i] = Math.min(255, frame.data[i] * 1.5) // R
+        frame.data[i + 1] = 0 // G
+        frame.data[i + 2] = 0 // B
+        // Aumenta opacidade se vermelho for forte
+        if (frame.data[i] > 100) {
+          frame.data[i + 3] = 255
+        } else {
+          frame.data[i + 3] = 80
+        }
+      }
+      this.canvasCtx!.putImageData(frame, 0, 0)
+      this.animationFrameId = requestAnimationFrame(draw)
+    }
+    draw()
   }
 }
