@@ -89,6 +89,16 @@ def mqtt_connect():
     led.on()
 
 
+def read_button():
+    global last_read, scanning
+    current_read = button.value()
+    if current_read > last_read:
+        print("Botão pressionado!")
+        mqtt_client.publish(topic_publish, "Scene4")
+        scanning = False
+    last_read = current_read
+
+
 if __name__ == "__main__":
     setup()
     wifi_connect()
@@ -98,6 +108,8 @@ if __name__ == "__main__":
         try:
             mqtt_connect()
             while True:
+                if scanning:
+                    read_button()
                 mqtt_client.check_msg()
                 sleep(1)
         except OSError as e:
