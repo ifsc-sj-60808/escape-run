@@ -94,7 +94,7 @@ def read_button():
     current_read = button.value()
     if current_read > last_read:
         print("Botão pressionado!")
-        mqtt_client.publish(topic_publish, "Scene4")
+        mqtt_client.publish(topic_subscribe, "botao")
         scanning = False
     last_read = current_read
 
