@@ -2,17 +2,18 @@ from machine import Pin, reset  # pyright: ignore[reportMissingImports]
 import network  # pyright: ignore[reportMissingImports]
 from umqtt.simple import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
+from dfplayer import DFPlayer
 
 
 device = "scene10"
 device_number = "0"
+player = DFPlayer(uart_id=1, tx_pin_id=25, rx_pin_id=26)
 led = Pin(2, Pin.OUT)
 switch1 = Pin(23, Pin.IN, Pin.PULL_UP)
 switch2 = Pin(22, Pin.IN, Pin.PULL_UP)
 switch3 = Pin(18, Pin.IN, Pin.PULL_UP)
 pista_luzes = Pin(12, Pin.OUT)
 globo_motor = Pin(13, Pin.OUT)
-audio = Pin(5, Pin.OUT)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 broker = "escape-run.sj.ifsc.edu.br"
@@ -31,7 +32,7 @@ def setup():
     led.off()
     pista_luzes.off()
     globo_motor.off()
-    audio.off()
+    player.volume(25)
     print("Sensores e atuadores configurados.")
 
 
@@ -75,6 +76,12 @@ def callback(topic, payload):
     elif msg == "globo_off":
         globo_motor.off()
         print("Globo motor DESLIGADO via MQTT.")
+    elif msg == "audio_2":
+        player.stop()
+        sleep(0.05)
+        player.play(1, 2)
+        sleep(30)
+        player.play(1, 1)
 
 
 def mqtt_connect():
@@ -89,11 +96,7 @@ def mqtt_connect():
 
 def switch_check():
     global puzzle_resolvido, switch_password
-    estado_atual = [
-        switch1.value(),
-        switch2.value(),
-        switch3.value()
-    ]
+    estado_atual = [switch1.value(), switch2.value(), switch3.value()]
 
     if switch1.value() == 1:
         print("Switch 1: ON")
@@ -105,7 +108,7 @@ def switch_check():
 
     if switch3.value() == 1:
         print("Switch 3: ON")
-        audio.on()
+        player.play(1, 1)
 
     if estado_atual == switch_password:
         print("Sequência correta! Acionando pista, globo e avançando cena!")
