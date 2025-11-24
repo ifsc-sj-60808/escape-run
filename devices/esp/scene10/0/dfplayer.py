@@ -1,4 +1,4 @@
-import machine
+import machine  # pyright: ignore[reportMissingImports]
 import time
 
 
