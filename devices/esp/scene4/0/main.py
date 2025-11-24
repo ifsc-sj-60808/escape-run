@@ -34,7 +34,7 @@ def setup():
 
 def sensor_pre():
     print("30s para evacuar local...")
-    # sleep(30)
+    sleep(30)
     print("Tempo esgotado!")
 
 

@@ -30,7 +30,7 @@ def setup():
 
 def pir_pre():
     print("30s para evacuar local...")
-    # sleep(30)
+    sleep(30)
     print("Tempo esgotado!")
 
 
@@ -58,8 +58,9 @@ def callback(topic, payload):
     blink()
     if msg == "open" or msg == "unlock" or msg == "panic":
         print("Abrindo cofre...")
-        vault.on()
         mqtt_client.publish(topic_publish, "Scene2")
+        sleep(1)
+        vault.on()
     elif msg == "close" or msg == "lock":
         print("Fechando cofre...")
         vault.off()

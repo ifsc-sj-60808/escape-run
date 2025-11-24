@@ -52,8 +52,9 @@ def callback(topic, payload):
     blink()
     if msg == "open" or msg == "unlock" or msg == "panic":
         print("Abrindo cofre...")
-        dispenser.on()
         mqtt_client.publish(topic_publish, "Scene1")
+        sleep(1)
+        dispenser.on()
     elif msg == "close" or msg == "lock":
         print("Fechando cofre...")
         dispenser.off()

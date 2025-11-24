@@ -60,8 +60,9 @@ def callback(topic, payload):
     blink()
     if msg == "859" or msg == "open" or msg == "unlock" or msg == "panic":
         print("Abrindo cofre...")
-        vault.on()
         mqtt_client.publish(topic_publish, "Scene12")
+        sleep(1)
+        vault.on()
     elif msg == "close" or msg == "lock":
         print("Fechando cofre...")
         vault.off()

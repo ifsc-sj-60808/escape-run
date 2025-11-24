@@ -67,14 +67,16 @@ def callback(topic, payload):
     print("Mensagem recebida:", msg)
     blink()
     if msg == "fffff":
-        chest.off()
         mqtt_client.publish(topic_publish, "Scene3")
+        sleep(1)
+        chest.off()
         led_door_2_red.off()
         led_door_2_green.on()
 
     elif msg == "botao":
-        door.off()
         mqtt_client.publish(topic_publish, "Scene4")
+        sleep(1)
+        door.off()
         led_door_3_red.off()
         led_door_3_green.on()
 
