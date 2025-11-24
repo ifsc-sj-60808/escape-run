@@ -17,7 +17,7 @@ vlc_process = None
 def play_video():
     global vlc_process
     vlc_process = subprocess.Popen(
-        ["cvlc", "--fullscreen", "--no-video-title-show", "--loop", VIDEO_FILE],
+        ["cvlc", "--fullscreen", "--no-video-title-show", VIDEO_FILE],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
