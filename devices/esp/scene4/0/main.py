@@ -8,8 +8,8 @@ device_number = "0"
 led = Pin(2, Pin.OUT)
 luz_gerador_ligado = Pin(26, Pin.OUT)
 luz_gerador_desligado = Pin(25, Pin.OUT)
-filtro_lcd = Pin(35, Pin.OUT)
-sensor_metal = Pin(32, Pin.IN)
+filtro_lcd = Pin(32, Pin.OUT)
+sensor_metal = Pin(33, Pin.IN)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 broker = "escape-run.sj.ifsc.edu.br"
@@ -82,7 +82,7 @@ def mqtt_connect():
     led.on()
 
 
-def sensor_metal():
+def read_sensor_metal():
     global last_read, scanning
     current_read = sensor_metal.value()
     if current_read > last_read:
@@ -104,7 +104,7 @@ if __name__ == "__main__":
             mqtt_connect()
             while True:
                 if scanning:
-                    sensor_metal()
+                    read_sensor_metal()
                 mqtt_client.check_msg()
                 sleep(1)
         except OSError as e:
