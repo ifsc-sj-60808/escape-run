@@ -4,36 +4,28 @@ from umqtt.simple import MQTTClient  # pyright: ignore[reportMissingImports]
 from time import sleep
 
 device = "scene3"
-device_number = "0"
-led = Pin(23, Pin.OUT)
-door = Pin(22, Pin.OUT)
-ldg1 = Pin(19, Pin.OUT)  # led_door_1_green
-ldr1 = Pin(18, Pin.OUT)  # led_door_1_red
-ldg2 = Pin(8, Pin.OUT)  # led_door_2_green
-ldr2 = Pin(7, Pin.OUT)  # led_door_2_red
-ldg3 = Pin(9, Pin.OUT)  # led_door_3_green
-ldr3 = Pin(10, Pin.OUT)  # led_door_3_red
+device_number = "1"
+led = Pin(2, Pin.OUT)
+chest = Pin(4, Pin.OUT)
+button = Pin(5, Pin.IN, Pin.PULL_UP)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])
 topic_subscribe = "/".join(["escape-run", "devices", device, device_number])
-topic_publish = "escape-run/player/scene"
+topic_publish_scene = "escape-run/player/scene"
+topic_publish_button = "escape-run/devices/scene3/0"
 wlan = network.WLAN()
 mqtt_client = MQTTClient(device_name, broker, keepalive=60)
+last_read = 0
+scanning = True
 
 
 def setup():
     print("Iniciando código...")
     led.off()
-    door.on()
-    ldr1.on()
-    ldg1.off()
-    ldr2.on()
-    ldg2.off()
-    ldr3.on()
-    ldg3.off()
+    chest.on()
     print("Sensores e atuadores configurados.")
 
 
@@ -60,19 +52,9 @@ def callback(topic, payload):
     print("Mensagem recebida:", msg)
     blink()
     if msg == "fffff":
-        mqtt_client.publish(topic_publish, "Scene3")
+        mqtt_client.publish(topic_publish_scene, "Scene3")
         sleep(1)
-        ldr2.off()
-        ldg2.on()
-        print("Led 2 verde")
-
-    elif msg == "botao":
-        mqtt_client.publish(topic_publish, "Scene4")
-        sleep(1)
-        door.off()
-        ldr3.off()
-        ldg3.on()
-        print("Led 3 verde")
+        chest.off()
 
 
 def mqtt_connect():
@@ -85,6 +67,18 @@ def mqtt_connect():
     led.on()
 
 
+def read_button():
+    global last_read, scanning
+    current_read = button.value()
+    if current_read < last_read:
+        print("Botão pressionado!")
+        mqtt_client.publish(topic_publish_button, "botao")
+        sleep(1)
+        blink()
+        scanning = False
+    last_read = current_read
+
+
 if __name__ == "__main__":
     setup()
     wifi_connect()
@@ -94,6 +88,8 @@ if __name__ == "__main__":
         try:
             mqtt_connect()
             while True:
+                if scanning:
+                    read_button()
                 mqtt_client.check_msg()
                 sleep(1)
         except OSError as e:
