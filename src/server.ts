@@ -15,6 +15,18 @@ class MultiPlayerGameServer {
 
   private timer!: NodeJS.Timeout
 
+  private serverPing(seconds: number): void {
+    setInterval(() => {
+      this.mqttClient.publish("escape-run/ping", "server")
+    }, seconds * 1000)
+  }
+
+  private audioPlaying(seconds: number): void {
+    setInterval(() => {
+      this.mqttClient.publish("escape-run/devices/scene10/0", "audio_1")
+    }, seconds * 1000)
+  }
+
   constructor() {
     this.io.on("connection", (socket) => {
       console.log(`User ${socket.id} connected to the server`)
@@ -46,13 +58,8 @@ class MultiPlayerGameServer {
     this.mqttClient.on("connect", () => {
       console.log("Connected to MQTT broker")
 
-      setInterval(() => {
-        this.mqttClient.publish("escape-run/ping", "server")
-      }, 30000)
-
-      setInterval(() => {
-        this.mqttClient.publish("escape-run/devices/scene10/0", "audio_1")
-      }, 600000)
+      this.serverPing(30)
+      this.audioPlaying(600)
 
       this.mqttClient.subscribe("escape-run/server/#", (err) => {
         if (err) {
