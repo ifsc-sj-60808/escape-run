@@ -50,6 +50,10 @@ class MultiPlayerGameServer {
         this.mqttClient.publish("escape-run/ping", "server")
       }, 30000)
 
+      setInterval(() => {
+        this.mqttClient.publish("escape-run/devices/scene10/0", "audio_1")
+      }, 600000)
+
       this.mqttClient.subscribe("escape-run/server/#", (err) => {
         if (err) {
           console.error("Failed to subscribe:", err)
