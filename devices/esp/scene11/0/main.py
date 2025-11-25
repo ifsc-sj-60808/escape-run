@@ -8,14 +8,13 @@ device_number = "0"
 led = Pin(2, Pin.OUT)
 vault = Pin(3, Pin.OUT)
 button = Pin(4, Pin.IN)
-audio = Pin(5, Pin.OUT)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])
 topic_subscribe = "/".join(["escape-run", "devices", device, device_number])
-topic_publish = "escape-run/player/scene"
+topic_publish = "escape-run/devices/scene10/0"
 wlan = network.WLAN()
 mqtt_client = MQTTClient(device_name, broker, keepalive=60)
 last_read = 0
@@ -26,7 +25,6 @@ def setup():
     print("Iniciando código...")
     led.off()
     vault.off()
-    audio.off()
     print("Sensores e atuadores configurados.")
 
 
@@ -66,9 +64,6 @@ def callback(topic, payload):
     elif msg == "close" or msg == "lock":
         print("Fechando cofre...")
         vault.off()
-    elif msg == "play_audio" or msg == "audio":
-        print("Tocando áudio...")
-        audio.on()
     elif msg == "reset":
         print("Reiniciando dispositivo...")
         reset()
@@ -89,9 +84,9 @@ def button_check():
     current_read = button.value()
     if current_read > last_read:
         print("Botão pressionado!")
-        #mqtt_client.publish(topic_publish, "Scene12")
-        audio.on()
         blink()
+        mqtt_client.publish(topic_publish, "audio_2")
+        sleep(1)
         scanning = False
     last_read = current_read
 
