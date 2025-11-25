@@ -83,7 +83,7 @@ def callback(topic, payload):
         sleep(30)
         player.play(1, 1)
         sleep(1)
-        mqtt_client.publish("escape-run/player/scene", "Scene14")
+        mqtt_client.publish(topic_publish, "Scene14")
         sleep(1)
 
 

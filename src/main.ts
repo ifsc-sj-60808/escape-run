@@ -72,6 +72,7 @@ class MultiPlayerGame extends Game {
           }
 
           if (remaining === 0 && this.currentScene === "Scene8") {
+            this.mqttClient.publish("escape-run/devices/scene10/0", "audio_fim")
             this.mqttClient.publish("escape-run/player/scene", "Scene15")
           }
         } else {
