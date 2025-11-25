@@ -74,10 +74,8 @@ class MultiPlayerGameServer {
 
           this.setTimer(counter)
           this.mqttClient.publish("escape-run/player/scene", "Scene1")
-
         } else if (topic === "escape-run/server/scene") {
           this.mqttClient.publish("escape-run/player/scene", msg)
-
         } else if (topic === "escape-run/server/stop") {
           this.stopGame()
         }
@@ -101,6 +99,7 @@ class MultiPlayerGameServer {
 
   private stopGame() {
     clearInterval(this.timer)
+    this.mqttClient.publish("escape-run/devices/scene10/0", "audio_fim")
     this.mqttClient.publish("escape-run/player/scene", "Scene15")
   }
 }
