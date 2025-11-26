@@ -38,15 +38,21 @@ export class Scene7 extends Scene {
       })
       .setOrigin(0.5)
 
-    this.buttons = [
-      { x: 100, y: 370, number: "4" },
-      { x: 225, y: 370, number: "5" },
-      { x: 350, y: 370, number: "6" },
-      { x: 100, y: 490, number: "7" },
-      { x: 225, y: 490, number: "8" },
-      { x: 350, y: 490, number: "9" },
-      { x: 100, y: 610, number: "0" }
-    ]
+this.buttons = [
+  { x: 100, y: 250, number: "1" },
+  { x: 225, y: 250, number: "2" },
+  { x: 350, y: 250, number: "3" },
+
+  { x: 100, y: 370, number: "4" },
+  { x: 225, y: 370, number: "5" },
+  { x: 350, y: 370, number: "6" },
+
+  { x: 100, y: 490, number: "7" },
+  { x: 225, y: 490, number: "8" },
+  { x: 350, y: 490, number: "9" },
+
+  { x: 225, y: 610, number: "0" }
+]
 
     //Cria os botões invisíveis, mas interativos
     this.buttons.forEach((button) => {
@@ -55,7 +61,7 @@ export class Scene7 extends Scene {
         .setDisplaySize(90, 90)
         .setInteractive()
         .on("pointerdown", () => {
-          if (this.password.length < 4) {
+          if (this.password.length < 3) {
             this.password += button.number
             this.display.setText(this.password)
           }
