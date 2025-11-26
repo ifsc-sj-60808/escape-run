@@ -40,53 +40,53 @@ function _init()
  talkwind = nil
  pc_on=false
   
- pc1={
-	door=false,
-	wirex=15,
-	wirey=2,
- typ="pc",
- id=11,
- num=1,
- x=13,
- y=2,
- colour = "red",
-	options ={"✽","●","…","웃","◆", "♪","♥","ˇ","█","⧗"},
- val={false,false,false,false,false,false,false,false,false,false},	
-	answer={false,false,false,false,true,false,false,false,false,false}
-	}
-	pc2={
-	door=false,
-	wirex=11,
-	wirey=14,
-	typ="pc",
- id=11,
- num=2,
-	x=13,
-	y=13,
- colour = "red",
-	options ={"♪","ˇ","☉","⧗","∧","★","@","ッ","♥","⧗"},
- val={false,false,false,false,false,false,false,false,false,false},	
-	answer={false,false,true,false,false,false,false,false,false,false}
-	}
-	pc3={
-	door=false,
-	wirex=4,
-	wirey=4,
-	typ="pc",
- id=11,
- num=3,
-	x=6,
-	y=4,
- colour = "red",
-	options ={"░","ˇ","⌂","웃","▒","▥","✽","ッ","🐱","😐"},
- val={false,false,false,false,false,false,false,false,false,false},	
-	answer={false,false,false,false,false,false,false,false,true,false}
-	}
+ --pc1={
+	--door=false,
+	--wirex=15,
+	--wirey=2,
+ --typ="pc",
+ --id=11,
+ --num=1,
+ --x=13,
+ --y=2,
+ --colour = "red",
+	--options ={"✽","●","…","웃","◆", "♪","♥","ˇ","█","⧗"},
+ --val={false,false,false,false,false,false,false,false,false,false},	
+	--answer={false,false,false,false,true,false,false,false,false,false}
+	--}
+	--pc2={
+	--door=false,
+	--wirex=11,
+	--wirey=14,
+	--typ="pc",
+ --id=11,
+ --num=2,
+	--x=13,
+	--y=13,
+ --colour = "red",
+	--options ={"♪","ˇ","☉","⧗","∧","★","@","ッ","♥","⧗"},
+ --val={false,false,false,false,false,false,false,false,false,false},	
+	--answer={false,false,true,false,false,false,false,false,false,false}
+	--}
+	--pc3={
+	--door=false,
+	--wirex=4,
+	--wirey=4,
+	--typ="pc",
+ --id=11,
+ --num=3,
+	--x=6,
+	--y=4,
+ --colour = "red",
+	--options ={"░","ˇ","⌂","웃","▒","▥","✽","ッ","🐱","😐"},
+ --val={false,false,false,false,false,false,false,false,false,false},	
+	--answer={false,false,false,false,false,false,false,false,true,false}
+	--}
 	
 
-	add(pcs,pc1)
-	add(pcs,pc2)
-	add(pcs,pc3)
+	--add(pcs,pc1)
+	--add(pcs,pc2)
+	--add(pcs,pc3)
 
 
 --rocks--
