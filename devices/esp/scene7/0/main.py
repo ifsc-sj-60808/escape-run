@@ -6,7 +6,7 @@ from time import sleep
 device = "scene7"
 device_number = "0"
 led = Pin(2, Pin.OUT)
-vault = Pin(23, Pin.OUT)
+vault = Pin(14, Pin.OUT)
 pir = Pin(12, Pin.IN)
 wifi_ssid = "escape-run"
 wifi_password = "escape-run"
