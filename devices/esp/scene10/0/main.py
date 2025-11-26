@@ -11,7 +11,7 @@ player = DFPlayer(uart_id=1, tx_pin_id=25, rx_pin_id=26)
 led = Pin(2, Pin.OUT)
 switch1 = Pin(23, Pin.IN, Pin.PULL_UP)
 switch2 = Pin(22, Pin.IN, Pin.PULL_UP)
-switch3 = Pin(18, Pin.IN, Pin.PULL_UP)
+switch3 = Pin(21, Pin.IN, Pin.PULL_UP)
 pista_luzes = Pin(12, Pin.OUT)
 globo_motor = Pin(13, Pin.OUT)
 wifi_ssid = "escape-run"
@@ -85,6 +85,13 @@ def callback(topic, payload):
         sleep(1)
         mqtt_client.publish(topic_publish, "Scene14")
         sleep(1)
+    elif msg == "audio_fim":
+        player.stop()
+        sleep(0.05)
+    elif msg == 'audio_1':
+        player.stop()
+        sleep(0.05)
+        player.play(1, 1)
 
 
 def mqtt_connect():
