@@ -9,7 +9,7 @@ led = Pin(2, Pin.OUT)
 chest = Pin(4, Pin.OUT)
 button = Pin(5, Pin.IN, Pin.PULL_UP)
 wifi_ssid = "escape-run"
-wifi_password = "escape-run"
+wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])
