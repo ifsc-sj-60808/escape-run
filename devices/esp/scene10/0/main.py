@@ -15,7 +15,7 @@ switch3 = Pin(21, Pin.IN, Pin.PULL_DOWN)
 pista_luzes = Pin(12, Pin.OUT)
 globo_motor = Pin(13, Pin.OUT)
 wifi_ssid = "escape-run"
-wifi_password = "escape-run"
+wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])

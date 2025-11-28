@@ -29,7 +29,7 @@ luz_gerador_ligado = Pin(26, Pin.OUT)
 luz_gerador_desligado = Pin(25, Pin.OUT)
 sensor_metal = Pin(33, Pin.IN, Pin.PULL_DOWN)
 wifi_ssid = "escape-run"
-wifi_password = "escape-run"
+wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])

@@ -9,7 +9,7 @@ device_number = "0"
 led = Pin(2, Pin.OUT)
 dispenser = Pin(26, Pin.OUT)
 wifi_ssid = "escape-run"
-wifi_password = "escape-run"
+wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])

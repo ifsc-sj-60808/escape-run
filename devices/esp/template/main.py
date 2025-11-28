@@ -9,7 +9,7 @@ led = Pin(2, Pin.OUT)
 control = Pin(26, Pin.OUT)
 pir = Pin(4, Pin.IN)
 wifi_ssid = "escape-run"
-wifi_password = "escape-run"
+wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])

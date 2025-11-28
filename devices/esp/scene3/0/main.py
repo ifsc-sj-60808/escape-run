@@ -14,7 +14,7 @@ ldr2 = Pin(7, Pin.OUT)  # led_door_2_red
 ldg3 = Pin(9, Pin.OUT)  # led_door_3_green
 ldr3 = Pin(10, Pin.OUT)  # led_door_3_red
 wifi_ssid = "escape-run"
-wifi_password = "escape-run"
+wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
 
 device_name = "-".join([device, device_number])
