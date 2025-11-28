@@ -11,6 +11,17 @@ export class Scene4 extends Scene {
     super({ key: "Scene4" })
   }
 
+  preload() {
+    this.load.image(
+      "battery-background",
+      "assets/scene4/battery-background.png"
+    )
+    this.load.image("batteryicon1", "assets/scene4/battery-icon1.png")
+    this.load.image("batteryicon2", "assets/scene4/battery-icon2.png")
+
+    //this.load.image("Visor", "assets/scene4/Visor.png");
+  }
+
   create() {
     this.add.image(220, 400, "battery-background")
 
@@ -32,38 +43,8 @@ export class Scene4 extends Scene {
         }
       }
     })
-
     // Timer
     this.timer = this.add.text(25, 25, "")
-
-    const transitionImage: Phaser.GameObjects.Image = this.add.image(
-      220,
-      400,
-      "scene4-transition"
-    )
-
-    const graphics = this.add
-      .graphics({
-        x: transitionImage.x - transitionImage.width / 2,
-        y: transitionImage.y - transitionImage.height / 2
-      })
-      .fillStyle(0xff00ff, 0.75)
-      .fillRect(0, 0, transitionImage.width, transitionImage.height)
-
-    const tweens = this.tweens.add({
-      targets: graphics,
-      alpha: 0,
-      ease: "Cubic.easeOut",
-      duration: 400,
-      repeat: -1,
-      yoyo: true
-    })
-
-    setTimeout(() => {
-      transitionImage.setVisible(false)
-      graphics.setVisible(false)
-      tweens.stop()
-    }, 30000)
   }
 
   update() {
