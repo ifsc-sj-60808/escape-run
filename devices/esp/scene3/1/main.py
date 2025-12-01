@@ -7,7 +7,7 @@ device = "scene3"
 device_number = "1"
 led = Pin(2, Pin.OUT)
 chest = Pin(4, Pin.OUT)
-button = Pin(5, Pin.IN, Pin.PULL_UP)
+
 wifi_ssid = "escape-run"
 wifi_password = "Escape-run2025!"
 broker = "escape-run.sj.ifsc.edu.br"
@@ -18,14 +18,12 @@ topic_publish_scene = "escape-run/player/scene"
 topic_publish_button = "escape-run/devices/scene3/0"
 wlan = network.WLAN()
 mqtt_client = MQTTClient(device_name, broker, keepalive=60)
-last_read = 0
-scanning = True
 
 
 def setup():
     print("Iniciando código...")
     led.off()
-    chest.on()
+    chest.off()
     print("Sensores e atuadores configurados.")
 
 
@@ -51,10 +49,10 @@ def callback(topic, payload):
     msg = payload.decode()
     print("Mensagem recebida:", msg)
     blink()
-    if msg == "fffff":
+    if msg == "gfdce":
         mqtt_client.publish(topic_publish_scene, "Scene3")
         sleep(1)
-        chest.off()
+        chest.on()
 
 
 def mqtt_connect():
@@ -67,18 +65,6 @@ def mqtt_connect():
     led.on()
 
 
-def read_button():
-    global last_read, scanning
-    current_read = button.value()
-    if current_read < last_read:
-        print("Botão pressionado!")
-        mqtt_client.publish(topic_publish_button, "botao")
-        sleep(1)
-        blink()
-        scanning = False
-    last_read = current_read
-
-
 if __name__ == "__main__":
     setup()
     wifi_connect()
@@ -88,8 +74,6 @@ if __name__ == "__main__":
         try:
             mqtt_connect()
             while True:
-                if scanning:
-                    read_button()
                 mqtt_client.check_msg()
                 sleep(1)
         except OSError as e:
