@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@types/webfontloader": "^1.6.38",
-    "express": "^5.1.0",
+    "express": "^5.2.0",
     "mqtt": "^5.14.0",
     "phaser": "^4.0.0-rc.4",
     "socket.io": "^4.8.1",
