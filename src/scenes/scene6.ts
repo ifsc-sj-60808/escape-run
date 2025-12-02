@@ -22,9 +22,7 @@ export class Scene6 extends Scene {
 
   create() {
     // Remove câmera e botões da scene5
-    const videoElement = document.getElementById(
-      "camera-video"
-    ) as HTMLVideoElement
+    const videoElement = document.getElementById("video") as HTMLVideoElement
     if (videoElement) {
       videoElement.remove()
       // Para a stream de vídeo
